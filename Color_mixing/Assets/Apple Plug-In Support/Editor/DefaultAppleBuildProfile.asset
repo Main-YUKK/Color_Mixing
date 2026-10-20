@@ -28,6 +28,21 @@ MonoBehaviour:
   m_Name: AppleCoreBuildStep
   m_EditorClassIdentifier: Apple.Core.Editor::Apple.Core.AppleCoreBuildStep
   IsEnabled: 1
+--- !u!114 &-1446274691922598797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24e6011bb95664520aa4858e4c359e06, type: 3}
+  m_Name: AppleGameKitBuildStep
+  m_EditorClassIdentifier: Apple.GameKit.Editor::Apple.GameKit.Editor.AppleGameKitBuildStep
+  IsEnabled: 1
+  FriendListUsageDescription: 
+  SavedGameContainerIdentifier: 
 --- !u!114 &-892639793911881891
 MonoBehaviour:
   m_ObjectHideFlags: 0
