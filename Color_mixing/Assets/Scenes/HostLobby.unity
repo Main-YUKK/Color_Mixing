@@ -255,7 +255,19 @@ MonoBehaviour:
   targetSceneName: MainMenu
   onBeforeBack:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 602372936}
+        m_TargetAssemblyTypeName: LobbyScreen, Assembly-CSharp
+        m_MethodName: LeaveRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &355684016
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,6 +551,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 602372935}
+  - component: {fileID: 602372936}
   m_Layer: 0
   m_Name: LobbyScreen
   m_TagString: Untagged
@@ -561,6 +574,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &602372936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602372934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 990486c6df8284344b85f5aa6cb67377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyScreen
+  roomNameText: {fileID: 1659306879}
+  roomCodeText: {fileID: 525263413}
+  statusText: {fileID: 355684018}
+  leftSlot:
+    nameLabel: {fileID: 0}
+    readyIcon: {fileID: 0}
+    character: {fileID: 0}
+    silhouette: {fileID: 0}
+    kickButton: {fileID: 0}
+  hostSlot:
+    nameLabel: {fileID: 0}
+    readyIcon: {fileID: 0}
+    character: {fileID: 0}
+    silhouette: {fileID: 0}
+    kickButton: {fileID: 0}
+  rightSlot:
+    nameLabel: {fileID: 0}
+    readyIcon: {fileID: 0}
+    character: {fileID: 0}
+    silhouette: {fileID: 0}
+    kickButton: {fileID: 0}
+  playButton: {fileID: 1319819311}
+  mainMenuSceneName: MainMenu
 --- !u!1 &627163629
 GameObject:
   m_ObjectHideFlags: 0
