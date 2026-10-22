@@ -58,6 +58,7 @@ public class LobbyService : MonoBehaviour
     // Host: buat room, kembalikan kode 5 digit.
     public string CreateRoom()
     {
+        LastMessage = null;
         ResetSession();
         Mode = LobbyMode.Host;
         RoomCode = UnityEngine.Random.Range(10000, 100000).ToString();
@@ -74,6 +75,7 @@ public class LobbyService : MonoBehaviour
         if (string.IsNullOrEmpty(code) || code.Length != 5 || !int.TryParse(code, out _))
             return false;
 
+        LastMessage = null;
         ResetSession();
         Mode = LobbyMode.Client;
         RoomCode = code;
