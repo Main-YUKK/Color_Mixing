@@ -41,6 +41,8 @@ public class LobbyService : MonoBehaviour
     private const float JoinTimeoutSeconds = 10f;
     private const float HostCheckSeconds = 3f;
 
+    private const string EditorTestName = "Ivone";   // nama pengganti saat tes di Unity Editor
+
     private GKMatch match;
     private string localName;
     private int session;   // dinaikkan tiap Create/Join/Leave supaya proses lama diabaikan
@@ -221,13 +223,13 @@ public class LobbyService : MonoBehaviour
     }
 
     private string GetLocalName()
-    {
+{
 #if UNITY_EDITOR
-        return "Editor Player";
+    return EditorTestName;
 #else
-        return GKLocalPlayer.Local.DisplayName;
+    return GKLocalPlayer.Local.DisplayName;
 #endif
-    }
+}
 
     private void ResetSession()
     {
