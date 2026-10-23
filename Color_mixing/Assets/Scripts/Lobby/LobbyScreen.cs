@@ -7,25 +7,15 @@ using UnityEngine.UI;
 
 public class LobbyScreen : MonoBehaviour
 {
-    [Serializable]
-    public class SlotView
-    {
-        public TMP_Text nameLabel;
-        public GameObject readyIcon;
-        public GameObject character;
-        public GameObject silhouette;
-        public GameObject kickButton;
-    }
-
     [Header("Teks")]
     [SerializeField] private TMP_Text roomNameText;
     [SerializeField] private TMP_Text roomCodeText;
     [SerializeField] private TMP_Text statusText;
 
     [Header("Slot (kiri, tengah=host, kanan)")]
-    [SerializeField] private SlotView leftSlot;
-    [SerializeField] private SlotView hostSlot;
-    [SerializeField] private SlotView rightSlot;
+    [SerializeField] private PlayerSlotView leftSlot;
+    [SerializeField] private PlayerSlotView hostSlot;
+    [SerializeField] private PlayerSlotView rightSlot;
 
     [Header("Tombol")]
     [SerializeField] private Button playButton;
@@ -41,11 +31,10 @@ public class LobbyScreen : MonoBehaviour
         service = LobbyService.Instance;
         if (service == null)
         {
-            Debug.LogError("[LobbyScreen] LobbyService.Instance kosong. Cek apakah LobbyService.cs ada error compile.");
+            Debug.LogError("[LobbyScreen] LobbyService.Instance kosong. Cek error compile di LobbyService.cs.");
             return;
         }
 
-        // Scene ini dibuka dari tombol Host Room (belum ada sesi) -> jadi host.
         if (service.Mode == LobbyMode.None)
         {
             service.CreateRoom();
@@ -84,8 +73,8 @@ public class LobbyScreen : MonoBehaviour
 
         var host = players.Find(p => p.isHost);
         var others = players.FindAll(p => !p.isHost);
-
-        // 1) Teks utama diisi LEBIH DULU supaya tetap berubah walau slot bermasalah.
+        // Urutan stabil agar P2/P3 menempati posisi yang sama di semua device.
+        others.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
 
         if (roomCodeText != null)
             roomCodeText.text = $"Room Code: {service.RoomCode}";
@@ -100,12 +89,10 @@ public class LobbyScreen : MonoBehaviour
                 : "";
         }
 
-        // 2) Slot pemain
-        SetSlot(hostSlot, host, isHost);
-        SetSlot(leftSlot, others.Count > 0 ? others[0] : null, isHost);
-        SetSlot(rightSlot, others.Count > 1 ? others[1] : null, isHost);
+        if (hostSlot != null) hostSlot.Show(host, isHost);
+        if (leftSlot != null) leftSlot.Show(others.Count > 0 ? others[0] : null, isHost);
+        if (rightSlot != null) rightSlot.Show(others.Count > 1 ? others[1] : null, isHost);
 
-        // 3) Tombol Play
         if (playButton != null)
         {
             playButton.gameObject.SetActive(isHost);
@@ -113,55 +100,24 @@ public class LobbyScreen : MonoBehaviour
         }
     }
 
-    // Nama panjang dipotong supaya judul room tidak mendorong tombol edit terlalu jauh.
     private static string Shorten(string name, int maxLength = 14)
     {
         if (string.IsNullOrEmpty(name)) return "Player";
         return name.Length <= maxLength ? name : name.Substring(0, maxLength) + "…";
     }
 
-    private void SetSlot(SlotView slot, LobbyPlayer player, bool viewerIsHost)
-    {
-        if (slot == null) return;
-        bool filled = player != null;
-
-        SetActive(slot.character, filled);
-        SetActive(slot.silhouette, !filled);
-        SetActive(slot.readyIcon, filled);
-        SetActive(slot.kickButton, filled && viewerIsHost && !player.isLocal);
-        if (slot.nameLabel != null) slot.nameLabel.text = filled ? player.name : "[empty]";
-    }
-
-    private static void SetActive(GameObject go, bool active)
-    {
-        if (go != null) go.SetActive(active);
-    }
-
-    // Memberi tahu kolom Inspector mana yang masih kosong.
     private void CheckReferences()
     {
         var missing = new List<string>();
         if (roomNameText == null) missing.Add("Room Name Text");
         if (roomCodeText == null) missing.Add("Room Code Text");
         if (statusText == null) missing.Add("Status Text");
+        if (leftSlot == null) missing.Add("Left Slot");
+        if (hostSlot == null) missing.Add("Host Slot");
+        if (rightSlot == null) missing.Add("Right Slot");
         if (playButton == null) missing.Add("Play Button");
-        CheckSlot("Left Slot", leftSlot, missing);
-        CheckSlot("Host Slot", hostSlot, missing);
-        CheckSlot("Right Slot", rightSlot, missing);
 
         if (missing.Count > 0)
-        {
             Debug.LogError("[LobbyScreen] Kolom Inspector yang masih kosong: " + string.Join(", ", missing), this);
-        }
-    }
-
-    private static void CheckSlot(string label, SlotView slot, List<string> missing)
-    {
-        if (slot == null) { missing.Add(label); return; }
-        if (slot.nameLabel == null) missing.Add(label + " > Name Label");
-        if (slot.readyIcon == null) missing.Add(label + " > Ready Icon");
-        if (slot.character == null) missing.Add(label + " > Character");
-        if (slot.silhouette == null) missing.Add(label + " > Silhouette");
-        if (slot.kickButton == null) missing.Add(label + " > Kick Button");
     }
 }

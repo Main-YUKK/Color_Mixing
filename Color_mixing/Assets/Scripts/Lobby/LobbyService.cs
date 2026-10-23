@@ -95,15 +95,40 @@ public class LobbyService : MonoBehaviour
         RoomCode = null;
     }
 
+    #if UNITY_EDITOR
+        private void OnGUI()
+        {
+            if (Mode == LobbyMode.None) return;
+
+            GUI.matrix = Matrix4x4.Scale(Vector3.one * 2f);
+
+            if (GUI.Button(new Rect(10, 10, 230, 40), "Tambah pemain palsu"))
+            {
+                AddOrUpdatePlayer("Pemain " + (Players.Count + 1), false, false);
+                OnPlayersChanged?.Invoke();
+            }
+
+            if (GUI.Button(new Rect(10, 55, 230, 40), "Hapus pemain palsu"))
+            {
+                var p = Players.FindLast(x => !x.isLocal);
+                if (p != null)
+                {
+                    Players.Remove(p);
+                    OnPlayersChanged?.Invoke();
+                }
+            }
+        }
+    #endif
+
     // ---------- Matchmaking ----------
 
-#if UNITY_EDITOR
-    private Task RunMatchmaking(bool isHost, int mySession)
-    {
-        Debug.Log("[Lobby] Editor: Game Center dilewati (hanya tampilan).");
-        return Task.CompletedTask;
-    }
-#else
+    #if UNITY_EDITOR
+        private Task RunMatchmaking(bool isHost, int mySession)
+        {
+            Debug.Log("[Lobby] Editor: Game Center dilewati (hanya tampilan).");
+            return Task.CompletedTask;
+        }
+    #else
     private async Task RunMatchmaking(bool isHost, int mySession)
     {
         try
@@ -113,6 +138,7 @@ public class LobbyService : MonoBehaviour
             request.MaxPlayers = MaxPlayers;
             // Jika compile error di baris ini, tipe PlayerGroup bukan uint: ganti cast (uint) sesuai pesan error.
             request.PlayerGroup = (uint)int.Parse(RoomCode);
+            Debug.Log($"[Lobby] Mencari match, kode={RoomCode}, host={isHost}");
 
             var findTask = GKMatchmaker.Shared.FindMatch(request);
             findTask.ContinueWith(t => { var ignored = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted);
@@ -176,11 +202,15 @@ public class LobbyService : MonoBehaviour
 
     private void OnDataReceived(byte[] data, GKPlayer from)
     {
-        var msg = JsonUtility.FromJson<LobbyMessage>(Encoding.UTF8.GetString(data));
+        LobbyMessage msg;
+        try { msg = JsonUtility.FromJson<LobbyMessage>(Encoding.UTF8.GetString(data)); }
+        catch (Exception e) { Debug.LogWarning("[Lobby] Pesan tidak terbaca: " + e.Message); return; }
+
         if (msg == null || msg.type != "HELLO") return;
+        Debug.Log($"[Lobby] HELLO diterima dari {msg.name} (host={msg.isHost})");
 
         bool isNew = AddOrUpdatePlayer(msg.name, msg.isHost, false);
-        if (isNew) SendHello();   // balas supaya pendatang baru tahu kita ada
+        if (isNew) SendHello();
         OnPlayersChanged?.Invoke();
     }
 
