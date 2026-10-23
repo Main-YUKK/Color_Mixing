@@ -92,8 +92,8 @@ MonoBehaviour:
     - line: '|   iosShowActivityIndicatorOnLoading: -1'
     - line: '|   androidShowActivityIndicatorOnLoading: -1'
     - line: '|   iosUseCustomAppBackgroundBehavior: 0'
-    - line: '|   allowedAutorotateToPortrait: 1'
-    - line: '|   allowedAutorotateToPortraitUpsideDown: 1'
+    - line: '|   allowedAutorotateToPortrait: 0'
+    - line: '|   allowedAutorotateToPortraitUpsideDown: 0'
     - line: '|   allowedAutorotateToLandscapeRight: 1'
     - line: '|   allowedAutorotateToLandscapeLeft: 1'
     - line: '|   useOSAutorotation: 1'
@@ -184,7 +184,8 @@ MonoBehaviour:
     - line: '|   visionOSBundleVersion: 1.0'
     - line: '|   tvOSBundleVersion: 1.0'
     - line: '|   bundleVersion: 1.0'
-    - line: '|   preloadedAssets: []'
+    - line: '|   preloadedAssets:'
+    - line: '|   - {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}'
     - line: '|   metroInputSource: 0'
     - line: '|   wsaTransparentSwapchain: 0'
     - line: '|   xboxOneDisableKinectGpuReservation: 1'
@@ -852,7 +853,7 @@ MonoBehaviour:
     - rid: 3793419938451947545
       type: {class: iOSPlatformSettings, ns: UnityEditor.iOS, asm: UnityEditor.iOS.Extensions}
       data:
-        m_Development: 1
+        m_Development: 0
         m_ConnectProfiler: 0
         m_BuildWithDeepProfilingSupport: 0
         m_BuildWithCodeCoverage: 0
