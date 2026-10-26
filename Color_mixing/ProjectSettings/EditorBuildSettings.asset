@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 18510fb8247db4f6eb5e591454ce8017
   - enabled: 1
-    path: Assets/Scenes/HostLobby.unity
+    path: Assets/Scenes/Lobby.unity
     guid: 70b50161f43c346689f880349bc71a58
   - enabled: 1
     path: Assets/Scenes/ClientArrival.unity
