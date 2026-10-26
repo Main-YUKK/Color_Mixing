@@ -12,7 +12,7 @@ public class PigmentPalette : ScriptableObject
     public Pigment GetPigment(int index) => pigments[index];
 
 
-//Debug: test bowl dan blend.
+    //Debug: test bowl dan blend.
 #if UNITY_EDITOR
     [ContextMenu("Get Pigment")]
     private void GetPigmentTest()
@@ -47,10 +47,37 @@ public class PigmentPalette : ScriptableObject
         LogBlend("R+K   harus (0.500, 0.000, 0.000)", 1, 0, 0, 1, 0);
         LogBlend("R+W   harus (1.000, 0.500, 0.500)", 1, 0, 0, 0, 1);
         LogBlend("3R    harus (1.000, 0.000, 0.000)", 3, 0, 0, 0, 0);
+
     }
 
     private void LogBlend(string label, params int[] units) =>
         Debug.Log($"[MIX] {label} -> {ColorMixer.Blend(this, units)}");
+
+    [ContextMenu("Test Assignment")]
+    private void TestAssignment()
+    {
+        for (int run = 0; run < 1000; run++)
+        {
+            int[] s = PigmentAssignment.Shuffle(Count);
+            for (int p = 0; p < PigmentAssignment.PlayerCount; p++)
+                if (s[2 * p] == s[2 * p + 1])
+                {
+                    Debug.LogError($"[MIX] pemain {p + 1} dapat pigmen dobel: {string.Join(",", s)}");
+                    return;
+                }
+            if (s.Distinct().Count() != Count)
+            {
+                Debug.LogError($"[MIX] ada pigmen yang tidak dibagikan: {string.Join(",", s)}");
+                return;
+            }
+        }
+
+        int[] e = PigmentAssignment.Shuffle(Count);
+        Debug.Log($"[MIX] 1000x OK. Contoh: P1 {GetPigment(e[0]).pigmentName}+{GetPigment(e[1]).pigmentName}, " +
+                  $"P2 {GetPigment(e[2]).pigmentName}+{GetPigment(e[3]).pigmentName}, " +
+                  $"P3 {GetPigment(e[4]).pigmentName}+{GetPigment(e[5]).pigmentName}");
+    }
+
 #endif
 }
 
