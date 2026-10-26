@@ -29,7 +29,7 @@ MonoBehaviour:
     m_path: Assets/Scenes/MainMenu.unity
     m_guid: 18510fb8247db4f6eb5e591454ce8017
   - m_enabled: 1
-    m_path: Assets/Scenes/HostLobby.unity
+    m_path: Assets/Scenes/Lobby.unity
     m_guid: 70b50161f43c346689f880349bc71a58
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
