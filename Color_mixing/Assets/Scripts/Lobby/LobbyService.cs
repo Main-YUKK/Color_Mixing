@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -52,9 +51,6 @@ public class LobbyService : MonoBehaviour
     public event Action<string> OnRoomClosed;
     public event Action OnJoinConfirmed;    // client sudah masuk match yang berisi host
 
-    // UI yang baru subscribe belakangan bisa cek ini supaya tidak ketinggalan event OnJoinConfirmed.
-    public bool IsJoinConfirmed { get { return joinConfirmed; } }
-
     // Jumlah pemain agar game boleh dimulai (tombol Play).
     // Ubah RequiredPlayers dan MaxPlayers ke 2 kalau tes dengan 2 device saja.
     private const int RequiredPlayers = 3;
@@ -81,7 +77,6 @@ public class LobbyService : MonoBehaviour
     private const int HandshakeSeconds = 15;            // lama saling kirim HELLO
     private const float EditorJoinTimeoutSeconds = 15f;
     private const float ReformDelaySeconds = 1f;       // jeda setelah REFORM terkirim sebelum match lama diputus
-    private const bool ShowOnScreenLog = false;        // set false sebelum rilis
 
     // GameKit hanya mencocokkan pemain bila OR semua atribut == 0xFFFFFFFF.
     // Host + client = cocok. Client + client atau host + host = TIDAK cocok.
@@ -93,7 +88,6 @@ public class LobbyService : MonoBehaviour
     private GKMatch match;
     private string localName;
     private int session;              // dinaikkan tiap Create/Join/Leave/Reform supaya proses lama diabaikan
-    private int matchSession;         // session milik match yang sedang aktif
     private int roomNameVersion;      // dinaikkan tiap host mengganti nama room
     private bool joinConfirmed;       // client sudah masuk match
     private bool reforming;           // lagi menyusun ulang match (setelah kick / ada yang keluar)
@@ -102,7 +96,6 @@ public class LobbyService : MonoBehaviour
     private readonly HashSet<string> kickedNames = new HashSet<string>(); // host: sudah di-kick, belum terputus dari match
     private readonly List<string> slotOrder = new List<string>();         // client: urutan slot dari host
 
-    private readonly List<string> logLines = new List<string>();
     private readonly ConcurrentQueue<Action> mainThreadQueue = new ConcurrentQueue<Action>();
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -300,7 +293,6 @@ public class LobbyService : MonoBehaviour
         if (Mode != LobbyMode.Host || reforming) return;
         if (!Players.Exists(p => p.name == playerName && !p.isLocal)) return;
 
-        Log("Kick " + playerName);
         SendMsg("KICK", playerName);
 
         if (!ProgressiveFill)
@@ -339,7 +331,6 @@ public class LobbyService : MonoBehaviour
             return;
         }
 
-        Log("Tinggal host sendiri: mencari match baru.");
         RestartSearch();
     }
 
@@ -408,7 +399,6 @@ public class LobbyService : MonoBehaviour
 #if UNITY_EDITOR
     private Task RunMatchmaking(bool isHost, int mySession, bool useTimeout)
     {
-        Log("Editor: Game Center dilewati (hanya tampilan).");
         reforming = false;   // di Editor tidak ada match baru, anggap langsung selesai
         if (!isHost && useTimeout) StartCoroutine(EditorJoinWatchdog(mySession));
         return Task.CompletedTask;
@@ -479,7 +469,6 @@ public class LobbyService : MonoBehaviour
         }
 
         match = found;
-        matchSession = mySession;
         reforming = false;
 
         // Semua callback dipindah ke main thread dan dicek session-nya.
@@ -488,7 +477,17 @@ public class LobbyService : MonoBehaviour
             RunOnMain(() =>
             {
                 if (mySession != session) return;
-                OnDataReceived(data, "DataReceived");
+                OnDataReceived(data);
+            });
+        };
+        // iOS bisa mengirim pesan lewat event ini (bukan DataReceived). Pesan yang sama bisa datang
+        // lewat dua event, itu aman (diproses idempoten).
+        match.Delegate.DataReceivedForPlayer += (data, recipient, from) =>
+        {
+            RunOnMain(() =>
+            {
+                if (mySession != session) return;
+                OnDataReceived(data);
             });
         };
         match.Delegate.PlayerConnectionChanged += (player, state) =>
@@ -503,9 +502,6 @@ public class LobbyService : MonoBehaviour
         };
         match.Delegate.DidFailWithError += e => Log("Match error: " + e.Message);
 
-        // iOS bisa memakai event data lain selain DataReceived. Pasang juga di semuanya.
-        HookExtraDataEvents(match.Delegate);
-
         long expectedCount = -1;
         try { expectedCount = match.ExpectedPlayerCount; } catch { }
         Log($"Match terbentuk (host={isHost}, expectedPlayerCount={expectedCount}).");
@@ -514,10 +510,7 @@ public class LobbyService : MonoBehaviour
         try
         {
             foreach (var gkPlayer in match.Players)
-            {
-                Log("match.Players: " + gkPlayer.DisplayName);
                 RegisterRemote(gkPlayer.DisplayName);
-            }
         }
         catch (Exception e)
         {
@@ -567,11 +560,7 @@ public class LobbyService : MonoBehaviour
         {
             if (!IsFillingStillValid(targetMatch, mySession)) yield break;
 
-            if (Players.Count >= MaxPlayers)
-            {
-                Log("Lobby penuh, berhenti menambah pemain.");
-                yield break;
-            }
+            if (Players.Count >= MaxPlayers) yield break;   // lobby penuh
 
             long expected;
             try { expected = targetMatch.ExpectedPlayerCount; } catch { expected = 0; }
@@ -640,52 +629,6 @@ public class LobbyService : MonoBehaviour
             yield return new WaitForSeconds(retryDelay);
         }
     }
-
-    // Mendaftar ke semua event bernama "Data..." selain DataReceived (yang sudah dipasang di atas).
-    // Pesan yang sama bisa datang lewat dua event, itu aman (diproses idempoten).
-    private void HookExtraDataEvents(object del)
-    {
-        try
-        {
-            var names = new List<string>();
-            foreach (var ev in del.GetType().GetEvents())
-            {
-                names.Add(ev.Name);
-                if (ev.Name == "DataReceived" || !ev.Name.StartsWith("Data")) continue;
-
-                var ps = ev.EventHandlerType.GetMethod("Invoke").GetParameters();
-                if (ps.Length < 2 || ps[0].ParameterType != typeof(byte[])) continue;
-
-                string handlerName = ps.Length == 2 ? nameof(ExtraData2) : ps.Length == 3 ? nameof(ExtraData3) : null;
-                if (handlerName == null) continue;
-
-                var target = GetType().GetMethod(handlerName, BindingFlags.Instance | BindingFlags.NonPublic);
-                var handler = Delegate.CreateDelegate(ev.EventHandlerType, this, target, false);
-                if (handler == null) { Log("Hook gagal (tipe tidak cocok): " + ev.Name); continue; }
-
-                ev.AddEventHandler(del, handler);
-                Log("Hook event: " + ev.Name);
-            }
-            Log("Events: " + string.Join(", ", names));
-        }
-        catch (Exception e)
-        {
-            Log("Hook event data gagal: " + e.Message);
-        }
-    }
-
-    private void ExtraData2(byte[] data, object a) { OnExtraData(data); }
-    private void ExtraData3(byte[] data, object a, object b) { OnExtraData(data); }
-
-    private void OnExtraData(byte[] data)
-    {
-        int s = matchSession;
-        RunOnMain(() =>
-        {
-            if (s != session) return;
-            OnDataReceived(data, "DataReceivedForPlayer");
-        });
-    }
 #endif
 
     // Client: setelah match jadi, host harus terdengar dalam HostReachTimeoutSeconds.
@@ -731,10 +674,6 @@ public class LobbyService : MonoBehaviour
             SendMsg("HELLO");
             yield return new WaitForSeconds(1f);
         }
-
-        if (mySession != session) yield break;
-        if (!IsHandshakeDone(isHost))
-            Log("Handshake: belum semua pesan diterima (koneksi tetap dipakai).");
     }
 
     // ---------- Pesan antar-device ----------
@@ -769,7 +708,6 @@ public class LobbyService : MonoBehaviour
         try
         {
             match.Send(data, GKMatch.GKSendDataMode.Reliable);
-            Log(type == "ROOM" ? $"Kirim ROOM \"{msg.roomName}\"" : $"Kirim {type}");
         }
         catch (Exception e)
         {
@@ -778,23 +716,22 @@ public class LobbyService : MonoBehaviour
 #endif
     }
 
-    private void OnDataReceived(byte[] data, string via)
+    private void OnDataReceived(byte[] data)
     {
         LobbyMessage msg;
         try { msg = JsonUtility.FromJson<LobbyMessage>(Encoding.UTF8.GetString(data)); }
         catch (Exception e) { Log("Pesan tidak terbaca: " + e.Message); return; }
 
-        HandleMessage(msg, via);
+        HandleMessage(msg);
     }
 
     // Selalu dipanggil di main thread.
-    private void HandleMessage(LobbyMessage msg, string via = "")
+    private void HandleMessage(LobbyMessage msg)
     {
         if (msg == null) return;
         if (Mode == LobbyMode.None) return;   // sisa dari session lama
         if (reforming) return;                // lagi menyusun ulang: pesan dari match lama diabaikan
 
-        Log($"Terima {msg.type} dari {msg.name} (host={msg.isHost}) via {via}");
         if (msg.type != "HELLO" && msg.type != "ACK" && msg.type != "ROOM"
             && msg.type != "READY" && msg.type != "KICK" && msg.type != "REFORM") return;
         if (string.IsNullOrEmpty(msg.name) || msg.name == localName) return;
@@ -938,23 +875,20 @@ public class LobbyService : MonoBehaviour
         if (joinConfirmed) return;
         joinConfirmed = true;
 
-        int subscribers = OnJoinConfirmed != null ? OnJoinConfirmed.GetInvocationList().Length : 0;
-        Log($"Join dikonfirmasi (subscriber UI: {subscribers}).");
         RaiseSafe(OnJoinConfirmed);
     }
 
     // ---------- Helper ----------
 
-    private bool AddOrUpdatePlayer(string name, bool isHost, bool isLocal)
+    private void AddOrUpdatePlayer(string name, bool isHost, bool isLocal)
     {
         var existing = Players.Find(p => p.name == name);
         if (existing != null)
         {
             if (isHost) existing.isHost = true;
-            return false;
+            return;
         }
         Players.Add(new LobbyPlayer { name = name, isHost = isHost, isLocal = isLocal });
-        return true;
     }
 
     private string GetLocalName()
@@ -1001,32 +935,17 @@ public class LobbyService : MonoBehaviour
     private void Log(string message)
     {
         Debug.Log("[Lobby] " + message);
-        lock (logLines)
-        {
-            logLines.Add(message);
-            if (logLines.Count > 9) logLines.RemoveAt(0);
-        }
     }
 
-    // ---------- Debug (log di layar + tombol tes di Editor) ----------
+    // ---------- Debug (tombol tes di Editor) ----------
 
+#if UNITY_EDITOR
     private void OnGUI()
     {
-        if (!ShowOnScreenLog && !Application.isEditor) return;
+        if (Mode == LobbyMode.None) return;
 
         float scale = Mathf.Max(1f, Screen.height / 540f);
         GUI.matrix = Matrix4x4.Scale(Vector3.one * scale);
-        float h = Screen.height / scale;
-
-        string text;
-        lock (logLines) { text = string.Join("\n", logLines); }
-
-        var style = new GUIStyle(GUI.skin.label) { fontSize = 11, wordWrap = true };
-        style.normal.textColor = Color.red;
-        GUI.Label(new Rect(8, h - 150, 520, 145), text, style);
-
-#if UNITY_EDITOR
-        if (Mode == LobbyMode.None) return;
 
         if (GUI.Button(new Rect(10, 10, 160, 28), "Tambah pemain palsu"))
         {
@@ -1059,9 +978,9 @@ public class LobbyService : MonoBehaviour
         {
             if (GUI.Button(new Rect(10, 106, 160, 28), "Simulasi host merespons"))
             {
-                HandleMessage(new LobbyMessage { type = "HELLO", name = "HostPalsu", isHost = true, roomName = "Room Palsu" }, "Editor");
+                HandleMessage(new LobbyMessage { type = "HELLO", name = "HostPalsu", isHost = true, roomName = "Room Palsu" });
             }
         }
-#endif
     }
+#endif
 }
