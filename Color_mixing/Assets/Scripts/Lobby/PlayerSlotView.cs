@@ -1,5 +1,7 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerSlotView : MonoBehaviour
 {
@@ -12,13 +14,34 @@ public class PlayerSlotView : MonoBehaviour
     [Tooltip("Teks saat slot kosong, mis. [player 2]")]
     [SerializeField] private string emptyLabel = "[player]";
 
+    // Dipicu saat host menekan tombol Kick di slot ini.
+    public event Action<LobbyPlayer> OnKickClicked;
+
+    private LobbyPlayer current;
+
+    private void Awake()
+    {
+        if (kickButton == null) return;
+
+        // Button dicari di objek kickButton (atau anaknya), jadi Inspector tidak perlu diubah.
+        var button = kickButton.GetComponent<Button>();
+        if (button == null) button = kickButton.GetComponentInChildren<Button>(true);
+
+        if (button != null)
+            button.onClick.AddListener(() => { if (current != null) OnKickClicked?.Invoke(current); });
+        else
+            Debug.LogWarning("[PlayerSlotView] Kick Button tidak punya komponen Button.", this);
+    }
+
     public void Show(LobbyPlayer player, bool viewerIsHost)
     {
+        current = player;
         bool filled = player != null;
 
         SetActive(character, filled);
         SetActive(silhouette, !filled);
-        SetActive(readyIcon, filled);
+        // Centang hijau: hanya untuk client yang sudah ready (host tidak perlu ready).
+        SetActive(readyIcon, filled && !player.isHost && player.isReady);
         SetActive(kickButton, filled && viewerIsHost && !player.isLocal);
 
         if (nameLabel != null)

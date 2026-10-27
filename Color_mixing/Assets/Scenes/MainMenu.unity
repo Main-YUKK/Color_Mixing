@@ -1280,7 +1280,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::JoinPopup
   codeInput: {fileID: 650810992}
   errorText: {fileID: 574808531}
-  lobbySceneName: HostLobby
+  lobbySceneName: Lobby
+  panel: {fileID: 0}
+  keyboardMargin: 24
+  moveSpeed: 12
 --- !u!1 &1397815560
 GameObject:
   m_ObjectHideFlags: 0
@@ -2456,7 +2459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901edf3c10dc24d53a77c4b10c558e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavigateButton
-  targetSceneName: HostLobby
+  targetSceneName: Lobby
   onBeforeNavigate:
     m_PersistentCalls:
       m_Calls: []
