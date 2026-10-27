@@ -6,6 +6,7 @@ public class ColorMixingController : MonoBehaviour
 {
     // referensi ke PigmentPalette
     [SerializeField] private PigmentPalette palette;
+    public PigmentPalette Palette => palette;
     // interval acak ulang pigmen pemain (detik)
     [SerializeField] private float rotationInterval = 10f;
 
