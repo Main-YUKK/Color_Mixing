@@ -7,7 +7,7 @@ public class JoinPopup : MonoBehaviour
 {
     [SerializeField] private TMP_InputField codeInput;
     [SerializeField] private TMP_Text errorText;
-    [SerializeField] private string lobbySceneName = "HostLobby";
+    [SerializeField] private string lobbySceneName = "Lobby";
 
     [Header("Keyboard")]
     [Tooltip("Kartu/panel popup yang digeser naik (BUKAN Dimmer / root fullscreen).")]
@@ -175,6 +175,19 @@ public class JoinPopup : MonoBehaviour
 
     private void HandleJoinConfirmed()
     {
+        // Nama scene salah / belum masuk Build Settings: LoadScene diam-diam gagal dan popup
+        // tertahan di "Mencari room..." padahal di host pemain ini sudah masuk. Batalkan join-nya.
+        if (!Application.CanStreamedLevelBeLoaded(lobbySceneName))
+        {
+            Debug.LogError($"[JoinPopup] Scene '{lobbySceneName}' tidak ada di Build Settings. Cek field 'Lobby Scene Name'.", this);
+            LobbyService.Instance.LeaveRoom();
+            joining = false;
+            codeInput.interactable = true;
+            codeInput.SetTextWithoutNotify("");
+            errorText.text = "Lobby tidak bisa dibuka.";
+            return;
+        }
+
         SceneManager.LoadScene(lobbySceneName);
     }
 
