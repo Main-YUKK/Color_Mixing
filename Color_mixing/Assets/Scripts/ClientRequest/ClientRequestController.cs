@@ -8,39 +8,26 @@ public class ClientRequestController : MonoBehaviour
     [SerializeField] private DaySchedule schedule;
     [SerializeField] private ClientRequestCardView card;
 
-    private void Start()
-    {
+    [SerializeField] private DayCycleManager cycle;
 
-        // SEMENTARA: run dimulai di sini supaya scene bisa di-Play langsung dari Editor.
-        // Nanti GameSession.Reset() dipanggil saat host menekan Play di lobby.
-        if (GameSession.Bag == null)
-            GameSession.Reset(database);
-
-        ShowCurrentClient();
-    }
+    private void OnEnable() => cycle.OnClientRequested += ShowCurrentClient;
+    private void OnDisable() => cycle.OnClientRequested -= ShowCurrentClient;
 
     private void ShowCurrentClient()
     {
+        GameSession.EnsureBag(database);
         var level = schedule.GetLevel(GameSession.Day, GameSession.ClientIndex);
         GameSession.CurrentRequest = GameSession.Bag.Next(level);
         card.Show(GameSession.CurrentRequest);
         Debug.Log($"[REQ] Hari {GameSession.Day} klien {GameSession.ClientIndex + 1}: {level} -> {GameSession.CurrentRequest.requestId}");
     }
 
-    // SEMENTARA: tombol test pengganti flow asli (hasil feedback & akhir hari dari).
-    // Klien berhasil: slot naik. 3 Yes per hari -> hari selesai, mulai hari berikutnya dari slot 0.
-    // Nanti: Yes -> ClientIndex++ setelah feedback, Day++ di akhir hari, lalu scene ClientArrival dimuat ulang.
+    // SEMENTARA: tombol test pengganti feedback asli (Klik kanan komponen di Inspector saat Play).
     [ContextMenu("Klien Berhasil (Yes)")]
-    private void ClientSucceeded()
-    {
-        GameSession.ClientIndex++;
-        if (GameSession.ClientIndex >= 3)
-        {
-            GameSession.Day++;
-            GameSession.ClientIndex = 0;
-        }
-        ShowCurrentClient();
-    }
+    private void ClientSucceeded() => cycle.OnFeedbackRevealed(true);
+
+    [ContextMenu("Klien Gagal (No)")]
+    private void ClientFailed() => cycle.OnFeedbackRevealed(false);
 
     // DEBUG: cek jadwal + bag untuk hari 1-10 tanpa mengganggu GameSession (pakai bag sendiri).    
     [ContextMenu("Simulasi Hari 1-10")]
@@ -54,8 +41,4 @@ public class ClientRequestController : MonoBehaviour
                 Debug.Log($"[SIM] Hari {day} klien {client + 1}: {level} -> {bag.Next(level).requestId}");
             }
     }
-
-    //SEMENTARA: Client Fail 
-    [ContextMenu("Klien Gagal (No)")]
-    private void ClientFailed() => ShowCurrentClient();
 }
