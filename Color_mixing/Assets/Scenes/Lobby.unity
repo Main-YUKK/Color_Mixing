@@ -463,17 +463,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 285319723}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1998278186}
-  m_Father: {fileID: 1319819310}
+  m_Father: {fileID: 1035289493}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000018358, y: -0.000030517578}
+  m_AnchoredPosition: {x: -0.000018358, y: -414.4323}
   m_SizeDelta: {x: 473.3469, y: 147.7477}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &285319725
@@ -883,8 +883,8 @@ MonoBehaviour:
   hostSlot: {fileID: 572989845564971249}
   rightSlot: {fileID: 1652861448}
   playButton: {fileID: 1319819311}
-  readyButton: {fileID: 0}
-  readyButtonLabel: {fileID: 0}
+  readyButton: {fileID: 285319725}
+  readyButtonLabel: {fileID: 1998278187}
   editRoomNameButton: {fileID: 0}
   roomNameInput: {fileID: 0}
   mainMenuSceneName: MainMenu
@@ -1066,6 +1066,7 @@ RectTransform:
   - {fileID: 2078848874}
   - {fileID: 355684017}
   - {fileID: 1319819310}
+  - {fileID: 285319724}
   m_Father: {fileID: 1915377438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1103,8 +1104,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 285319724}
+  m_Children: []
   m_Father: {fileID: 1035289493}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
