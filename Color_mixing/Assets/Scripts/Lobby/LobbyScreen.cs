@@ -249,6 +249,10 @@ public class LobbyScreen : MonoBehaviour
         if (missing.Count > 0)
             Debug.LogError("[LobbyScreen] Referensi wajib yang kosong: " + string.Join(", ", missing), this);
 
+        // PlayButton disembunyikan di client, jadi semua anaknya ikut hilang.
+        if (readyButton != null && playButton != null && readyButton.transform.IsChildOf(playButton.transform))
+            Debug.LogError("[LobbyScreen] ReadyButton berada di dalam PlayButton, jadi tidak akan terlihat di client. Pindahkan ReadyButton keluar dari PlayButton di Hierarchy.", this);
+
         // Opsional: tanpa ini fitur ganti nama room saja yang tidak aktif (ikon pensil disembunyikan).
         if (editRoomNameButton == null || roomNameInput == null)
             Debug.LogWarning("[LobbyScreen] Fitur edit nama room nonaktif: Edit Room Name Button / Room Name Input belum ada.", this);
