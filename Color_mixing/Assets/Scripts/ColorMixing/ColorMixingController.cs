@@ -19,31 +19,39 @@ public class ColorMixingController : MonoBehaviour
 
     private readonly bool[] readyToMix = new bool[PigmentAssignment.PlayerCount]; // status siap mencampur untuk setiap pemain
     public event Action MixConfirmed; // event untuk menandai bahwa semua pemain siap mencampur
+    public event Action Rotated; // event untuk menandai bahwa pigmen pemain telah diacak ulang
 
     public bool IsReady(int player) => readyToMix[player]; // cek apakah pemain siap mencampur
+    public bool IsMixConfirmed { get; private set; }   // true setelah semua pemain Mix
+    public int ReadyCount => readyToMix.Count(r => r);   // jumlah pemain yang sudah Mix
 
     private void Awake()
     {
         MixingBowl = new MixingBowl(palette.Count);
-        Rotate();
+        AssignPigments();
     }
 
     private void Update()
     {
         RotationTimerLeft -= Time.deltaTime;
-        if (RotationTimerLeft <= 0f) Rotate();
+        if (RotationTimerLeft > 0f) return;
+
+        AssignPigments();
+        Rotated?.Invoke();
+    }
+
+    // Bagi ulang pigmen ke pemain + reset timer.
+    private void AssignPigments()
+    {
+        slots = PigmentAssignment.Shuffle(palette.Count);
+        RotationTimerLeft = rotationInterval;
+        Debug.Log($"[MIX] Pembagian pigmen: P1 {Name(0, 0)}+{Name(0, 1)}, P2 {Name(1, 0)}+{Name(1, 1)}, P3 {Name(2, 0)}+{Name(2, 1)}");
+        StateChanged?.Invoke();
     }
 
     // slot 0 atau 1 milik pemain -> index pigmen di palet
     public int GetPigment(int player, int slot) => slots[player * 2 + slot];
 
-    private void Rotate()
-    {
-        slots = PigmentAssignment.Shuffle(palette.Count);
-        RotationTimerLeft = rotationInterval;
-        Debug.Log($"[MIX] Rotasi: P1 {Name(0, 0)}+{Name(0, 1)}, P2 {Name(1, 0)}+{Name(1, 1)}, P3 {Name(2, 0)}+{Name(2, 1)}");
-        StateChanged?.Invoke();
-    }
 
     private string Name(int player, int slot) => palette.GetPigment(GetPigment(player, slot)).pigmentName;
 
@@ -64,9 +72,10 @@ public class ColorMixingController : MonoBehaviour
     }
 
     // Tombol Mix (ready = true) / Unmix (ready = false).
+    // Tombol Mix (ready = true) / Unmix (ready = false).
     public void SetReady(int player, bool ready)
     {
-        if (readyToMix[player] == ready) return;
+        if (IsMixConfirmed || readyToMix[player] == ready) return;
         if (ready && MixingBowl.IsEmpty)
         {
             Debug.Log("[MIX] Mix ditolak: mangkuk masih kosong");
@@ -74,12 +83,14 @@ public class ColorMixingController : MonoBehaviour
         }
 
         readyToMix[player] = ready;
-        Debug.Log($"[MIX] Pemain {player + 1} {(ready ? "Mix" : "Unmix")} -> siap {readyToMix.Count(r => r)}/{PigmentAssignment.PlayerCount}");
-        StateChanged?.Invoke();
+        IsMixConfirmed = readyToMix.All(r => r);
+        if (IsMixConfirmed) enabled = false;   // Update berhenti -> rotasi berhenti
 
-        if (readyToMix.All(r => r))
+        Debug.Log($"[MIX] Pemain {player + 1} {(ready ? "Mix" : "Unmix")} -> siap {ReadyCount}/{PigmentAssignment.PlayerCount}"); 
+        StateChanged?.Invoke();   // UI refresh SETELAH state final
+
+        if (IsMixConfirmed)
         {
-            enabled = false;   // Update berhenti -> rotasi berhenti
             Debug.Log($"[MIX] Semua pemain Mix! Isi mangkuk dikirim ke reveal: [{string.Join(",", MixingBowl.PigmentUnits)}]");
             MixConfirmed?.Invoke();
         }
@@ -90,18 +101,18 @@ public class ColorMixingController : MonoBehaviour
     // Simulasi input 3 pemain di 1 device. Jalankan saat Play: ⋮ di header component.
     [ContextMenu("P1 Add slot 0")] private void P1Add0() => AddPigment(0, 0);
     [ContextMenu("P1 Add slot 1")] private void P1Add1() => AddPigment(0, 1);
-    [ContextMenu("P1 Mix")]        private void P1Mix()  => SetReady(0, true);
-    [ContextMenu("P1 Unmix")]      private void P1Unmix() => SetReady(0, false);
+    [ContextMenu("P1 Mix")] private void P1Mix() => SetReady(0, true);
+    [ContextMenu("P1 Unmix")] private void P1Unmix() => SetReady(0, false);
 
     [ContextMenu("P2 Add slot 0")] private void P2Add0() => AddPigment(1, 0);
     [ContextMenu("P2 Add slot 1")] private void P2Add1() => AddPigment(1, 1);
-    [ContextMenu("P2 Mix")]        private void P2Mix()  => SetReady(1, true);
-    [ContextMenu("P2 Unmix")]      private void P2Unmix() => SetReady(1, false);
+    [ContextMenu("P2 Mix")] private void P2Mix() => SetReady(1, true);
+    [ContextMenu("P2 Unmix")] private void P2Unmix() => SetReady(1, false);
 
     [ContextMenu("P3 Add slot 0")] private void P3Add0() => AddPigment(2, 0);
     [ContextMenu("P3 Add slot 1")] private void P3Add1() => AddPigment(2, 1);
-    [ContextMenu("P3 Mix")]        private void P3Mix()  => SetReady(2, true);
-    [ContextMenu("P3 Unmix")]      private void P3Unmix() => SetReady(2, false);
+    [ContextMenu("P3 Mix")] private void P3Mix() => SetReady(2, true);
+    [ContextMenu("P3 Unmix")] private void P3Unmix() => SetReady(2, false);
 
     [ContextMenu("Status")]
     private void DebugStatus()
