@@ -276,6 +276,6 @@ MonoBehaviour:
   colorMixingController: {fileID: 0}
   player: 0
   slot: 0
-  holdInterval: 0.4
+  holdInterval: 0.2
   label: {fileID: 6727890890949140399}
   disabledTextColor: {r: 0.27, g: 0.27, b: 0.27, a: 1}

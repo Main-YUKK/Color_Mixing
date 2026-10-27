@@ -11,7 +11,7 @@ public class PigmentButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     [SerializeField] private ColorMixingController colorMixingController;
     [SerializeField, Range(0, 2)] private int player;   // 0 = P1
     [SerializeField, Range(0, 1)] private int slot;
-    [SerializeField] private float holdInterval = 0.4f;  // jeda antar unit saat ditahan
+    [SerializeField] private float holdInterval = 0.2f;  // jeda antar unit saat ditahan
     [SerializeField] private TMP_Text label;
     [SerializeField] private Color disabledTextColor = new Color(0.27f, 0.27f, 0.27f);   // teks abu saat disabled
 
