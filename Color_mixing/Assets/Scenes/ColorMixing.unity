@@ -321,7 +321,7 @@ PrefabInstance:
       objectReference: {fileID: 1904900948}
     - target: {fileID: 5131057521228963402, guid: c94af956276ed44348bb0c8302d9ed68, type: 3}
       propertyPath: m_Name
-      value: P1_Slot0
+      value: PigmentButtonLeft
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -652,7 +652,7 @@ PrefabInstance:
       objectReference: {fileID: 1904900948}
     - target: {fileID: 5131057521228963402, guid: c94af956276ed44348bb0c8302d9ed68, type: 3}
       propertyPath: m_Name
-      value: P1_Slot1
+      value: PigmentButtonRight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
