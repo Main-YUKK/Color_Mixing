@@ -17,6 +17,20 @@ public static class GameSession
         CurrentRequest = null;
     }
 
+    // Mulai run dari hari tertentu (Continue memakai hari tersimpan). Bag dibuat ulang saat request pertama.
+    public static void StartRun(int startDay)
+    {
+        Bag = null;
+        Day = startDay;
+        ClientIndex = 0;
+        CurrentRequest = null;
+    }
+
+    public static void EnsureBag(ClientRequestDatabase database)
+    {
+        Bag ??= new ClientRequestBag(database);
+    }
+
     // Clear session data saat Play dimulai.
     // Reload Domain mati -> static tidak reset sendiri. Dipanggil Unity setiap Play dimulai,
     // supaya Play berikutnya di Editor tidak melanjutkan run sebelumnya.
