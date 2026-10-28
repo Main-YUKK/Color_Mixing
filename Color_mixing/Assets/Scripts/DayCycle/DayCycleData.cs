@@ -15,14 +15,6 @@ public enum DayState
     GameOver,
 }
 
-// Progres yang disimpan di device host.
-[Serializable]
-public class SaveData
-{
-    public int nextDay = 1;   // hari awal saat Continue
-    public int bestDay = 1;   // rekor hari tertinggi
-}
-
 [Serializable]
 public struct DayResult
 {
@@ -31,5 +23,4 @@ public struct DayResult
     public int noCount;
     public int timeoutCount;
     public int livesLeft;
-    public int bestDay;
 }

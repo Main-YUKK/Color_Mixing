@@ -1375,6 +1375,7 @@ GameObject:
   - component: {fileID: 1399175455}
   - component: {fileID: 1399175454}
   - component: {fileID: 1399175453}
+  - component: {fileID: 1399175456}
   m_Layer: 5
   m_Name: SavedFilesButton
   m_TagString: Untagged
@@ -1483,6 +1484,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1399175451}
   m_CullTransparentMesh: 1
+--- !u!114 &1399175456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399175451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 901edf3c10dc24d53a77c4b10c558e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NavigateButton
+  targetSceneName: SaveFiles
+  onBeforeNavigate:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1432024285
 GameObject:
   m_ObjectHideFlags: 0
