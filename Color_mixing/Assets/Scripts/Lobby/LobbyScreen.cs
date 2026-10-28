@@ -120,7 +120,7 @@ public class LobbyScreen : MonoBehaviour
 
     private void OnEditRoomNameClicked()
     {
-        if (service.Mode != LobbyMode.Host || roomNameInput == null) return;
+        if (service == null || service.Mode != LobbyMode.Host || roomNameInput == null) return;
 
         roomNameInput.gameObject.SetActive(true);
         roomNameInput.text = service.RoomName;
@@ -131,8 +131,8 @@ public class LobbyScreen : MonoBehaviour
     // Keyboard ditutup / fokus hilang: simpan nama (kosong = kembali ke default), lalu sembunyikan input.
     private void OnRoomNameEndEdit(string text)
     {
-        service.SetRoomName(text);
-        roomNameInput.gameObject.SetActive(false);
+        if (service != null) service.SetRoomName(text);
+        if (roomNameInput != null) roomNameInput.gameObject.SetActive(false);
         Refresh();
     }
 
