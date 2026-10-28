@@ -2,27 +2,35 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Hitung mundur untuk klien aktif. Habis tanpa submit = kehilangan 1 nyawa.
 public class ClientTimer : MonoBehaviour
 {
     [SerializeField] private DayCycleManager cycle;
+    [Tooltip("Opsional. Diisi: timer mulai saat klien selesai berjalan masuk, dan berhenti saat klien baru diminta.")]
+    [SerializeField] private CharacterSpawner spawner;
     [SerializeField] private float secondsPerClient = 30f;
-    [SerializeField] private Slider timerBar;      // Min 0, Max 1, opsional
-    [SerializeField] private TMP_Text timerText;   // opsional
+    [SerializeField] private Slider timerBar; 
+    [SerializeField] private TMP_Text timerText;
 
     private float remaining;
     private bool running;
 
     private void OnEnable()
     {
-        cycle.OnClientRequested += StartTimer;
+        if (spawner != null)
+        {
+            cycle.OnClientRequested += Stop;
+            spawner.OnClientArrived += StartTimer;
+        }
+        else cycle.OnClientRequested += StartTimer;
         cycle.OnGameOver += Stop;
         cycle.OnDayEnded += OnDayEnded;
     }
 
     private void OnDisable()
     {
+        cycle.OnClientRequested -= Stop;
         cycle.OnClientRequested -= StartTimer;
+        if (spawner != null) spawner.OnClientArrived -= StartTimer;
         cycle.OnGameOver -= Stop;
         cycle.OnDayEnded -= OnDayEnded;
     }
@@ -34,7 +42,6 @@ public class ClientTimer : MonoBehaviour
         if (timerBar != null) timerBar.value = 1f;
     }
 
-    // Panggil saat pemain submit, supaya timeout susulan tidak ikut memotong nyawa.
     public void Stop() => running = false;
 
     private void OnDayEnded(DayResult _) => Stop();
