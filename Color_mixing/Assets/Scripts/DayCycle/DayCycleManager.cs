@@ -34,15 +34,7 @@ public class DayCycleManager : MonoBehaviour
 
     public void StartSession(bool continueSaved)
     {
-        if (continueSaved && SaveService.HasSave())
-        {
-            CurrentDay = SaveService.Load().nextDay;
-        }
-        else
-        {
-            SaveService.ResetProgress();
-            CurrentDay = 1;
-        }
+        CurrentDay = continueSaved && SaveService.Active != null ? SaveService.Active.nextDay : 1;
 
         History.Clear();
         GameSession.StartRun(CurrentDay);
@@ -122,11 +114,8 @@ public class DayCycleManager : MonoBehaviour
 
     private void EndDay()
     {
-        // Simpan dulu supaya laporan sudah bisa menampilkan rekor terbaru.
-        var save = SaveService.Load();
-        save.nextDay = CurrentDay + 1;
-        save.bestDay = Mathf.Max(save.bestDay, save.nextDay);
-        SaveService.Save(save);
+        // Simpan dulu, baru laporan hari tampil ("progressmu telah disimpan").
+        SaveService.RecordDayCompleted(CurrentDay);
 
         var result = new DayResult
         {
@@ -135,7 +124,6 @@ public class DayCycleManager : MonoBehaviour
             noCount = NoCount,
             timeoutCount = TimeoutCount,
             livesLeft = Lives,
-            bestDay = save.bestDay,
         };
         History.Add(result);
         CurrentDay++;
@@ -164,7 +152,7 @@ public class DayCycleManager : MonoBehaviour
     {
         IsRunning = false;
         State = DayState.GameOver;
-        SaveService.ResetProgress();   // sesi berikutnya mulai dari Day 1
+        SaveService.ResetActiveProgress();   // sesi berikutnya mulai dari Day 1
         OnGameOver?.Invoke();
     }
 }

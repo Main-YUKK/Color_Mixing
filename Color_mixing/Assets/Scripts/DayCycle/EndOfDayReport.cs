@@ -1,15 +1,19 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
-// Panel hasil hari. Hari berikutnya baru mulai saat NextDay() dipanggil (hubungkan ke tombol Next Day).
+// Kartu hasil hari ("HARI KE-1: SELESAI"). Progres sudah disimpan oleh DayCycleManager sebelum kartu ini tampil.
+// Hari berikutnya mulai otomatis setelah Show Seconds, atau saat NextDay() dipanggil (mis. dari tombol).
 public class EndOfDayReport : MonoBehaviour
 {
     [SerializeField] private DayCycleManager cycle;
     [SerializeField] private GameObject panel;
     [SerializeField] private TMP_Text titleText;
-    [SerializeField] private TMP_Text yesText;
-    [SerializeField] private TMP_Text livesText;
-    [SerializeField] private TMP_Text bestDayText;
+    [SerializeField] private TMP_Text targetText;
+    [Tooltip("0 = tidak otomatis, menunggu NextDay() dari tombol.")]
+    [SerializeField] private float showSeconds = 3f;
+
+    private Coroutine autoNext;
 
     private void OnEnable()
     {
@@ -29,16 +33,27 @@ public class EndOfDayReport : MonoBehaviour
 
     private void Show(DayResult r)
     {
-        if (titleText != null) titleText.text = $"Day {r.day} Complete";
-        if (yesText != null) yesText.text = $"Yes: {r.yesCount}";
-        if (livesText != null) livesText.text = $"Lives left: {r.livesLeft}/{GameRules.StartingLives}";
-        if (bestDayText != null) bestDayText.text = $"Best day: {r.bestDay}";
+        if (titleText != null) titleText.text = $"HARI KE-{r.day}: SELESAI";
+        if (targetText != null) targetText.text = $"Target: {r.yesCount}/{GameRules.YesToWinDay}";
         panel.SetActive(true);
+
+        if (autoNext != null) StopCoroutine(autoNext);
+        if (showSeconds > 0f) autoNext = StartCoroutine(AutoNext());
     }
 
-    private void Hide() { if (panel != null) panel.SetActive(false); }
+    private IEnumerator AutoNext()
+    {
+        yield return new WaitForSeconds(showSeconds);
+        NextDay();
+    }
 
-    // Dipanggil dari tombol Next Day.
+    private void Hide()
+    {
+        if (autoNext != null) StopCoroutine(autoNext);
+        autoNext = null;
+        if (panel != null) panel.SetActive(false);
+    }
+
     public void NextDay()
     {
         Hide();

@@ -31,6 +31,9 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/Lobby.unity
     m_guid: 70b50161f43c346689f880349bc71a58
+  - m_enabled: 1
+    m_path: Assets/Scenes/SaveFiles.unity
+    m_guid: 639d03d15b8654a2685ae615a6ef5cfc
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:

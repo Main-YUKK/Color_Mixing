@@ -203,14 +203,17 @@ public class LobbyService : MonoBehaviour
     // ---------- API untuk UI ----------
 
     // Host: buat room, kembalikan kode 5 digit.
-    public string CreateRoom()
+    // code / customName diisi saat membuka kembali room dari file save (kode kosong atau tidak valid = acak).
+    public string CreateRoom(string code = null, string customName = null)
     {
         LastMessage = null;
         ResetSession();
         Mode = LobbyMode.Host;
-        RoomCode = UnityEngine.Random.Range(10000, 100000).ToString();
+        bool validCode = !string.IsNullOrEmpty(code) && code.Length == 5 && int.TryParse(code, out _);
+        RoomCode = validCode ? code : UnityEngine.Random.Range(10000, 100000).ToString();
         localName = GetLocalName();
         AddOrUpdatePlayer(localName, true, true);
+        if (!string.IsNullOrEmpty(customName)) SetRoomName(customName);
         NotifyPlayersChanged();
         _ = RunMatchmaking(true, session, true);
         return RoomCode;
