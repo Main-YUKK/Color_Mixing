@@ -9,6 +9,10 @@ concurrency:
   group: ios-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  # Folder project Unity di dalam repo (huruf besar/kecil harus persis)
+  PROJECT_DIR: Color_mixing
+
 jobs:
   build-unity:
     name: Build Unity -> Xcode project
@@ -20,8 +24,8 @@ jobs:
 
       - uses: actions/cache@v4
         with:
-          path: Library
-          key: Library-iOS-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          path: ${{ env.PROJECT_DIR }}/Library
+          key: Library-iOS-${{ hashFiles('Color_mixing/Assets/**', 'Color_mixing/Packages/**', 'Color_mixing/ProjectSettings/**') }}
           restore-keys: |
             Library-iOS-
 
@@ -31,8 +35,13 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          projectPath: ${{ env.PROJECT_DIR }}
           targetPlatform: iOS
           unityVersion: auto
+
+      # Tampilkan lokasi hasil build (membantu kalau path perlu disesuaikan)
+      - name: List build output
+        run: find . -maxdepth 4 -name "*.xcodeproj" -not -path "./.git/*" || true
 
       # tar menjaga permission file (artifact zip menghilangkannya)
       - name: Package Xcode project
@@ -64,8 +73,10 @@ jobs:
         with:
           ruby-version: '3.3'
           bundler-cache: true
+          working-directory: ${{ env.PROJECT_DIR }}
 
       - name: Fastlane beta
+        working-directory: ${{ env.PROJECT_DIR }}
         run: bundle exec fastlane ios beta
         env:
           APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
