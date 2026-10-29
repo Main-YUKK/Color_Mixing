@@ -22,27 +22,48 @@ public class ClientArrivalSequence : MonoBehaviour
     private void OnEnable()
     {
         cycle.OnClientRequested += OnClientRequested;
+        cycle.OnGameOver += StopClientFlow;
+        cycle.OnDayEnded += OnDayEnded;
         spawner.OnClientArrived += OnClientArrived;
     }
 
     private void OnDisable()
     {
         cycle.OnClientRequested -= OnClientRequested;
+        cycle.OnGameOver -= StopClientFlow;
+        cycle.OnDayEnded -= OnDayEnded;
         spawner.OnClientArrived -= OnClientArrived;
     }
+    // Hari selesai / game over: hentikan alur klien dan tutup layar mixing supaya laporan / panel game over terlihat.
+    private void StopClientFlow()
+    {
+        if (routine != null) StopCoroutine(routine);
+        UnloadNextScene();
+    }
 
+    private void OnDayEnded(DayResult _) => StopClientFlow();
     private void Start()
     {
         if (cardRoot != null) cardRoot.SetActive(false);
     }
 
-    // Klien baru diminta (hari mulai, Yes, No, atau timeout): kartu ditutup, klien lama pergi, klien baru masuk.
+    // Klien baru diminta (hari mulai, Yes, No, atau timeout): kartu ditutup, scene mixing ditutup, klien lama pergi, klien baru masuk.
     private void OnClientRequested()
     {
         if (routine != null) StopCoroutine(routine);
         if (cardRoot != null) cardRoot.SetActive(false);
+        UnloadNextScene();
         spawner.SpawnNext();
     }
+
+    // Tutup scene additive klien sebelumnya supaya klien baru mulai bersih (aman kalau belum dimuat).
+    private void UnloadNextScene()
+    {
+        if (string.IsNullOrEmpty(nextSceneName)) return;
+        if (SceneManager.GetSceneByName(nextSceneName).isLoaded)
+            SceneManager.UnloadSceneAsync(nextSceneName);
+    }
+
 
     private void OnClientArrived()
     {
@@ -70,6 +91,6 @@ public class ClientArrivalSequence : MonoBehaviour
             yield break;
         }
 
-        SceneManager.LoadScene(nextSceneName);
+        SceneManager.LoadScene(nextSceneName, LoadSceneMode.Additive);
     }
 }
