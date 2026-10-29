@@ -7,16 +7,25 @@ public class ClientTimer : MonoBehaviour
     [SerializeField] private DayCycleManager cycle;
     [Tooltip("Opsional. Diisi: timer mulai saat klien selesai berjalan masuk, dan berhenti saat klien baru diminta.")]
     [SerializeField] private CharacterSpawner spawner;
+    [Tooltip("Mati: timer mulai saat klien selesai masuk.\nNyala: timer menunggu StartTimer() dari layar mixing (waktu baca kartu tidak terpotong).\nWajib dipakai bersama Next Scene Name = ColorMixing di Client Arrival Sequence, kalau tidak timer tidak pernah jalan.")]
+    [SerializeField] private bool startManually;
     [SerializeField] private float secondsPerClient = 30f;
-    [SerializeField] private Slider timerBar; 
+    [SerializeField] private Slider timerBar;
     [SerializeField] private TMP_Text timerText;
 
     private float remaining;
     private bool running;
 
+    // Sisa waktu klien 0-1 (1 = penuh, 0 = habis), untuk timer bar di scene lain (ColorMixing).
+    public float Normalized => Mathf.Clamp01(remaining / secondsPerClient);
+
     private void OnEnable()
     {
-        if (spawner != null)
+        if (startManually)
+        {
+            cycle.OnClientRequested += Stop;
+        }
+        else if (spawner != null)
         {
             cycle.OnClientRequested += Stop;
             spawner.OnClientArrived += StartTimer;
@@ -35,7 +44,7 @@ public class ClientTimer : MonoBehaviour
         cycle.OnDayEnded -= OnDayEnded;
     }
 
-    private void StartTimer()
+    public void StartTimer()
     {
         remaining = secondsPerClient;
         running = true;
