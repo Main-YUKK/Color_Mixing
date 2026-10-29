@@ -1421,7 +1421,7 @@ MonoBehaviour:
   spawner: {fileID: 640845018}
   cardRoot: {fileID: 603652666}
   flipOnArrival: 1
-  nextSceneName: 
+  nextSceneName: ColorMixing
   cardSeconds: 3
 --- !u!1 &764511185
 GameObject:
