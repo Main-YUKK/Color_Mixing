@@ -25,6 +25,13 @@ public class ColorMixingController : MonoBehaviour
     public bool IsMixConfirmed { get; private set; }   // true setelah semua pemain Mix
     public int ReadyCount => readyToMix.Count(r => r);   // jumlah pemain yang sudah Mix
 
+    // Fase mixing dimulai: timer klien mulai jalan (kalau scene ini dimuat dari ClientArrival).
+    private void Start()
+    {
+        var timer = FindAnyObjectByType<ClientTimer>();
+        if (timer != null) timer.StartTimer();
+    }
+
     private void Awake()
     {
         MixingBowl = new MixingBowl(palette.Count);
@@ -86,7 +93,7 @@ public class ColorMixingController : MonoBehaviour
         IsMixConfirmed = readyToMix.All(r => r);
         if (IsMixConfirmed) enabled = false;   // Update berhenti -> rotasi berhenti
 
-        Debug.Log($"[MIX] Pemain {player + 1} {(ready ? "Mix" : "Unmix")} -> siap {ReadyCount}/{PigmentAssignment.PlayerCount}"); 
+        Debug.Log($"[MIX] Pemain {player + 1} {(ready ? "Mix" : "Unmix")} -> siap {ReadyCount}/{PigmentAssignment.PlayerCount}");
         StateChanged?.Invoke();   // UI refresh SETELAH state final
 
         if (IsMixConfirmed)
