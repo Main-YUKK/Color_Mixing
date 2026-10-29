@@ -1,162 +1,78 @@
+name: iOS Build & TestFlight
 
-  build-testflight:
-    name: Build iOS and Upload TestFlight
-    needs: test-unity
-    runs-on: macos-15
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
 
-    env:
-      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
 
+jobs:
+  build-unity:
+    name: Build Unity -> Xcode project
+    runs-on: ubuntu-latest
     steps:
-      - name: Download Xcode project
-        uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-iOS-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-iOS-
+
+      - uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: iOS
+          unityVersion: auto
+
+      # tar menjaga permission file (artifact zip menghilangkannya)
+      - name: Package Xcode project
+        run: tar -czf ios-build.tar.gz -C build iOS
+
+      - uses: actions/upload-artifact@v4
         with:
           name: ios-xcode-project
-          path: build/iOS
+          path: ios-build.tar.gz
+          retention-days: 3
 
-      - name: Install signing files
+  deploy-testflight:
+    name: Sign, archive & upload ke TestFlight
+    needs: build-unity
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ios-xcode-project
+
+      - name: Extract Xcode project
+        run: |
+          mkdir -p build
+          tar -xzf ios-build.tar.gz -C build
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Fastlane beta
+        run: bundle exec fastlane ios beta
         env:
-          IOS_CERTIFICATE_BASE64: ${{ secrets.IOS_CERTIFICATE_BASE64 }}
-          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
-          IOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        run: |
-          python3 - <<'PY'
-          import os, base64
-          from pathlib import Path
-
-          temp = Path(os.environ["RUNNER_TEMP"])
-          files = {
-              "certificate.p12": "IOS_CERTIFICATE_BASE64",
-              "profile.mobileprovision": "IOS_PROVISIONING_PROFILE_BASE64",
-          }
-
-          for filename, secret in files.items():
-              data = base64.b64decode(os.environ[secret])
-              (temp / filename).write_bytes(data)
-          PY
-
-          security create-keychain \
-            -p "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/build.keychain"
-
-          security set-keychain-settings \
-            -lut 21600 "$RUNNER_TEMP/build.keychain"
-
-          security unlock-keychain \
-            -p "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/build.keychain"
-
-          security import "$RUNNER_TEMP/certificate.p12" \
-            -k "$RUNNER_TEMP/build.keychain" \
-            -P "$IOS_CERTIFICATE_PASSWORD" \
-            -T /usr/bin/codesign
-
-          security set-key-partition-list \
-            -S apple-tool:,apple: \
-            -s -k "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/build.keychain"
-
-          security list-keychains -d user -s \
-            "$RUNNER_TEMP/build.keychain"
-
-          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
-
-          security cms -D \
-            -i "$RUNNER_TEMP/profile.mobileprovision" \
-            > "$RUNNER_TEMP/profile.plist"
-
-          PROFILE_UUID=$(/usr/libexec/PlistBuddy \
-            -c 'Print UUID' "$RUNNER_TEMP/profile.plist")
-
-          PROFILE_NAME=$(/usr/libexec/PlistBuddy \
-            -c 'Print Name' "$RUNNER_TEMP/profile.plist")
-
-          cp "$RUNNER_TEMP/profile.mobileprovision" \
-            "$HOME/Library/MobileDevice/Provisioning Profiles/$PROFILE_UUID.mobileprovision"
-
-          echo "PROFILE_NAME=$PROFILE_NAME" >> "$GITHUB_ENV"
-
-      - name: Archive iOS application
-        run: |
-          xcodebuild \
-            -project build/iOS/Unity-iPhone.xcodeproj \
-            -scheme Unity-iPhone \
-            -configuration Release \
-            -sdk iphoneos \
-            -archivePath "$RUNNER_TEMP/Game.xcarchive" \
-            archive \
-            DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
-            CODE_SIGN_STYLE=Manual \
-            CODE_SIGN_IDENTITY="Apple Distribution" \
-            PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME"
-
-      - name: Prepare export options
-        env:
-          APP_BUNDLE_ID: ${{ vars.APP_BUNDLE_ID }}
-        run: |
-          cat > "$RUNNER_TEMP/ExportOptions.plist" <<EOF
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-            <key>method</key>
-            <string>app-store-connect</string>
-            <key>teamID</key>
-            <string>$APPLE_TEAM_ID</string>
-            <key>signingStyle</key>
-            <string>manual</string>
-            <key>provisioningProfiles</key>
-            <dict>
-              <key>$APP_BUNDLE_ID</key>
-              <string>$PROFILE_NAME</string>
-            </dict>
-          </dict>
-          </plist>
-          EOF
-
-      - name: Export IPA
-        run: |
-          xcodebuild -exportArchive \
-            -archivePath "$RUNNER_TEMP/Game.xcarchive" \
-            -exportPath "$RUNNER_TEMP/export" \
-            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist"
-
-      - name: Upload to TestFlight
-        env:
-          ASC_PRIVATE_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY_BASE64 }}
-        run: |
-          python3 - <<'PY'
-          import os, base64
-          from pathlib import Path
-
-          key_path = Path(os.environ["RUNNER_TEMP"]) / f"AuthKey_{os.environ['ASC_KEY_ID']}.p8"
-          key_path.write_bytes(base64.b64decode(os.environ["ASC_PRIVATE_KEY_BASE64"]))
-          PY
-
-          gem install fastlane --no-document
-
-          mkdir -p fastlane
-          cat > fastlane/Fastfile <<'RUBY'
-          default_platform(:ios)
-
-          platform :ios do
-            lane :upload_ci do
-              api_key = app_store_connect_api_key(
-                key_id: ENV["ASC_KEY_ID"],
-                issuer_id: ENV["ASC_ISSUER_ID"],
-                key_filepath: File.join(
-                  ENV["RUNNER_TEMP"],
-                  "AuthKey_#{ENV["ASC_KEY_ID"]}.p8"
-                )
-              )
-
-              pilot(
-                api_key: api_key,
-                ipa: Dir[File.join(ENV["RUNNER_TEMP"], "export", "*.ipa")].first,
-                skip_waiting_for_build_processing: true
-              )
-            end
-          end
-          RUBY
-
-          bundle exec fastlane ios upload_ci
+          APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          APPSTORE_ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+          APPSTORE_P8: ${{ secrets.APPSTORE_P8 }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          IOS_BUNDLE_ID: ${{ secrets.IOS_BUNDLE_ID }}
+          MATCH_REPOSITORY: ${{ secrets.MATCH_REPOSITORY }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
