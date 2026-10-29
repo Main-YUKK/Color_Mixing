@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c9baf380c3f5e467fbdf391146ac3483
+guid: 86a4805d077fe416281ec12839c07327
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4851750565431800638
-    second: Bowl_0
+      213: -8509383615437203925
+    second: MixingSceneBackground_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bowl_0
+      name: MixingSceneBackground_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 975
-        height: 975
+        width: 2622
+        height: 1206
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e33fc5ffe61e45340800000000000000
-      internalID: 4851750565431800638
+      spriteID: b261658bfa898e980800000000000000
+      internalID: -8509383615437203925
       vertices: []
       indices: 
       edges: []
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Bowl_0: 4851750565431800638
+      MixingSceneBackground_0: -8509383615437203925
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
