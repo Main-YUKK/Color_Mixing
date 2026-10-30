@@ -897,6 +897,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1904900949}
   - component: {fileID: 1904900950}
+  - component: {fileID: 1904900951}
   m_Layer: 0
   m_Name: ColorMixingController
   m_TagString: Untagged
@@ -933,6 +934,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColorMixingController
   palette: {fileID: 11400000, guid: e4007772c6f324ac58cfc7c9e4598b3e, type: 2}
   rotationInterval: 10
+--- !u!114 &1904900951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904900947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652be65eac0354511bb6129dada4a848, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MixVoteController
+  colorMixingController: {fileID: 1904900950}
 --- !u!1001 &2055461786
 PrefabInstance:
   m_ObjectHideFlags: 0
