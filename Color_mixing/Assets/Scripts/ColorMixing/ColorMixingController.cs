@@ -4,38 +4,41 @@ using System.Linq;
 
 public class ColorMixingController : MonoBehaviour
 {
+    // MARK: - Inspector
     // referensi ke PigmentPalette
     [SerializeField] private PigmentPalette palette;
-    public PigmentPalette Palette => palette;
     // interval acak ulang pigmen pemain (detik)
     [SerializeField] private float rotationInterval = 10f;
 
+    // MARK: - State
+    private int[] slots; // array untuk menyimpan indeks pigmen yang dipegang oleh pemain
+    private readonly bool[] readyToMix = new bool[PigmentAssignment.PlayerCount]; // status siap mencampur untuk setiap pemain
+
+    // MARK: - Public Properties
+    public PigmentPalette Palette => palette;
     public MixingBowl MixingBowl { get; private set; } // referensi ke MixingBowl
     public float RotationTimerLeft { get; private set; } // waktu tersisa untuk rotasi pigmen pemain diacak ulang
+    public bool IsMixConfirmed { get; private set; }   // true setelah semua pemain Mix
+    public int ReadyCount => readyToMix.Count(r => r);   // jumlah pemain yang sudah Mix
+    public bool IsReady(int player) => readyToMix[player]; // cek apakah pemain siap mencampur
 
-    private int[] slots; // array untuk menyimpan indeks pigmen yang dipegang oleh pemain
-
+    // MARK: - Events
     public event Action StateChanged; // event untuk update UI ketika ada perubahan state (rotasi pigmen, penambahan pigmen ke bowl, dll)
-
-    private readonly bool[] readyToMix = new bool[PigmentAssignment.PlayerCount]; // status siap mencampur untuk setiap pemain
     public event Action MixConfirmed; // event untuk menandai bahwa semua pemain siap mencampur
     public event Action Rotated; // event untuk menandai bahwa pigmen pemain telah diacak ulang
 
-    public bool IsReady(int player) => readyToMix[player]; // cek apakah pemain siap mencampur
-    public bool IsMixConfirmed { get; private set; }   // true setelah semua pemain Mix
-    public int ReadyCount => readyToMix.Count(r => r);   // jumlah pemain yang sudah Mix
+    // MARK: - Unity Lifecycle
+    private void Awake()
+    {
+        MixingBowl = new MixingBowl(palette.Count);
+        AssignPigments();
+    }
 
     // Fase mixing dimulai: timer klien mulai jalan (kalau scene ini dimuat dari ClientArrival).
     private void Start()
     {
         var timer = FindAnyObjectByType<ClientTimer>();
         if (timer != null) timer.StartTimer();
-    }
-
-    private void Awake()
-    {
-        MixingBowl = new MixingBowl(palette.Count);
-        AssignPigments();
     }
 
     private void Update()
@@ -47,6 +50,7 @@ public class ColorMixingController : MonoBehaviour
         Rotated?.Invoke();
     }
 
+    // MARK: - Pigment Rotation
     // Bagi ulang pigmen ke pemain + reset timer.
     private void AssignPigments()
     {
@@ -59,9 +63,9 @@ public class ColorMixingController : MonoBehaviour
     // slot 0 atau 1 milik pemain -> index pigmen di palet
     public int GetPigment(int player, int slot) => slots[player * 2 + slot];
 
-
     private string Name(int player, int slot) => palette.GetPigment(GetPigment(player, slot)).pigmentName;
 
+    // MARK: - Player Actions
     // menambahkan pigmen ke bowl
     public void AddPigment(int player, int slot, int amount = 1)
     {
@@ -78,7 +82,6 @@ public class ColorMixingController : MonoBehaviour
         StateChanged?.Invoke();
     }
 
-    // Tombol Mix (ready = true) / Unmix (ready = false).
     // Tombol Mix (ready = true) / Unmix (ready = false).
     public void SetReady(int player, bool ready)
     {
@@ -103,8 +106,20 @@ public class ColorMixingController : MonoBehaviour
         }
     }
 
+    // MARK: - Redo
+    // Redo menang: mangkuk kosong, vote Mix di-reset, kembali ke fase mixing.
+    public void ResetForRedo()
+    {
+        MixingBowl.Clear();
+        Array.Clear(readyToMix, 0, readyToMix.Length);
+        IsMixConfirmed = false;
+        enabled = true;      // Update jalan lagi -> rotasi lanjut
+        AssignPigments();    // bagi ulang pigmen + timer rotasi 10 s + StateChanged
+        Debug.Log("[MIX] Redo: mangkuk dikosongkan, kembali mixing");
+    }
 
 #if UNITY_EDITOR
+    // MARK: - Debug (Editor Only)
     // Simulasi input 3 pemain di 1 device. Jalankan saat Play: ⋮ di header component.
     [ContextMenu("P1 Add slot 0")] private void P1Add0() => AddPigment(0, 0);
     [ContextMenu("P1 Add slot 1")] private void P1Add1() => AddPigment(0, 1);
@@ -145,5 +160,6 @@ public class ColorMixingController : MonoBehaviour
         Debug.Log("[MIX] Mangkuk dikosongkan");
         StateChanged?.Invoke();
     }
+    [ContextMenu("Redo (reset)")] private void DebugRedo() => ResetForRedo();
 #endif
 }
