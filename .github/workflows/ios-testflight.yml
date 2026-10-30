@@ -14,9 +14,12 @@ env:
   PROJECT_DIR: Color_mixing
 
 jobs:
-  build-unity:
-    name: Build Unity -> Xcode project
-    runs-on: ubuntu-latest
+  build-and-deploy:
+    name: Build Unity, sign & upload ke TestFlight
+    # Harus macOS: post-build plugin Apple (Core/GameKit) hanya jalan di
+    # UNITY_EDITOR_OSX. Kalau build di Linux, framework native-nya tidak masuk
+    # ke project Xcode dan link gagal (undefined symbol _NSError_GetCode, dll).
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,9 +28,9 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ${{ env.PROJECT_DIR }}/Library
-          key: Library-iOS-${{ hashFiles('Color_mixing/Assets/**', 'Color_mixing/Packages/**', 'Color_mixing/ProjectSettings/**') }}
+          key: Library-iOS-macOS-${{ hashFiles('Color_mixing/Assets/**', 'Color_mixing/Packages/**', 'Color_mixing/ProjectSettings/**') }}
           restore-keys: |
-            Library-iOS-
+            Library-iOS-macOS-
 
       - uses: game-ci/unity-builder@v4
         env:
@@ -42,32 +45,6 @@ jobs:
       # Tampilkan lokasi hasil build (membantu kalau path perlu disesuaikan)
       - name: List build output
         run: find . -maxdepth 4 -name "*.xcodeproj" -not -path "./.git/*" || true
-
-      # tar menjaga permission file (artifact zip menghilangkannya)
-      - name: Package Xcode project
-        run: tar -czf ios-build.tar.gz -C build iOS
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ios-xcode-project
-          path: ios-build.tar.gz
-          retention-days: 3
-
-  deploy-testflight:
-    name: Sign, archive & upload ke TestFlight
-    needs: build-unity
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: ios-xcode-project
-
-      - name: Extract Xcode project
-        run: |
-          mkdir -p build
-          tar -xzf ios-build.tar.gz -C build
 
       - uses: ruby/setup-ruby@v1
         with:
