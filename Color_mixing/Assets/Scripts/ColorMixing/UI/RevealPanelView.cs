@@ -14,6 +14,7 @@ public class RevealPanelView : MonoBehaviour
     [SerializeField] private GameObject revealPanel;
     [SerializeField] private Image resultColor;
     [SerializeField] private TMP_Text statusText;
+    [SerializeField] private GameObject canvasRoot;   
     [SerializeField] private string notVotedMessage = "Kamu punya (1) pilihan";
     [SerializeField] private string votedMessage = "menunggu semua pemain untuk memilih";
 
@@ -25,6 +26,11 @@ public class RevealPanelView : MonoBehaviour
     // MARK: - Refresh
     private void Refresh()
     {
+        if (mixVoteController.IsApplied)
+        {
+            canvasRoot.SetActive(false);
+            return;
+        }
         bool voting = mixVoteController.IsVoting;
         mixingPanel.SetActive(!voting);
         revealPanel.SetActive(voting);

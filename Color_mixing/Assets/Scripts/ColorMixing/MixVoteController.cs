@@ -16,6 +16,7 @@ public class MixVoteController : MonoBehaviour
 
     // MARK: - Public Properties
     public bool IsVoting { get; private set; }   // true selama panel reveal menunggu vote
+    public bool IsApplied { get; private set; }   // true setelah Apply menang
     public Vote GetVote(int player) => votes[player];
     public int CountVotes(Vote vote) => votes.Count(v => v == vote);
 
@@ -49,6 +50,7 @@ public class MixVoteController : MonoBehaviour
                     : CountVotes(Vote.Redo) >= Majority ? Vote.Redo
                     : Vote.None;
         if (winner != Vote.None) IsVoting = false;
+        IsApplied = winner == Vote.Apply;
 
         Debug.Log($"[MIX] Pemain {player + 1} vote {vote} -> Apply {CountVotes(Vote.Apply)}, Redo {CountVotes(Vote.Redo)}");
         StateChanged?.Invoke();   // UI refresh SETELAH state final
@@ -60,8 +62,20 @@ public class MixVoteController : MonoBehaviour
         }
         else if (winner == Vote.Apply)
         {
-            Debug.Log("[MIX] Apply menang");   // langkah 4: GameSession, BeginReveal, Stop timer, sembunyikan UI
+            ApplyResult();
         }
+    }
+
+    // Apply menang: simpan warna hasil, hentikan timer klien, masuk fase reveal.
+    private void ApplyResult()
+    {
+        GameSession.AppliedColor = ColorMixer.Blend(colorMixingController.Palette, colorMixingController.MixingBowl.PigmentUnits);
+
+        var timer = FindAnyObjectByType<ClientTimer>();
+        if (timer != null) timer.Stop();
+        if (DayCycleManager.Instance != null) DayCycleManager.Instance.BeginReveal();
+
+        Debug.Log($"[MIX] Apply menang: warna hasil #{ColorUtility.ToHtmlStringRGB(GameSession.AppliedColor)}");
     }
 
 #if UNITY_EDITOR
