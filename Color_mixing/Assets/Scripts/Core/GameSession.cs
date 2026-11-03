@@ -8,6 +8,7 @@ public static class GameSession
     public static int Day { get; set; }
     public static int ClientIndex { get; set; }
     public static ClientRequest CurrentRequest { get; set; }
+    public static Color AppliedColor { get; set; }   // warna hasil Apply, dibaca layar result
 
     public static void Reset(ClientRequestDatabase database)
     {
