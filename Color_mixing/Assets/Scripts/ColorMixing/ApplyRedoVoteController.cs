@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 // Vote Apply/Redo setelah semua pemain Mix. Sekali vote tidak bisa diubah, mayoritas menang.
-public class MixVoteController : MonoBehaviour
+public class ApplyRedoVoteController : MonoBehaviour
 {
     public enum Vote { None, Apply, Redo }
 

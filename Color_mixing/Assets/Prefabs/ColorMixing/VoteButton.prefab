@@ -487,7 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05f2ed325e2be431abb7fd1515abc95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoteButton
-  mixVoteController: {fileID: 0}
+  applyRedoVoteController: {fileID: 0}
   player: 0
   vote: 0
   icons:
