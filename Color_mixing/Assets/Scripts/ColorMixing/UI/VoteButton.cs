@@ -6,9 +6,9 @@ using TMPro;
 [RequireComponent(typeof(Button))]
 public class VoteButton : MonoBehaviour
 {
-    [SerializeField] private MixVoteController mixVoteController;
+    [SerializeField] private ApplyRedoVoteController applyRedoVoteController;
     [SerializeField, Range(0, 2)] private int player;   // sementara 0, nanti dari local player
-    [SerializeField] private MixVoteController.Vote vote;
+    [SerializeField] private ApplyRedoVoteController.Vote vote;
     [SerializeField] private GameObject[] icons;   // 3 ikon (1 per pemain)
     [SerializeField] private TMP_Text label; 
 
@@ -19,29 +19,29 @@ public class VoteButton : MonoBehaviour
     {
         button = GetComponent<Button>();
         disabledSprite = button.spriteState.disabledSprite;
-        button.onClick.AddListener(() => mixVoteController.CastVote(player, vote));
+        button.onClick.AddListener(() => applyRedoVoteController.CastVote(player, vote));
     }
 
     private void OnEnable()
     {
-        mixVoteController.StateChanged += Refresh;
+        applyRedoVoteController.StateChanged += Refresh;
         Refresh();
     }
 
-    private void Start() => label.text = vote == MixVoteController.Vote.Redo ? "Ulangi" : "Warnai";
-    private void OnDisable() => mixVoteController.StateChanged -= Refresh;
+    private void Start() => label.text = vote == ApplyRedoVoteController.Vote.Redo ? "Ulangi" : "Warnai";
+    private void OnDisable() => applyRedoVoteController.StateChanged -= Refresh;
 
     private void Refresh()
     {
-        MixVoteController.Vote myVote = mixVoteController.GetVote(player);
+        ApplyRedoVoteController.Vote myVote = applyRedoVoteController.GetVote(player);
 
         // Setelah vote tombol nonaktif; tombol pilihan pemain tetap tampil Pressed.
         SpriteState state = button.spriteState;
         state.disabledSprite = myVote == vote ? state.pressedSprite : disabledSprite;
         button.spriteState = state;
-        button.interactable = myVote == MixVoteController.Vote.None;
+        button.interactable = myVote == ApplyRedoVoteController.Vote.None;
 
-        int count = mixVoteController.CountVotes(vote);
+        int count = applyRedoVoteController.CountVotes(vote);
         for (int i = 0; i < icons.Length; i++)
             icons[i].SetActive(i < count);
     }

@@ -468,7 +468,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5159622315304963630, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
-      propertyPath: mixVoteController
+      propertyPath: applyRedoVoteController
       value: 
       objectReference: {fileID: 1904900951}
     - target: {fileID: 5162968437612302403, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
@@ -1237,7 +1237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RevealPanelView
   colorMixingController: {fileID: 1904900950}
-  mixVoteController: {fileID: 1904900951}
+  applyRedoVoteController: {fileID: 1904900951}
   player: 0
   mixingPanel: {fileID: 1218197433}
   revealPanel: {fileID: 1388269459}
@@ -1398,7 +1398,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 652be65eac0354511bb6129dada4a848, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MixVoteController
+  m_EditorClassIdentifier: Assembly-CSharp::ApplyRedoVoteController
   colorMixingController: {fileID: 1904900950}
 --- !u!1001 &2055461786
 PrefabInstance:
@@ -1769,7 +1769,7 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5159622315304963630, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
-      propertyPath: mixVoteController
+      propertyPath: applyRedoVoteController
       value: 
       objectReference: {fileID: 1904900951}
     - target: {fileID: 5162968437612302403, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}

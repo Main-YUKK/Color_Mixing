@@ -8,7 +8,7 @@ public class RevealPanelView : MonoBehaviour
 {
     // MARK: - Inspector
     [SerializeField] private ColorMixingController colorMixingController;
-    [SerializeField] private MixVoteController mixVoteController;
+    [SerializeField] private ApplyRedoVoteController applyRedoVoteController;
     [SerializeField, Range(0, 2)] private int player;   // sementara 0, nanti dari local player
     [SerializeField] private GameObject mixingPanel;
     [SerializeField] private GameObject revealPanel;
@@ -19,26 +19,26 @@ public class RevealPanelView : MonoBehaviour
     [SerializeField] private string votedMessage = "menunggu semua pemain untuk memilih";
 
     // MARK: - Unity Lifecycle
-    private void OnEnable() => mixVoteController.StateChanged += Refresh;
-    private void OnDisable() => mixVoteController.StateChanged -= Refresh;
+    private void OnEnable() => applyRedoVoteController.StateChanged += Refresh;
+    private void OnDisable() => applyRedoVoteController.StateChanged -= Refresh;
     private void Start() => Refresh();
 
     // MARK: - Refresh
     private void Refresh()
     {
-        if (mixVoteController.IsApplied)
+        if (applyRedoVoteController.IsApplied)
         {
             canvasRoot.SetActive(false);
             return;
         }
-        bool voting = mixVoteController.IsVoting;
+        bool voting = applyRedoVoteController.IsVoting;
         mixingPanel.SetActive(!voting);
         revealPanel.SetActive(voting);
         if (!voting) return;
 
         resultColor.color = ColorMixer.Blend(colorMixingController.Palette, colorMixingController.MixingBowl.PigmentUnits);
 
-        bool hasVoted = mixVoteController.GetVote(player) != MixVoteController.Vote.None;
+        bool hasVoted = applyRedoVoteController.GetVote(player) != ApplyRedoVoteController.Vote.None;
         statusText.text = hasVoted ? votedMessage : notVotedMessage;
     }
 }
