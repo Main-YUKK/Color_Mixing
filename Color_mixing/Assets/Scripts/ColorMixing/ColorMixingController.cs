@@ -161,5 +161,36 @@ public class ColorMixingController : MonoBehaviour
         StateChanged?.Invoke();
     }
     [ContextMenu("Redo (reset)")] private void DebugRedo() => ResetForRedo();
+    // Inspector saat Play: pigmen tiap pemain saat ini + tombol simulasi 3 pemain.
+    [UnityEditor.CustomEditor(typeof(ColorMixingController))]
+    public class ColorMixingControllerEditor : UnityEditor.Editor
+    {
+        public override bool RequiresConstantRepaint() => Application.isPlaying;   // ikut berganti saat rotasi
+
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+            if (!Application.isPlaying) return;
+
+            var controller = (ColorMixingController)target;
+            for (int player = 0; player < PigmentAssignment.PlayerCount; player++)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label($"P{player + 1}", GUILayout.Width(24));
+
+                for (int slot = 0; slot < 2; slot++)
+                {
+                    Pigment pigment = controller.Palette.GetPigment(controller.GetPigment(player, slot));
+                    GUI.backgroundColor = pigment.color;
+                    if (GUILayout.Button(pigment.pigmentName)) controller.AddPigment(player, slot);
+                }
+
+                GUI.backgroundColor = Color.white;
+                bool ready = controller.IsReady(player);
+                if (GUILayout.Button(ready ? "Unmix" : "Mix")) controller.SetReady(player, !ready);
+                GUILayout.EndHorizontal();
+            }
+        }
+    }
 #endif
 }
