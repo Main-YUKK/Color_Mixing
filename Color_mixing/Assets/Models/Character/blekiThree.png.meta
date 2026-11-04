@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 660bd00436b02445b9c08fcfde78ae36
+guid: 111973b5049a34af68e87a4a4571180c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 527953631270165849
-    second: backButton_0
+      213: 946835791819014719
+    second: blekiThree_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -115,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: backButton_0
+      name: blekiThree_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 44
-        height: 44
+        width: 532
+        height: 819
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,8 +130,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 95d5cb9c70ba35700800000000000000
-      internalID: 527953631270165849
+      spriteID: f328ff7d226d32d00800000000000000
+      internalID: 946835791819014719
       vertices: []
       indices: 
       edges: []
@@ -150,7 +150,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      backButton_0: 527953631270165849
+      blekiThree_0: 946835791819014719
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
