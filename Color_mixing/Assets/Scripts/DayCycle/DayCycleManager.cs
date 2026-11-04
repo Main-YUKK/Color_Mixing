@@ -29,6 +29,7 @@ public class DayCycleManager : MonoBehaviour
     public event Action OnClientRequested;          // klien baru harus muncul
     public event Action<DayResult> OnDayEnded;
     public event Action OnGameOver;                 // NET
+    public event Action OnRevealStarted;            // layar hasil klien mulai tampil
 
     private void Awake() => Instance = this;
 
@@ -68,7 +69,9 @@ public class DayCycleManager : MonoBehaviour
     // Panggil saat feedback Yes/No mulai tampil (opsional).
     public void BeginReveal()
     {
-        if (IsRunning && State == DayState.Mixing) State = DayState.Reveal;
+        if (!IsRunning || State != DayState.Mixing) return;
+        State = DayState.Reveal;
+        OnRevealStarted?.Invoke();
     }
 
     // Panggil saat reveal feedback selesai.

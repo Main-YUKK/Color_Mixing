@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class ClientTimer : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class ClientTimer : MonoBehaviour
 
     private float remaining;
     private bool running;
+
+    public event Action TimedOut;   // kalau ada pendengar, dia yang memanggil OnClientTimeout setelah ucapan tampil
 
     // Sisa waktu klien 0-1 (1 = penuh, 0 = habis), untuk timer bar di scene lain (ColorMixing).
     public float Normalized => Mathf.Clamp01(remaining / secondsPerClient);
@@ -67,6 +70,7 @@ public class ClientTimer : MonoBehaviour
         if (remaining > 0f) return;
 
         running = false;
-        cycle.OnClientTimeout();
+        if (TimedOut != null) TimedOut.Invoke();
+        else cycle.OnClientTimeout();
     }
 }

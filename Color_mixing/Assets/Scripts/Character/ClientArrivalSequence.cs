@@ -57,7 +57,7 @@ public class ClientArrivalSequence : MonoBehaviour
     }
 
     // Tutup scene additive klien sebelumnya supaya klien baru mulai bersih (aman kalau belum dimuat).
-    private void UnloadNextScene()
+    public void UnloadNextScene()
     {
         if (string.IsNullOrEmpty(nextSceneName)) return;
         if (SceneManager.GetSceneByName(nextSceneName).isLoaded)
