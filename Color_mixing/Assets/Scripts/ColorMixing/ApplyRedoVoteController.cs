@@ -88,3 +88,36 @@ public class ApplyRedoVoteController : MonoBehaviour
     [ContextMenu("P3 Redo")] private void P3Redo() => CastVote(2, Vote.Redo);
 #endif
 }
+
+#if UNITY_EDITOR
+// Inspector saat Play: vote tiap pemain saat ini + tombol simulasi 3 pemain.
+[UnityEditor.CustomEditor(typeof(ApplyRedoVoteController))]
+public class ApplyRedoVoteControllerEditor : UnityEditor.Editor
+{
+    public override bool RequiresConstantRepaint() => Application.isPlaying;   // ikut berubah saat vote masuk
+
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+        if (!Application.isPlaying) return;
+
+        var controller = (ApplyRedoVoteController)target;
+        GUILayout.Label(controller.IsVoting
+            ? $"Voting: Apply {controller.CountVotes(ApplyRedoVoteController.Vote.Apply)}, Redo {controller.CountVotes(ApplyRedoVoteController.Vote.Redo)}"
+            : "Belum ada sesi vote");
+
+        for (int player = 0; player < PigmentAssignment.PlayerCount; player++)
+        {
+            ApplyRedoVoteController.Vote vote = controller.GetVote(player);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label($"P{player + 1}: {vote}", GUILayout.Width(80));
+            GUI.enabled = controller.IsVoting && vote == ApplyRedoVoteController.Vote.None;
+            if (GUILayout.Button("Apply")) controller.CastVote(player, ApplyRedoVoteController.Vote.Apply);
+            if (GUILayout.Button("Redo")) controller.CastVote(player, ApplyRedoVoteController.Vote.Redo);
+            GUI.enabled = true;
+            GUILayout.EndHorizontal();
+        }
+    }
+}
+#endif
