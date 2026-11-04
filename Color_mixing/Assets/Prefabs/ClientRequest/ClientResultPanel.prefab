@@ -103,6 +103,7 @@ MonoBehaviour:
   failMessage: Warna Najis ini mah tuh !!
   timeoutMessage: Lelet kali kauu!!!
   showSeconds: 5
+  passingScore: 70
 --- !u!1 &7300100000000002000
 GameObject:
   m_ObjectHideFlags: 0
