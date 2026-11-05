@@ -35,6 +35,7 @@ public class FakeTransport : INetTransport
 
     public bool IsHost => LocalPlayerIndex == 0;
     public int LocalPlayerIndex { get; }
+    public int PlayerCount => network.Nodes.Length;
     public event Action<int, byte[]> DataReceived;
 
     public void SendToHost(byte[] data) => network.Deliver(LocalPlayerIndex, 0, data);
