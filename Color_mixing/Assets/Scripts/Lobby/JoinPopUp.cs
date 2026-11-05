@@ -2,12 +2,21 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class JoinPopup : MonoBehaviour
 {
     [SerializeField] private TMP_InputField codeInput;
     [SerializeField] private TMP_Text errorText;
     [SerializeField] private string lobbySceneName = "Lobby";
+
+    [Header("Tombol")]
+    [Tooltip("Tombol Join di dalam popup. Kosong = dicari otomatis berdasarkan nama 'JoinButton'.")]
+    [SerializeField] private Button joinButton;
+    [Tooltip("Tombol Exit di dalam popup. Kosong = dicari otomatis berdasarkan nama 'ExitButton'.")]
+    [SerializeField] private Button exitButton;
+    [Tooltip("Area gelap di belakang kartu. Kosong = dicari otomatis berdasarkan nama 'Dimmer'. Tap di sini TIDAK menutup popup.")]
+    [SerializeField] private Button dimmerButton;
 
     [Header("Keyboard")]
     [Tooltip("Kartu/panel popup yang digeser naik (BUKAN Dimmer / root fullscreen).")]
@@ -27,6 +36,20 @@ public class JoinPopup : MonoBehaviour
     private void Awake()
     {
         codeInput.onValueChanged.AddListener(OnCodeChanged);
+
+        AutoWireButtons();
+
+        // Join hanya jalan lewat tombol Join (bukan otomatis saat 5 digit / saat centang keyboard ditekan).
+        if (joinButton != null) joinButton.onClick.AddListener(OnJoinClicked);
+        else Debug.LogWarning("[JoinPopup] Tombol 'JoinButton' tidak ditemukan di dalam popup, player tidak bisa join.", this);
+
+        // Popup hanya boleh ditutup lewat ExitButton.
+        if (exitButton != null) exitButton.onClick.AddListener(Close);
+        else Debug.LogWarning("[JoinPopup] Tombol 'ExitButton' tidak ditemukan di dalam popup, popup tidak bisa ditutup.", this);
+
+        // Dimmer tetap menghalangi tap ke menu di belakang, tapi tidak lagi menutup popup.
+        // (Komponen Button dimatikan, bukan objeknya, supaya Image-nya tetap menangkap tap.)
+        if (dimmerButton != null) dimmerButton.enabled = false;
 
         // Teks tetap tampil di input field Unity, bukan di bar input native iOS.
         codeInput.shouldHideMobileInput = true;
@@ -50,6 +73,7 @@ public class JoinPopup : MonoBehaviour
     {
         joining = false;
         codeInput.interactable = true;
+        if (joinButton != null) joinButton.interactable = true;
         codeInput.SetTextWithoutNotify("");
 
         string last = LobbyService.Instance != null ? LobbyService.Instance.LastMessage : null;
@@ -152,9 +176,21 @@ public class JoinPopup : MonoBehaviour
             codeInput.SetTextWithoutNotify(digits);
 
         errorText.text = "";
+    }
 
-        if (digits.Length == 5)
-            Join(digits);
+    // Dipanggil saat tombol Join ditekan.
+    private void OnJoinClicked()
+    {
+        if (joining) return;
+
+        string code = codeInput.text;
+        if (code == null || code.Length != 5)
+        {
+            errorText.text = "Masukkan 5 digit kode room.";
+            return;
+        }
+
+        Join(code);
     }
 
     private void Join(string code)
@@ -170,6 +206,7 @@ public class JoinPopup : MonoBehaviour
 
         // Jangan pindah scene dulu: tunggu host benar-benar ditemukan.
         codeInput.interactable = false;
+        if (joinButton != null) joinButton.interactable = false;
         errorText.text = "Mencari room...";
     }
 
@@ -183,6 +220,7 @@ public class JoinPopup : MonoBehaviour
             LobbyService.Instance.LeaveRoom();
             joining = false;
             codeInput.interactable = true;
+            if (joinButton != null) joinButton.interactable = true;
             codeInput.SetTextWithoutNotify("");
             errorText.text = "Lobby tidak bisa dibuka.";
             return;
@@ -195,12 +233,13 @@ public class JoinPopup : MonoBehaviour
     {
         joining = false;
         codeInput.interactable = true;
+        if (joinButton != null) joinButton.interactable = true;
         codeInput.SetTextWithoutNotify("");
         errorText.text = reason;
         codeInput.ActivateInputField();
     }
 
-    // Dipanggil saat area gelap (Dimmer) ditekan
+    // Dipanggil dari ExitButton (satu-satunya cara menutup popup).
     public void Close()
     {
         // Kalau sedang mencari room, batalkan pencariannya.
@@ -208,5 +247,16 @@ public class JoinPopup : MonoBehaviour
             LobbyService.Instance.LeaveRoom();
 
         gameObject.SetActive(false);
+    }
+
+    // Cari tombol berdasarkan nama di dalam popup ini kalau field Inspector masih kosong.
+    private void AutoWireButtons()
+    {
+        foreach (var b in GetComponentsInChildren<Button>(true))
+        {
+            if (joinButton == null && b.gameObject.name == "JoinButton") joinButton = b;
+            else if (exitButton == null && b.gameObject.name == "ExitButton") exitButton = b;
+            else if (dimmerButton == null && b.gameObject.name == "Dimmer") dimmerButton = b;
+        }
     }
 }
