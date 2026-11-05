@@ -24,4 +24,5 @@ public class DaySnapshot
     public int state;          // DayState
     public int clientIndex;
     public string requestId;   // kosong kalau tidak ada request baru
+    public ClientLook look;    // rupa klien baru (valid = false kalau tidak ada)
 }

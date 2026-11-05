@@ -203,6 +203,7 @@ public class DayCycleManager : MonoBehaviour
             s.newDay = dayJustStarted;
             dayJustStarted = false;
             s.requestId = GameSession.CurrentRequest != null ? GameSession.CurrentRequest.requestId : null;
+            s.look = GameSession.CurrentLook ?? new ClientLook();   // dipasang CharacterSpawner saat klien baru dipilih
         }
         return s;
     }
@@ -248,6 +249,7 @@ public class DayCycleManager : MonoBehaviour
 
         GameSession.ClientIndex = s.clientIndex;
         GameSession.CurrentRequest = request;
+        GameSession.CurrentLook = s.look != null && s.look.valid ? s.look : null;
         State = (DayState)s.state;
         OnClientRequested?.Invoke();
     }

@@ -8,6 +8,7 @@ public static class GameSession
     public static int Day { get; set; }
     public static int ClientIndex { get; set; }
     public static ClientRequest CurrentRequest { get; set; }
+    public static ClientLook CurrentLook { get; set; }   // rupa klien aktif (prefab + rambut), dari host
     public static Color AppliedColor { get; set; }   // warna hasil Apply, dibaca layar result
 
     public static void Reset(ClientRequestDatabase database)
@@ -16,6 +17,7 @@ public static class GameSession
         Day = 1;
         ClientIndex = 0;
         CurrentRequest = null;
+        CurrentLook = null;
     }
 
     // Mulai run dari hari tertentu (Continue memakai hari tersimpan). Bag dibuat ulang saat request pertama.
@@ -25,6 +27,7 @@ public static class GameSession
         Day = startDay;
         ClientIndex = 0;
         CurrentRequest = null;
+        CurrentLook = null;
     }
 
     public static void EnsureBag(ClientRequestDatabase database)

@@ -54,6 +54,7 @@ public class RandomCharacter : MonoBehaviour
 
     float currentScale = 1f;
     int currentIndex;
+    bool lookApplied;
 
     void Awake()
     {
@@ -65,7 +66,7 @@ public class RandomCharacter : MonoBehaviour
     void Start()
     {
         if (cycleHair) StartCoroutine(HairLoop());
-        else Randomize();
+        else if (!lookApplied) Randomize();   // sudah dipasang dari luar (ApplyLook) = jangan diacak lagi
     }
 
     /// <summary>Re-roll the whole character right now (also callable from a button/UnityEvent).</summary>
@@ -76,37 +77,52 @@ public class RandomCharacter : MonoBehaviour
         hairRenderer.transform.localScale = Vector3.one * currentScale;
     }
 
-    // Same shape (same index), random color sheet. Falls back to the style's own sprite if a variant is missing.
-    Sprite PickSprite(int index)
+    // Sprite untuk style tertentu: variant 0 = sheet dasar, n = colorVariants[n - 1] (kalau kosong, jatuh ke sheet dasar).
+    Sprite SpriteFor(int index, int variant)
     {
         var s = hairStyles[index].sprite;
-        int count = (colorVariants?.Length ?? 0) + 1;
-        int pick = Random.Range(0, count);
-        if (pick == 0) return s;
-        var v = colorVariants[pick - 1].sprites;
+        if (variant <= 0 || colorVariants == null || variant > colorVariants.Length) return s;
+        var v = colorVariants[variant - 1].sprites;
         return v != null && index < v.Length && v[index] != null ? v[index] : s;
     }
 
-    void ApplyStyle(int index, float jitter)
+    /// <summary>Acak rambut tanpa memasangnya (tidak menyentuh renderer), supaya hasilnya bisa dikirim ke device lain.</summary>
+    public HairLook RollHair()
     {
-        currentIndex = index;
-        var s = hairStyles[index];
-        hairRenderer.sprite = PickSprite(index);
-        currentScale = s.scale;
-        bool front = s.layer == HairLayer.Front || (s.layer == HairLayer.Random && Random.value > 0.5f);
-        hairRenderer.sortingOrder = bodyRenderer.sortingOrder + (front ? frontSortingOffset : hairSortingOffset);
-        hairRenderer.transform.localPosition = new Vector3(
-            s.position.x + Random.Range(-jitter, jitter),
-            s.position.y + Random.Range(-jitter, jitter), 0f);
+        if (hairStyles == null || hairStyles.Length == 0) return null;
+
+        int style = Random.Range(0, hairStyles.Length);
+        var s = hairStyles[style];
+        return new HairLook
+        {
+            style = style,
+            variant = Random.Range(0, (colorVariants?.Length ?? 0) + 1),
+            jitterX = Random.Range(-positionJitter, positionJitter),
+            jitterY = Random.Range(-positionJitter, positionJitter),
+            front = s.layer == HairLayer.Front || (s.layer == HairLayer.Random && Random.value > 0.5f),
+            color = !tintHair ? Color.white
+                : hairColors != null ? hairColors.Evaluate(Random.value)
+                : Random.ColorHSV(0f, 1f, 0.5f, 0.9f, 0.6f, 1f),
+        };
     }
 
-    void RandomizeHair()
+    /// <summary>Pasang rambut dari hasil RollHair (di device ini atau kiriman host). Setelah ini Start tidak mengacak lagi.</summary>
+    public void ApplyLook(HairLook look)
     {
-        if (hairStyles == null || hairStyles.Length == 0) return;
-        ApplyStyle(Random.Range(0, hairStyles.Length), positionJitter);
-        if (!tintHair) hairRenderer.color = Color.white;
-        else hairRenderer.color = hairColors != null ? hairColors.Evaluate(Random.value) : Random.ColorHSV(0f, 1f, 0.5f, 0.9f, 0.6f, 1f);
+        if (look == null || hairStyles == null || look.style < 0 || look.style >= hairStyles.Length) return;
+
+        currentIndex = look.style;
+        var s = hairStyles[look.style];
+        hairRenderer.sprite = SpriteFor(look.style, look.variant);
+        currentScale = s.scale;
+        hairRenderer.sortingOrder = bodyRenderer.sortingOrder + (look.front ? frontSortingOffset : hairSortingOffset);
+        hairRenderer.transform.localPosition = new Vector3(s.position.x + look.jitterX, s.position.y + look.jitterY, 0f);
+        hairRenderer.color = look.color;
+        lookApplied = true;
+        if (!cycleHair) hairRenderer.transform.localScale = Vector3.one * currentScale;
     }
+
+    void RandomizeHair() => ApplyLook(RollHair());
 
     /// <summary>Tint the hair with a hex string like "FF8800" or "#FF8800". Returns false if it isn't valid.</summary>
     public bool SetHairColor(string hex)

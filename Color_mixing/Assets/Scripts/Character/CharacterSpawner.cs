@@ -61,23 +61,22 @@ public class CharacterSpawner : MonoBehaviour
     {
         if (characterPrefabs == null || characterPrefabs.Length == 0) return;
         if (IsBusy) return;                     // ignore while someone is still walking
-        StartCoroutine(Swap());
+
+        // Dipilih SEKARANG (sebelum klien lama pergi), karena host mengirim pilihan ini ke client lewat GameSession.CurrentLook.
+        var look = ChooseLook();
+        GameSession.CurrentLook = look;
+        StartCoroutine(Swap(look));
     }
 
-    IEnumerator Swap()
+    /// <summary>Host / satu device: acak prefab + rambut. Client: pakai pilihan host (GameSession.CurrentLook).</summary>
+    public ClientLook ChooseLook()
     {
-        IsBusy = true;
-
-        // old client leaves
-        if (current != null)
+        bool authority = GameNet.Instance == null || GameNet.Instance.IsHost;
+        var shared = GameSession.CurrentLook;
+        if (!authority && shared != null && shared.valid && shared.prefabIndex >= 0 && shared.prefabIndex < characterPrefabs.Length)
         {
-            if (walk)
-            {
-                Face(current, ExitPos.x - StandPos.x);      // face the door so they don't walk backward
-                yield return Walk(current, ExitPos);
-            }
-            if (current != null) Destroy(current);
-            current = null;
+            lastIndex = shared.prefabIndex;
+            return shared;
         }
 
         // avoid the same character twice in a row
@@ -85,10 +84,28 @@ public class CharacterSpawner : MonoBehaviour
         if (characterPrefabs.Length > 1 && i == lastIndex) i = (i + 1 + Random.Range(0, characterPrefabs.Length - 1)) % characterPrefabs.Length;
         lastIndex = i;
 
+        var look = new ClientLook { valid = true, prefabIndex = i };
+        var prefab = characterPrefabs[i];
+        if (prefab != null && prefab.TryGetComponent(out RandomCharacter hair))
+        {
+            look.hair = hair.RollHair();
+            look.hasHair = look.hair != null;
+        }
+        return look;
+    }
+
+    IEnumerator Swap(ClientLook look)
+    {
+        IsBusy = true;
+
+        // old client leaves
+        yield return SendOff();
+
         // new client arrives
         Transform t = spawnPoint != null ? spawnPoint : transform;
         Vector3 startPos = walk ? EntryPos : t.position;
-        current = Instantiate(characterPrefabs[i], startPos, t.rotation);
+        current = Instantiate(characterPrefabs[look.prefabIndex], startPos, t.rotation);
+        if (look.hasHair && current.TryGetComponent(out RandomCharacter hair)) hair.ApplyLook(look.hair);
         nativeSign = Mathf.Sign(current.transform.localScale.x);
         entryDirX = t.position.x - startPos.x;
         if (walk) yield return Walk(current, t.position);
@@ -96,6 +113,38 @@ public class CharacterSpawner : MonoBehaviour
         nextTime = Time.time + Random.Range(stayTime.x, stayTime.y);
         IsBusy = false;
         OnClientArrived?.Invoke();
+    }
+
+    /// <summary>Fired when the client has walked out and nobody replaced them (see Dismiss).</summary>
+    public event Action OnClientLeft;
+
+    /// <summary>Current client walks out the door and nobody comes in (end of day). Does nothing if nobody is standing or someone is walking.</summary>
+    public void Dismiss()
+    {
+        if (IsBusy || current == null) return;
+        StartCoroutine(Leave());
+    }
+
+    IEnumerator Leave()
+    {
+        IsBusy = true;
+        yield return SendOff();
+        IsBusy = false;
+        OnClientLeft?.Invoke();
+    }
+
+    // The current client walks to the door (if walking is on) and is removed.
+    IEnumerator SendOff()
+    {
+        if (current == null) yield break;
+
+        if (walk)
+        {
+            Face(current, ExitPos.x - StandPos.x);      // face the door so they don't walk backward
+            yield return Walk(current, ExitPos);
+        }
+        if (current != null) Destroy(current);
+        current = null;
     }
 
     // Turns the character to face a horizontal direction (sprites face the way they walked in).
