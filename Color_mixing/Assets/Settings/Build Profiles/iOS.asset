@@ -37,6 +37,9 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/ColorMixing.unity
     m_guid: b0948b7408ec04a428e826fd2ba2718f
+  - m_enabled: 1
+    m_path: Assets/Scenes/ClientArrival.unity
+    m_guid: 8c9cfa26abfee488c85f1582747f6a02
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:

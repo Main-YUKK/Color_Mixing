@@ -52,6 +52,7 @@ public class GameNet
 
     public bool IsHost => transport.IsHost;
     public int LocalPlayerIndex => transport.LocalPlayerIndex;
+    public int PlayerCount => transport.PlayerCount;
     public bool IsOffline => transport is OfflineTransport;
 
     private void Dispose()

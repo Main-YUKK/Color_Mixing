@@ -11,6 +11,7 @@ public interface INetTransport
 {
     bool IsHost { get; }
     int LocalPlayerIndex { get; }
+    int PlayerCount { get; }   // jumlah pemain di sesi ini termasuk diri sendiri (dipakai host untuk menunggu semua siap)
 
     // (index pengirim, data mentah)
     event Action<int, byte[]> DataReceived;

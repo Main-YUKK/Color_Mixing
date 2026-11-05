@@ -47,6 +47,9 @@ public class LocalTransport : INetTransport, IDisposable
     }
 
     // Client sudah diterima host dan tahu index-nya. Host selalu true.
+    // Host: dirinya + client yang sudah terhubung. Client tidak tahu jumlah pasti, 3 = ukuran penuh.
+    public int PlayerCount => IsHost ? ConnectedCount + 1 : MaxClients + 1;
+
     public bool IsConnected => IsHost || (toHost != null && LocalPlayerIndex >= 0);
 
     public int Port => IsHost ? ((IPEndPoint)listener.LocalEndpoint).Port : -1;

@@ -6,6 +6,7 @@ public class OfflineTransport : INetTransport
 {
     public bool IsHost => true;
     public int LocalPlayerIndex => 0;
+    public int PlayerCount => 1;
 
 #pragma warning disable CS0067   // tidak pernah dipanggil: tidak ada pemain lain
     public event Action<int, byte[]> DataReceived;

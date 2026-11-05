@@ -37,6 +37,9 @@ public class LobbyScreen : MonoBehaviour
     // Harus sama dengan LobbyService.RequiredPlayers (ubah ke 2 kalau tes dengan 2 device).
     private const int RequiredPlayers = 3;
 
+    [Header("Mulai game")]
+    [SerializeField] private string gameSceneName = "ClientArrival";
+
     private LobbyService service;
     private RectTransform readyRect;        // RectTransform ReadyButton
     private Vector2 readyOriginalSize;      // ukuran asli ReadyButton (dipulihkan saat belum ready)
@@ -69,6 +72,7 @@ public class LobbyScreen : MonoBehaviour
             if (readyRect != null) readyOriginalSize = readyRect.sizeDelta;
         }
 
+        if (playButton != null) playButton.onClick.AddListener(OnPlayClicked);
         if (editRoomNameButton != null) editRoomNameButton.onClick.AddListener(OnEditRoomNameClicked);
         if (roomNameInput != null)
         {
@@ -89,6 +93,7 @@ public class LobbyScreen : MonoBehaviour
     private void OnDestroy()
     {
         if (readyButton != null) readyButton.onClick.RemoveListener(OnReadyClicked);
+        if (playButton != null) playButton.onClick.RemoveListener(OnPlayClicked);
         if (editRoomNameButton != null) editRoomNameButton.onClick.RemoveListener(OnEditRoomNameClicked);
         if (roomNameInput != null) roomNameInput.onEndEdit.RemoveListener(OnRoomNameEndEdit);
 
@@ -249,8 +254,19 @@ public class LobbyScreen : MonoBehaviour
         {
             playButton.gameObject.SetActive(isHost);
             playButton.interactable = service.CanStart;
-            // TODO: onClick Play belum dipasang (scene gameplay belum ada).
         }
+    }
+
+    // Host menekan Play: semua device memuat scene game bersamaan (START -> SCENE_READY -> GO).
+    private void OnPlayClicked()
+    {
+        if (service == null || !service.CanStart) return;
+
+        int day = SaveService.Active != null ? SaveService.Active.nextDay : 1;
+        if (MatchStarter.HostStart(gameSceneName, day)) return;
+
+        // Belum ada sesi jaringan (device sebelum transport Game Center terpasang): mulai sendiri seperti sebelumnya.
+        if (GameNet.Instance == null) SceneLoader.Load(gameSceneName);
     }
 
     private static string Shorten(string name, int maxLength = 14)
