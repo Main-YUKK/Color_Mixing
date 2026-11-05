@@ -31,10 +31,25 @@ public class DayCycleManager : MonoBehaviour
     public event Action OnGameOver;                 // NET
     public event Action OnRevealStarted;            // layar hasil klien mulai tampil
 
+    // Host: keadaan hari berubah besar, saatnya dikirim ke client (diurus DayCycleNet).
+    public event Action<DaySnapshotKind> OnStatePublished;
+
+    // Tanpa sesi jaringan (Editor / satu device) atau host = pemegang aturan. Client hanya menerima foto dari host.
+    public bool IsAuthority => GameNet.Instance == null || GameNet.Instance.IsHost;
+
+    private int snapshotSeq;       // host: nomor kiriman terakhir
+    private int runId;             // host: id run ini
+    private int lastRunId;         // client: run yang sedang diikuti
+    private int lastAppliedSeq;    // client: nomor kiriman terakhir yang dipakai
+    private bool dayJustStarted;
+
     private void Awake() => Instance = this;
 
     public void StartSession(bool continueSaved)
     {
+        if (!IsAuthority) return;
+        snapshotSeq = 0;
+        runId = UnityEngine.Random.Range(1, int.MaxValue);
         CurrentDay = continueSaved && SaveService.Active != null ? SaveService.Active.nextDay : 1;
 
         History.Clear();
@@ -50,6 +65,7 @@ public class DayCycleManager : MonoBehaviour
         NoCount = 0;
         TimeoutCount = 0;
         AwaitingNextDay = false;
+        dayJustStarted = true;
         GameSession.Day = CurrentDay;
 
         OnDayStarted?.Invoke(CurrentDay);
@@ -64,6 +80,7 @@ public class DayCycleManager : MonoBehaviour
         GameSession.ClientIndex = YesCount;
         State = DayState.Mixing;
         OnClientRequested?.Invoke();
+        OnStatePublished?.Invoke(DaySnapshotKind.ClientRequested);   // setelah request dipilih oleh pendengar di atas
     }
 
     // Panggil saat feedback Yes/No mulai tampil (opsional).
@@ -77,7 +94,7 @@ public class DayCycleManager : MonoBehaviour
     // Panggil saat reveal feedback selesai.
     public void OnFeedbackRevealed(bool isYes)
     {
-        if (!IsRunning || AwaitingNextDay) return;
+        if (!IsAuthority || !IsRunning || AwaitingNextDay) return;
 
         if (isYes)
         {
@@ -97,7 +114,7 @@ public class DayCycleManager : MonoBehaviour
     // Panggil saat timer klien habis tanpa submit.
     public void OnClientTimeout()
     {
-        if (!IsRunning || AwaitingNextDay) return;
+        if (!IsAuthority || !IsRunning || AwaitingNextDay) return;
 
         TimeoutCount++;
         if (LoseLife()) return;
@@ -136,10 +153,12 @@ public class DayCycleManager : MonoBehaviour
         {
             AwaitingNextDay = true;
             OnDayEnded?.Invoke(result);
+            OnStatePublished?.Invoke(DaySnapshotKind.DayEnded);
         }
         else
         {
             OnDayEnded?.Invoke(result);
+            OnStatePublished?.Invoke(DaySnapshotKind.DayEnded);
             BeginDay();
         }
     }
@@ -147,7 +166,7 @@ public class DayCycleManager : MonoBehaviour
     // Tutup laporan dan mulai hari berikutnya.
     public void StartNextDay()
     {
-        if (!IsRunning || !AwaitingNextDay) return;
+        if (!IsAuthority || !IsRunning || !AwaitingNextDay) return;
         BeginDay();
     }
 
@@ -156,6 +175,103 @@ public class DayCycleManager : MonoBehaviour
         IsRunning = false;
         State = DayState.GameOver;
         SaveService.ResetActiveProgress();   // sesi berikutnya mulai dari Day 1
+        OnGameOver?.Invoke();
+        OnStatePublished?.Invoke(DaySnapshotKind.GameOver);
+    }
+
+    // ---------- Sinkronisasi ----------
+
+    // Host: foto keadaan sekarang. ClientRequested memakai GameSession.CurrentRequest (sudah dipilih pendengar event).
+    public DaySnapshot TakeSnapshot(DaySnapshotKind kind)
+    {
+        var s = new DaySnapshot
+        {
+            kind = (int)kind,
+            runId = runId,
+            seq = ++snapshotSeq,
+            day = kind == DaySnapshotKind.DayEnded && History.Count > 0 ? History[History.Count - 1].day : CurrentDay,
+            lives = Lives,
+            yes = YesCount,
+            no = NoCount,
+            timeout = TimeoutCount,
+            state = (int)State,
+            clientIndex = GameSession.ClientIndex,
+        };
+
+        if (kind == DaySnapshotKind.ClientRequested)
+        {
+            s.newDay = dayJustStarted;
+            dayJustStarted = false;
+            s.requestId = GameSession.CurrentRequest != null ? GameSession.CurrentRequest.requestId : null;
+        }
+        return s;
+    }
+
+    // Client: pakai foto dari host dan putar ulang event yang sama seperti di host.
+    // request = hasil ClientRequestDatabase.GetById(snapshot.requestId) oleh pemanggil (null kalau tidak ada).
+    // false = foto ditolak (ini host, atau foto lama / dobel).
+    public bool ApplyRemote(DaySnapshot s, ClientRequest request)
+    {
+        if (IsAuthority || s == null) return false;
+
+        bool newRun = s.runId != lastRunId;
+        if (newRun) { lastRunId = s.runId; lastAppliedSeq = 0; }
+        if (s.seq <= lastAppliedSeq) return false;
+        lastAppliedSeq = s.seq;
+        if (newRun) { History.Clear(); GameSession.StartRun(s.kind == (int)DaySnapshotKind.DayEnded ? s.day + 1 : s.day); }
+
+        switch ((DaySnapshotKind)s.kind)
+        {
+            case DaySnapshotKind.ClientRequested: ApplyClientRequested(s, request); break;
+            case DaySnapshotKind.DayEnded: ApplyDayEnded(s); break;
+            case DaySnapshotKind.GameOver: ApplyGameOver(s); break;
+        }
+        return true;
+    }
+
+    private void ApplyClientRequested(DaySnapshot s, ClientRequest request)
+    {
+        IsRunning = true;
+        AwaitingNextDay = false;
+        CurrentDay = s.day;
+        NoCount = s.no;
+        TimeoutCount = s.timeout;
+
+        if (s.newDay)
+        {
+            GameSession.Day = s.day;
+            OnDayStarted?.Invoke(s.day);
+        }
+
+        if (s.newDay || s.lives != Lives) { Lives = s.lives; OnLivesChanged?.Invoke(Lives); }
+        if (s.newDay || s.yes != YesCount) { YesCount = s.yes; OnHappyClientChanged?.Invoke(YesCount); }
+
+        GameSession.ClientIndex = s.clientIndex;
+        GameSession.CurrentRequest = request;
+        State = (DayState)s.state;
+        OnClientRequested?.Invoke();
+    }
+
+    private void ApplyDayEnded(DaySnapshot s)
+    {
+        Lives = s.lives;
+        NoCount = s.no;
+        TimeoutCount = s.timeout;
+        if (s.yes != YesCount) { YesCount = s.yes; OnHappyClientChanged?.Invoke(YesCount); }
+
+        var result = new DayResult { day = s.day, yesCount = s.yes, noCount = s.no, timeoutCount = s.timeout, livesLeft = s.lives };
+        History.Add(result);
+        CurrentDay = s.day + 1;
+        State = DayState.DayEnd;
+        AwaitingNextDay = holdForReport;
+        OnDayEnded?.Invoke(result);
+    }
+
+    private void ApplyGameOver(DaySnapshot s)
+    {
+        if (s.lives != Lives) { Lives = s.lives; OnLivesChanged?.Invoke(Lives); }
+        IsRunning = false;
+        State = DayState.GameOver;
         OnGameOver?.Invoke();
     }
 }

@@ -35,7 +35,7 @@ public class EndOfDayReport : MonoBehaviour
     {
         if (titleText != null) titleText.text = $"HARI KE-{r.day}: SELESAI";
         if (targetText != null) targetText.text = $"Target: {r.yesCount}/{GameRules.YesToWinDay}";
-        panel.SetActive(true);
+        SetVisible(true);
 
         if (autoNext != null) StopCoroutine(autoNext);
         if (showSeconds > 0f) autoNext = StartCoroutine(AutoNext());
@@ -51,7 +51,26 @@ public class EndOfDayReport : MonoBehaviour
     {
         if (autoNext != null) StopCoroutine(autoNext);
         autoNext = null;
-        if (panel != null) panel.SetActive(false);
+        SetVisible(false);
+    }
+
+    // Kalau Panel diisi objek script ini sendiri, mematikannya akan mematikan script (OnDisable melepas event
+    // dan holdForReport), jadi laporan tidak pernah tampil. Untuk kasus itu pakai CanvasGroup.
+    private void SetVisible(bool visible)
+    {
+        if (panel == null) return;
+
+        if (panel != gameObject)
+        {
+            panel.SetActive(visible);
+            return;
+        }
+
+        var group = GetComponent<CanvasGroup>();
+        if (group == null) group = gameObject.AddComponent<CanvasGroup>();
+        group.alpha = visible ? 1f : 0f;
+        group.interactable = visible;
+        group.blocksRaycasts = visible;
     }
 
     public void NextDay()
