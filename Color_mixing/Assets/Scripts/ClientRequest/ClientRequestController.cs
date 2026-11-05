@@ -15,11 +15,21 @@ public class ClientRequestController : MonoBehaviour
 
     private void ShowCurrentClient()
     {
-        GameSession.EnsureBag(database);
-        var level = schedule.GetLevel(GameSession.Day, GameSession.ClientIndex);
-        GameSession.CurrentRequest = GameSession.Bag.Next(level);
+        // Client tidak memilih sendiri: request sudah dipasang ke GameSession dari data host (DayCycleManager.ApplyRemote).
+        if (cycle == null || cycle.IsAuthority)
+        {
+            GameSession.EnsureBag(database);
+            var level = schedule.GetLevel(GameSession.Day, GameSession.ClientIndex);
+            GameSession.CurrentRequest = GameSession.Bag.Next(level);
+            Debug.Log($"[REQ] Hari {GameSession.Day} klien {GameSession.ClientIndex + 1}: {level} -> {GameSession.CurrentRequest.requestId}");
+        }
+
+        if (GameSession.CurrentRequest == null)
+        {
+            Debug.LogError("[REQ] Request tidak ada (id dari host tidak ditemukan di database?)");
+            return;
+        }
         card.Show(GameSession.CurrentRequest);
-        Debug.Log($"[REQ] Hari {GameSession.Day} klien {GameSession.ClientIndex + 1}: {level} -> {GameSession.CurrentRequest.requestId}");
     }
 
     // SEMENTARA: tombol test pengganti feedback asli (Klik kanan komponen di Inspector saat Play).

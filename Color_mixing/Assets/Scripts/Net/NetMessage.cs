@@ -10,6 +10,7 @@ public static class NetMessageType
     public const string SceneReady = "SCENE_READY";  // pemain: scene sudah selesai dimuat
     public const string Go = "GO";                   // host: semua siap, game jalan
     public const string Leave = "LEAVE";             // pemain: aku keluar
+    public const string DayState = "DAY_STATE";      // host: foto keadaan hari (DaySnapshot)
     public const string Ping = "PING";               // detak: aku masih terhubung
 }
 
