@@ -21,6 +21,6 @@ public class GameOverToLobby : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         // NET: suruh semua device memuat lobby. Sementara hanya device ini.
-        SceneManager.LoadScene(lobbySceneName);
+        SceneLoader.Load(lobbySceneName);
     }
 }

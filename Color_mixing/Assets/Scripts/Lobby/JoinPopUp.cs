@@ -226,7 +226,7 @@ public class JoinPopup : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene(lobbySceneName);
+        SceneLoader.Load(lobbySceneName);
     }
 
     private void HandleJoinFailed(string reason)

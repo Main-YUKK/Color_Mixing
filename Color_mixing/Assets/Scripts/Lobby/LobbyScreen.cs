@@ -114,7 +114,7 @@ public class LobbyScreen : MonoBehaviour
 
         // TODO (tiket ML-6): tampilkan alert popup di main menu memakai alasan ini
         // (termasuk "Kamu dikeluarkan oleh host.").
-        SceneManager.LoadScene(mainMenuSceneName);
+        SceneLoader.Load(mainMenuSceneName);
     }
 
     // ---------- Aksi tombol ----------

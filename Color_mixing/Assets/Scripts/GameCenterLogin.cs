@@ -17,7 +17,7 @@ public class GameCenterLogin : MonoBehaviour
 #if UNITY_EDITOR || !UNITY_IOS
         // Game Center hanya jalan di device iOS, jadi di Editor langsung lanjut
         Debug.Log("[GC] Bukan device iOS, skip login");
-        SceneManager.LoadScene(mainMenuScene);
+        SceneLoader.Load(mainMenuScene);
         return;
 #else
         for (int attempt = 1; attempt <= maxRetries; attempt++)
@@ -29,7 +29,7 @@ public class GameCenterLogin : MonoBehaviour
                 var player = await GKLocalPlayer.Authenticate();
                 Debug.Log($"[GC] Login berhasil: {player.DisplayName}");
 
-                SceneManager.LoadScene(mainMenuScene);
+                SceneLoader.Load(mainMenuScene);
                 return;
             }
             catch (GameKitException e)
