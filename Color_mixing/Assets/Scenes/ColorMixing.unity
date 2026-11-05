@@ -2012,11 +2012,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3996957151095139279, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 900
+      value: 978
       objectReference: {fileID: 0}
     - target: {fileID: 3996957151095139279, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 900
+      value: 975
       objectReference: {fileID: 0}
     - target: {fileID: 3996957151095139279, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2052,7 +2052,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3996957151095139279, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 37.5
       objectReference: {fileID: 0}
     - target: {fileID: 3996957151095139279, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2069,6 +2069,38 @@ PrefabInstance:
     - target: {fileID: 5549258510058126256, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
       propertyPath: m_Name
       value: BowlPieChartMixing
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523126242225258467, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523126242225258467, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523126242225258467, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523126242225258467, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523126242225258467, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 978
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523126242225258467, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 975
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523126242225258467, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523126242225258467, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9208340664174637881, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
       propertyPath: colorMixingController
