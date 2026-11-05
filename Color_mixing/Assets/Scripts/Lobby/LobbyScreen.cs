@@ -19,11 +19,15 @@ public class LobbyScreen : MonoBehaviour
     [Header("Tombol")]
     [SerializeField] private Button playButton;                  // hanya tampil di host
     [SerializeField] private Button readyButton;                 // hanya tampil di client
-    [SerializeField] private TMP_Text readyButtonLabel;          // opsional: "Ready" / "Cancel Ready"
+    [SerializeField] private TMP_Text readyButtonLabel;          // opsional: "Ready", disembunyikan setelah ready
 
     [Header("Sprite Ready Button")]
-    [SerializeField] private Sprite readySprite;                 // tampilan saat BELUM ready
-    [SerializeField] private Sprite unreadySprite;               // tampilan saat SUDAH ready (klik = batal)
+    [SerializeField] private Sprite readySprite;                 // belum ready (bisa ditekan)
+    [SerializeField] private Sprite waitingSprite;               // sudah ready, pemain lain belum semua ready (waitingMessage)
+    [SerializeField] private Sprite waitingHostSprite;           // sudah ready, semua ready, tunggu host (waitingHostMessage)
+    [Tooltip("Pengali ukuran asli sprite pesan tunggu (356 x 127,52). Hanya berlaku saat pesan tampil; ukuran ReadyButton biasa tidak berubah.")]
+    [SerializeField, Min(0.1f)] private float waitingScale = 1.5f;
+
     [Header("Edit nama room (khusus host)")]
     [SerializeField] private Button editRoomNameButton;          // ikon pensil
     [SerializeField] private TMP_InputField roomNameInput;       // awalnya boleh aktif, dimatikan otomatis
@@ -34,6 +38,8 @@ public class LobbyScreen : MonoBehaviour
     private const int RequiredPlayers = 3;
 
     private LobbyService service;
+    private RectTransform readyRect;        // RectTransform ReadyButton
+    private Vector2 readyOriginalSize;      // ukuran asli ReadyButton (dipulihkan saat belum ready)
     private bool leaving;   // mencegah LoadScene dua kali
 
     private void Start()
@@ -56,7 +62,12 @@ public class LobbyScreen : MonoBehaviour
 
         Debug.Log($"[LobbyScreen] Mode={service.Mode}, RoomCode={service.RoomCode}");
 
-        if (readyButton != null) readyButton.onClick.AddListener(OnReadyClicked);
+        if (readyButton != null)
+        {
+            readyButton.onClick.AddListener(OnReadyClicked);
+            readyRect = readyButton.transform as RectTransform;
+            if (readyRect != null) readyOriginalSize = readyRect.sizeDelta;
+        }
 
         if (editRoomNameButton != null) editRoomNameButton.onClick.AddListener(OnEditRoomNameClicked);
         if (roomNameInput != null)
@@ -108,11 +119,11 @@ public class LobbyScreen : MonoBehaviour
 
     // ---------- Aksi tombol ----------
 
-    // Toggle: klik pertama = ready (ReadyIcon menyala di semua device), klik lagi = batal.
+    // Ready satu arah: sekali tekan = ready (ReadyIcon menyala di semua device), tidak bisa dibatalkan.
     private void OnReadyClicked()
     {
-        if (service == null || !service.CanSetReady) return;
-        service.SetReady(!service.IsLocalReady);
+        if (service == null || !service.CanSetReady || service.IsLocalReady) return;
+        service.MarkReady();
 
         // Perbarui tampilan tombol langsung di device ini
         // (jaga-jaga kalau OnPlayersChanged tidak terpanggil untuk perubahan lokal).
@@ -196,19 +207,43 @@ public class LobbyScreen : MonoBehaviour
         if (leftSlot != null) leftSlot.Show(others.Count > 0 ? others[0] : null, isHost);
         if (rightSlot != null) rightSlot.Show(others.Count > 1 ? others[1] : null, isHost);
 
-        // Client: ReadyButton (aktif setelah host terdengar). Host: PlayButton (aktif kalau semua siap).
+        // Client: ReadyButton (aktif setelah host terdengar). Setelah ditekan, gambarnya diganti pesan tunggu
+        // dan tombol tidak bisa ditekan lagi. Host: PlayButton (aktif kalau semua siap).
         if (readyButton != null)
         {
+            bool localReady = isClient && service.IsLocalReady;
+
             readyButton.gameObject.SetActive(isClient);
+            // enabled=false (bukan interactable=false) supaya gambar pesan tidak ikut diwarnai abu-abu.
+            readyButton.enabled = !localReady;
             readyButton.interactable = service.CanSetReady;
 
-            // Tukar gambar tombol: sudah ready -> tampil UnreadyButton, belum ready -> tampil ReadyButton.
             var img = readyButton.image;
-            if (img != null && readySprite != null && unreadySprite != null)
-                img.sprite = service.IsLocalReady ? unreadySprite : readySprite;
+            if (img != null)
+            {
+                Sprite target = readySprite;
+                if (localReady)
+                    target = service.AllClientsReady ? waitingHostSprite : waitingSprite;
+
+                if (target != null) img.sprite = target;
+                img.preserveAspect = localReady;
+
+                // Pesan tunggu memakai ukuran sendiri (ukuran asli sprite x waitingScale),
+                // ukuran ReadyButton biasa dikembalikan ke nilai awal.
+                if (readyRect != null)
+                {
+                    readyRect.sizeDelta = (localReady && target != null)
+                        ? target.rect.size * waitingScale
+                        : readyOriginalSize;
+                }
+            }
+
+            if (readyButtonLabel != null)
+            {
+                readyButtonLabel.text = "Ready";
+                readyButtonLabel.gameObject.SetActive(!localReady);
+            }
         }
-        if (readyButtonLabel != null)
-            readyButtonLabel.text = service.IsLocalReady ? "Cancel Ready" : "Ready";
 
         if (playButton != null)
         {
@@ -265,9 +300,9 @@ public class LobbyScreen : MonoBehaviour
         if (readyButton != null && playButton != null && readyButton.transform.IsChildOf(playButton.transform))
             Debug.LogError("[LobbyScreen] ReadyButton berada di dalam PlayButton, jadi tidak akan terlihat di client. Pindahkan ReadyButton keluar dari PlayButton di Hierarchy.", this);
 
-        // Sprite untuk pergantian gambar tombol Ready/Unready.
-        if (readySprite == null || unreadySprite == null)
-            Debug.LogWarning("[LobbyScreen] Ready Sprite / Unready Sprite belum diisi di Inspector, gambar tombol Ready tidak akan berganti.", this);
+        // Sprite untuk pergantian gambar tombol Ready -> pesan tunggu.
+        if (readySprite == null || waitingSprite == null || waitingHostSprite == null)
+            Debug.LogWarning("[LobbyScreen] Ready Sprite / Waiting Sprite / Waiting Host Sprite belum lengkap di Inspector, gambar tombol Ready tidak akan berganti dengan benar.", this);
 
         // Opsional: tanpa ini fitur ganti nama room saja yang tidak aktif (ikon pensil disembunyikan).
         if (editRoomNameButton == null || roomNameInput == null)

@@ -152,22 +152,27 @@ public class LobbyService : MonoBehaviour
 
     // ---------- Status untuk UI ----------
 
-    // Host: Play aktif kalau lobby penuh dan SEMUA pemain selain host sudah ready.
-    public bool CanStart
+    // Lobby penuh dan SEMUA pemain selain host sudah ready.
+    // Dipakai host (untuk mengaktifkan Play) dan client (untuk memilih pesan tunggu).
+    public bool AllClientsReady
     {
         get
         {
-            if (Mode != LobbyMode.Host || reforming) return false;
-
-            int others = 0;
+            int clients = 0;
             foreach (var p in Players)
             {
-                if (p.isLocal) continue;
+                if (p.isHost) continue;
                 if (!p.isReady) return false;
-                others++;
+                clients++;
             }
-            return others >= RequiredPlayers - 1;
+            return clients >= RequiredPlayers - 1;
         }
+    }
+
+    // Host: Play aktif kalau semua client sudah ready.
+    public bool CanStart
+    {
+        get { return Mode == LobbyMode.Host && !reforming && AllClientsReady; }
     }
 
     // Client: tombol Ready baru boleh ditekan setelah masuk match yang berisi host.
@@ -276,15 +281,16 @@ public class LobbyService : MonoBehaviour
         }
     }
 
-    // Client: ubah status ready (centang hijau). Dikirim ke semua pemain.
-    public void SetReady(bool ready)
+    // Client: tandai diri sudah ready (centang hijau). Satu arah: tidak ada batal ready.
+    // Dikirim ke semua pemain.
+    public void MarkReady()
     {
         if (!CanSetReady) return;
 
         var me = Players.Find(p => p.isLocal);
-        if (me == null || me.isReady == ready) return;
+        if (me == null || me.isReady) return;
 
-        me.isReady = ready;
+        me.isReady = true;
         NotifyPlayersChanged();
         SendMsg("READY");
     }
