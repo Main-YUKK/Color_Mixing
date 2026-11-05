@@ -114,9 +114,15 @@ public class RandomCharacter : MonoBehaviour
         hex = hex.Trim();
         if (!hex.StartsWith("#")) hex = "#" + hex;
         if (!ColorUtility.TryParseHtmlString(hex, out Color c)) return false;
+        SetHairColor(c);
+        return true;
+    }
+
+    /// <summary>Tint the hair with an exact color (e.g. the mixed color).</summary>
+    public void SetHairColor(Color c)
+    {
         hairRenderer.sprite = hairStyles[currentIndex].sprite;   // base (white) sheet, so the tint gives the exact color
         hairRenderer.color = c;
-        return true;
     }
 
     IEnumerator HairLoop()
