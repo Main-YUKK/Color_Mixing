@@ -10,26 +10,56 @@ public class EndOfDayReport : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text targetText;
+    [Tooltip("Klien terakhir pergi dulu, baru laporan tampil. Kosong = dicari otomatis di scene; kalau tidak ada, laporan langsung tampil.")]
+    [SerializeField] private CharacterSpawner spawner;
     [Tooltip("0 = tidak otomatis, menunggu NextDay() dari tombol.")]
     [SerializeField] private float showSeconds = 3f;
 
     private Coroutine autoNext;
+    private Coroutine pendingShow;
 
     private void OnEnable()
     {
         cycle.holdForReport = true;
-        cycle.OnDayEnded += Show;
+        cycle.OnDayEnded += OnDayEnded;
         cycle.OnGameOver += Hide;
+        cycle.OnClientRequested += Hide;   // hari berikutnya sudah mulai (mis. perintah host datang lebih dulu): tutup laporan
     }
 
     private void OnDisable()
     {
         cycle.holdForReport = false;
-        cycle.OnDayEnded -= Show;
+        cycle.OnDayEnded -= OnDayEnded;
         cycle.OnGameOver -= Hide;
+        cycle.OnClientRequested -= Hide;
     }
 
-    private void Start() => Hide();
+    private void Start()
+    {
+        if (spawner == null) spawner = FindFirstObjectByType<CharacterSpawner>();
+        Hide();
+    }
+
+    // Klien terakhir pergi dulu, baru laporan tampil.
+    private void OnDayEnded(DayResult r)
+    {
+        if (pendingShow != null) StopCoroutine(pendingShow);
+        pendingShow = StartCoroutine(ShowAfterClientLeaves(r));
+    }
+
+    private IEnumerator ShowAfterClientLeaves(DayResult r)
+    {
+        if (spawner != null)
+        {
+            while (spawner.IsBusy) yield return null;   // klien masih berjalan
+            spawner.Dismiss();
+            yield return null;
+            while (spawner.IsBusy) yield return null;   // tunggu sampai keluar pintu
+        }
+
+        pendingShow = null;
+        Show(r);
+    }
 
     private void Show(DayResult r)
     {
@@ -49,6 +79,8 @@ public class EndOfDayReport : MonoBehaviour
 
     private void Hide()
     {
+        if (pendingShow != null) StopCoroutine(pendingShow);
+        pendingShow = null;
         if (autoNext != null) StopCoroutine(autoNext);
         autoNext = null;
         SetVisible(false);

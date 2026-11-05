@@ -18,6 +18,7 @@ public class ClientArrivalSequence : MonoBehaviour
     [SerializeField] private float cardSeconds = 3f;       // lama kartu dibaca sebelum pindah scene
 
     private Coroutine routine;
+    private bool flowStopped;   // hari selesai / game over: klien yang masih berjalan masuk tidak boleh memunculkan kartu lagi
 
     public CharacterSpawner Spawner => spawner;   // dipakai layar hasil untuk bereaksi pada klien yang sedang berdiri
 
@@ -39,7 +40,9 @@ public class ClientArrivalSequence : MonoBehaviour
     // Hari selesai / game over: hentikan alur klien dan tutup layar mixing supaya laporan / panel game over terlihat.
     private void StopClientFlow()
     {
+        flowStopped = true;
         if (routine != null) StopCoroutine(routine);
+        if (cardRoot != null) cardRoot.SetActive(false);   // klien terakhir pergi tanpa kartu request di layar
         UnloadNextScene();
     }
 
@@ -52,6 +55,7 @@ public class ClientArrivalSequence : MonoBehaviour
     // Klien baru diminta (hari mulai, Yes, No, atau timeout): kartu ditutup, scene mixing ditutup, klien lama pergi, klien baru masuk.
     private void OnClientRequested()
     {
+        flowStopped = false;
         if (routine != null) StopCoroutine(routine);
         if (cardRoot != null) cardRoot.SetActive(false);
         UnloadNextScene();
@@ -69,6 +73,7 @@ public class ClientArrivalSequence : MonoBehaviour
 
     private void OnClientArrived()
     {
+        if (flowStopped) return;
         if (routine != null) StopCoroutine(routine);
         routine = StartCoroutine(Routine());
     }

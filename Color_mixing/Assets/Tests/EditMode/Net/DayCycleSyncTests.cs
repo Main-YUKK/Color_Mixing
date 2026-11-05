@@ -21,6 +21,7 @@ public class DayCycleSyncTests
 
         sent.Clear();
         GameSession.CurrentRequest = request;
+        GameSession.CurrentLook = null;
         host.OnClientRequested += () => GameSession.CurrentRequest = request;   // seperti ClientRequestController
         host.OnStatePublished += kind => sent.Add(host.TakeSnapshot(kind));
     }
@@ -159,5 +160,37 @@ public class DayCycleSyncTests
     public void Host_RejectsRemoteSnapshots()
     {
         Assert.IsFalse(host.ApplyRemote(new DaySnapshot { runId = 7, seq = 1 }, null));
+    }
+
+    [Test]
+    public void Look_TravelsFromHostToClient()
+    {
+        var look = new ClientLook { valid = true, prefabIndex = 2, hasHair = true, hair = new HairLook { style = 3, variant = 1, front = true, color = Color.red } };
+        host.OnClientRequested += () => GameSession.CurrentLook = look;   // seperti CharacterSpawner
+        host.StartSession(false);
+        var json = JsonUtility.ToJson(sent[0]);   // lewat jaringan = lewat JSON
+        BecomeClient();
+
+        client.ApplyRemote(JsonUtility.FromJson<DaySnapshot>(json), request);
+
+        var got = GameSession.CurrentLook;
+        Assert.IsNotNull(got);
+        Assert.AreEqual(2, got.prefabIndex);
+        Assert.AreEqual(3, got.hair.style);
+        Assert.AreEqual(1, got.hair.variant);
+        Assert.IsTrue(got.hair.front);
+        Assert.AreEqual(Color.red, got.hair.color);
+    }
+
+    [Test]
+    public void MissingLook_BecomesNullOnClient()
+    {
+        host.StartSession(false);   // tidak ada yang memasang CurrentLook
+        var json = JsonUtility.ToJson(sent[0]);
+        BecomeClient();
+
+        client.ApplyRemote(JsonUtility.FromJson<DaySnapshot>(json), request);
+
+        Assert.IsNull(GameSession.CurrentLook);
     }
 }
