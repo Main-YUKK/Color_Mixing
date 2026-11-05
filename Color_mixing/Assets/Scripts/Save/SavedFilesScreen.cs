@@ -61,7 +61,7 @@ public class SavedFilesScreen : MonoBehaviour
 
         SaveService.SetActive(save);
         LobbyService.Instance.CreateRoom(save.roomCode, save.roomName);
-        SceneManager.LoadScene(lobbySceneName);
+        SceneLoader.Load(lobbySceneName);
     }
 
     private void AskDelete(SaveFile save)

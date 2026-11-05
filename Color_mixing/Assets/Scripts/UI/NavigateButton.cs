@@ -35,6 +35,6 @@ public class NavigateButton : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene(targetSceneName);
+        SceneLoader.Load(targetSceneName);
     }
 }

@@ -35,6 +35,6 @@ public class BackButton : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene(targetSceneName);
+        SceneLoader.Load(targetSceneName);
     }
 }
