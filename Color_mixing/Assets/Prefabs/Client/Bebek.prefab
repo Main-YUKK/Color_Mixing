@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 6815619382047569224}
   - component: {fileID: 5081010070686618568}
   - component: {fileID: 6529101638449018230}
+  - component: {fileID: 8800000000000000002}
   m_Layer: 0
   m_Name: Bebek
   m_TagString: Untagged
@@ -269,3 +270,18 @@ MonoBehaviour:
   hairHiddenTime: {x: 1, y: 3}
   popDuration: 0.25
   previewIndex: 2
+--- !u!114 &8800000000000000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7657919569857761082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e5a7d04b9f4e2a8d3f6b1207a9c4e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::ClientExpression
+  body: {fileID: 5081010070686618568}
+  good: {fileID: -8031207968189014552, guid: d0f61029ea1384247b3c40febaff5498, type: 3}
+  bad: {fileID: -8237454300300911146, guid: 4b1353e63eb124470bb0675bef7228be, type: 3}

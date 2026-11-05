@@ -22,7 +22,7 @@ public class ClientResultView : MonoBehaviour
     [SerializeField] private string failMessage = "Warna Najis ini mah tuh !!";
     [SerializeField] private string timeoutMessage = "Lelet kali kauu!!!";
     [SerializeField] private float showSeconds = 3f;
-    [SerializeField, Range(0f, 100f)] private float passingScore = 70f;   // skor minimal agar klien puas (%)
+    [SerializeField, Range(0f, 100f)] private float passingScore = 80f;   // skor minimal agar klien puas (%)
 
     private void OnEnable()
     {
@@ -48,6 +48,7 @@ public class ClientResultView : MonoBehaviour
         percentText.text = $"{Mathf.RoundToInt((float)score)}%";
         comparison.SetActive(true);
 
+        ReactClient(success, applied);
         Debug.Log($"[REQ] Hasil klien: skor {score:0.0}% -> {(success ? "Yes" : "No")}");
         Open(success ? successMessage : failMessage, () => cycle.OnFeedbackRevealed(success));
     }
@@ -57,8 +58,21 @@ public class ClientResultView : MonoBehaviour
         sequence.UnloadNextScene();   // Canvas ColorMixing menutupi layar ini
         comparison.SetActive(false);
 
+        ReactClient(false, null);   // timeout: klien kesal, rambut tidak diwarnai
         Debug.Log("[REQ] Timer habis");
         Open(timeoutMessage, cycle.OnClientTimeout);
+    }
+
+    // Klien yang sedang berdiri: rambut jadi warna campuran (kalau ada), ekspresi senang / kesal sampai dia pergi.
+    private void ReactClient(bool success, Color? hairColor)
+    {
+        GameObject client = sequence.Spawner.Current;
+        if (client == null) return;
+
+        if (hairColor.HasValue && client.TryGetComponent(out RandomCharacter character))
+            character.SetHairColor(hairColor.Value);
+        if (client.TryGetComponent(out ClientExpression expression))
+            expression.Show(success);
     }
 
     private void Open(string message, Action finish)

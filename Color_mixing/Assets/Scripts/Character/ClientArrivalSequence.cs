@@ -19,6 +19,8 @@ public class ClientArrivalSequence : MonoBehaviour
 
     private Coroutine routine;
 
+    public CharacterSpawner Spawner => spawner;   // dipakai layar hasil untuk bereaksi pada klien yang sedang berdiri
+
     private void OnEnable()
     {
         cycle.OnClientRequested += OnClientRequested;
