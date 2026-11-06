@@ -10,6 +10,7 @@ public class PigmentButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 {
     [SerializeField] private ColorMixingController colorMixingController;
     [SerializeField, Range(0, 2)] private int player;   // 0 = P1
+    private int Player => LocalPlayer.Index(player);   // nomor pemain di device ini
     [SerializeField, Range(0, 1)] private int slot;
     [SerializeField] private float holdInterval = 0.2f;  // jeda antar unit saat ditahan
     [SerializeField] private TMP_Text label;
@@ -33,7 +34,7 @@ public class PigmentButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public void OnPointerDown(PointerEventData eventData)
     {
         if (!button.interactable) return;
-        colorMixingController.AddPigment(player, slot);   // 1 unit (tap)
+        colorMixingController.AddPigment(Player, slot);   // 1 unit (tap)
         holding = true;                        // mulai "mode tahan"
         holdTimer = holdInterval;              // hitung mundur 
     }
@@ -46,7 +47,7 @@ public class PigmentButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
         holdTimer -= Time.deltaTime;                               // hitung mundur
         if (holdTimer > 0f) return;
-        colorMixingController.AddPigment(player, slot);            // +1 unit (hold)
+        colorMixingController.AddPigment(Player, slot);            // +1 unit (hold)
         holdTimer += holdInterval;                                 // mulai hitung lagi
     }
 
@@ -54,8 +55,9 @@ public class PigmentButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public void OnPointerUp(PointerEventData eventData) => holding = false;
     private void Refresh()
     {
-        label.text = colorMixingController.Palette.GetPigment(colorMixingController.GetPigment(player, slot)).pigmentName;
-        button.interactable = !colorMixingController.IsReady(player);
+        int pigment = colorMixingController.GetPigment(Player, slot);
+        if (pigment >= 0) label.text = colorMixingController.Palette.GetPigment(pigment).pigmentName;
+        button.interactable = colorMixingController.IsSynced && !colorMixingController.IsReady(Player);
         label.color = button.interactable ? normalTextColor : disabledTextColor;
     }
 }

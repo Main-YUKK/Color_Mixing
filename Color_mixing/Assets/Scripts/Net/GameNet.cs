@@ -19,6 +19,9 @@ public class GameNet
         Instance = new GameNet(transport);
     }
 
+    // Tanpa sesi (Editor / satu device) atau host = pemegang aturan game. Client hanya mengirim permintaan.
+    public static bool IsAuthority => Instance == null || Instance.IsHost;
+
     public static void BeginOffline() => Begin(new OfflineTransport());
 
     public static void End()

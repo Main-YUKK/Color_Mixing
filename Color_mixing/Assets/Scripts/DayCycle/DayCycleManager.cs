@@ -43,6 +43,10 @@ public class DayCycleManager : MonoBehaviour
     private int lastAppliedSeq;    // client: nomor kiriman terakhir yang dipakai
     private bool dayJustStarted;
 
+    // Nomor foto hari terakhir (host: yang dikirim, client: yang dipakai). Foto mixing membawa angka ini,
+    // supaya foto klien sebelumnya tidak dipasang ke klien yang baru.
+    public int SyncStamp => IsAuthority ? snapshotSeq : lastAppliedSeq;
+
     private void Awake() => Instance = this;
 
     public void StartSession(bool continueSaved)
