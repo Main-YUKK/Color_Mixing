@@ -550,7 +550,7 @@ public class LobbyService : MonoBehaviour
         // Semua callback dipindah ke main thread dan dicek session-nya.
         match.Delegate.DataReceived += (data, from) =>
         {
-            string fromName = from.DisplayName;   // dibaca di thread asal
+            string fromName = SafeName(from);   // dibaca di thread asal
             RunOnMain(() =>
             {
                 if (mySession != session) return;
@@ -561,7 +561,7 @@ public class LobbyService : MonoBehaviour
         // lewat dua event, itu aman (diproses idempoten).
         match.Delegate.DataReceivedForPlayer += (data, recipient, from) =>
         {
-            string fromName = from.DisplayName;
+            string fromName = SafeName(from);
             RunOnMain(() =>
             {
                 if (mySession != session) return;
@@ -792,6 +792,13 @@ public class LobbyService : MonoBehaviour
             Log($"Kirim {type} gagal: {e.Message}");
         }
 #endif
+    }
+
+    // Nama pengirim hanya dipakai untuk pesan game. Gagal membacanya TIDAK boleh membuat pesan lobby ikut hilang.
+    private static string SafeName(GKPlayer player)
+    {
+        try { return player != null ? player.DisplayName ?? "" : ""; }
+        catch (Exception) { return ""; }
     }
 
     private void OnDataReceived(byte[] data, string fromName)
