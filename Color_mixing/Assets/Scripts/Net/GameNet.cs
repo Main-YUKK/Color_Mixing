@@ -73,6 +73,9 @@ public class GameNet
     // Koneksi ke pemain ini putus tanpa pamit (lihat INetTransport.PeerLost).
     public event Action<int> PeerLost;
 
+    // Dilaporkan oleh pemantau detak jantung: pemain ini diam terlalu lama (transport sendiri belum tahu).
+    public void ReportPeerLost(int index) => OnPeerLost(index);
+
     private void OnPeerLost(int index)
     {
         var evt = PeerLost;

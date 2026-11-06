@@ -140,7 +140,7 @@ public class LocalNetPanel : MonoBehaviour
         var net = GameNet.Instance;
         string role = net == null ? "-" : net.IsOffline ? "offline" : net.IsHost ? "host (0)" : $"client ({net.LocalPlayerIndex})";
 
-        float height = 210 + MaxLog * 16;
+        float height = 240 + MaxLog * 16;
         GUILayout.BeginArea(new Rect(10, viewHeight - height - 10, 250, height), GUI.skin.box);
         GUILayout.Label($"Peran: {role}");
         GUILayout.Label(status);
@@ -153,6 +153,8 @@ public class LocalNetPanel : MonoBehaviour
 
         if (GUILayout.Button("Kirim PING")) SendPing();
         if (net != null && GUILayout.Button("Keluar (LEAVE)")) MatchSession.Leave();
+        if (GUILayout.Button(ConnectionWatch.SimulateNoSignal ? "Sinyal mati (tes): AKTIF" : "Matikan sinyal (tes)"))
+            ConnectionWatch.SimulateNoSignal = !ConnectionWatch.SimulateNoSignal;
         if (net != null && net.IsHost && GUILayout.Button("Mulai game (host)"))
         {
             bool ok = MatchStarter.HostStart("ClientArrival", SaveService.Active != null ? SaveService.Active.nextDay : 1);

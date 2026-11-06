@@ -18,6 +18,7 @@ public static class NetMessageType
     public const string MixPull = "MIX_PULL";        // client -> host: kirim ulang keadaan mixing (scene client baru selesai dimuat)
     public const string MixState = "MIX_STATE";      // host -> semua: foto keadaan mixing + vote (MixSnapshot)
     public const string ClientTimeout = "CLIENT_TIMEOUT";   // host -> semua: waktu klien habis
+    public const string Heartbeat = "HB";            // semua: aku masih terhubung (tiap detik selama game)
     public const string Ping = "PING";               // detak: aku masih terhubung
 }
 

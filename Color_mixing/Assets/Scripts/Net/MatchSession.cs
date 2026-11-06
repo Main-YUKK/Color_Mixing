@@ -34,6 +34,17 @@ public class MatchSession : MonoBehaviour, ILeaveActions
         else Instance.GoMainMenu();   // tidak ada sesi jaringan
     }
 
+    // Game over: semua device kembali ke lobby (dipanggil di tiap device, karena game over sampai ke semuanya).
+    public static void ReturnToLobby()
+    {
+        if (Instance == null) return;
+        Instance.coordinator?.BeginReturn();
+        Instance.GoLobby();
+    }
+
+    // Koneksi device ini sendiri bermasalah (dinilai ConnectionWatch).
+    public static void OwnConnectionLost() => Instance?.coordinator?.OwnConnectionLost();
+
     private void OnEnable() => SceneLoader.Loaded += OnSceneLoaded;
     private void OnDisable() => SceneLoader.Loaded -= OnSceneLoaded;
 
@@ -55,6 +66,7 @@ public class MatchSession : MonoBehaviour, ILeaveActions
     public void Halt()
     {
         PauseMenu.Close();   // menu pause tidak boleh menutupi peringatan
+        if (ConnectionWatch.Instance != null) ConnectionWatch.Instance.Stop();
         if (DayCycleManager.Instance != null) DayCycleManager.Instance.Halt();
         if (ClientTimer.Current != null) ClientTimer.Current.Stop();
     }
@@ -69,6 +81,12 @@ public class MatchSession : MonoBehaviour, ILeaveActions
             case LeaveAlert.PlayerDisconnectedHost:
                 AlertService.Show("PlayerDisconnectedHost", player + 1, onClosed, fallbackText: $"[Player {player + 1}] is disconnected");
                 break;
+            case LeaveAlert.OwnConnectionHost:
+                AlertService.Show("UnstableConnectionHost", 1, onClosed, fallbackText: "Your internet connection is unstable");
+                break;
+            case LeaveAlert.OwnConnectionClient:
+                AlertService.Show("UnstableConnectionClient", player + 1, onClosed, fallbackText: "Your internet connection is unstable", hostName: HostName());
+                break;
             default:
                 AlertService.Show("PlayerDisconnectedClient", player + 1, onClosed, fallbackText: $"[Player {player + 1}] is disconnected");
                 break;
@@ -78,13 +96,26 @@ public class MatchSession : MonoBehaviour, ILeaveActions
     // Keluar dari game: sesi jaringan ditutup, room ditinggalkan, kembali ke menu utama.
     public void GoMainMenu()
     {
+        MatchStarter.EndGame();
         GameNet.End();
         if (LobbyService.Instance != null) LobbyService.Instance.LeaveRoom();
         StartCoroutine(LoadWhenFree(MainMenuScene));
     }
 
     // Pemain yang tersisa kembali ke lobby; sesi jaringan dibiarkan (lobby / transport yang memutuskan langkah selanjutnya).
-    public void GoLobby() => StartCoroutine(LoadWhenFree(LobbyScene));
+    public void GoLobby()
+    {
+        MatchStarter.EndGame();
+        StartCoroutine(LoadWhenFree(LobbyScene));
+    }
+
+    // Nama host untuk teks peringatan ("Please wait for [Host] to start the room again").
+    private static string HostName()
+    {
+        var lobby = LobbyService.Instance;
+        var host = lobby != null ? lobby.Players.Find(p => p.isHost) : null;
+        return host != null && !string.IsNullOrEmpty(host.name) ? host.name : "Host";
+    }
 
     // Layar loading mungkin sedang dipakai (mis. keluar saat game baru dimulai): tunggu sebentar lalu coba lagi.
     private IEnumerator LoadWhenFree(string scene)

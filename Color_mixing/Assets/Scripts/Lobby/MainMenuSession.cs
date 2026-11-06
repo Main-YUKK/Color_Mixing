@@ -4,6 +4,7 @@ public class MainMenuSession : MonoBehaviour
 {
     private void Start()
     {
+        MatchStarter.EndGame();
         SaveService.ClearActive();
 
         if (LobbyService.Instance != null)
