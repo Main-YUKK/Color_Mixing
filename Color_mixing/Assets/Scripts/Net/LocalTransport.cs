@@ -33,6 +33,7 @@ public class LocalTransport : INetTransport, IDisposable
     public event Action<int> PlayerJoined;           // host: client dengan index ini masuk
     public event Action<int> PlayerLeft;             // host: client dengan index ini terputus
     public event Action Disconnected;                // client: koneksi ke host putus / ditolak
+    public event Action<int> PeerLost;               // sama dengan PlayerLeft / Disconnected, dalam bentuk INetTransport
 
     // Host: jumlah client yang sudah terhubung. Client: 1 kalau terhubung ke host.
     public int ConnectedCount
@@ -220,6 +221,7 @@ public class LocalTransport : INetTransport, IDisposable
             if (clients[peer.index] != peer) return;
             clients[peer.index] = null;
             PlayerLeft?.Invoke(peer.index);
+            PeerLost?.Invoke(peer.index);
         }
         else
         {
@@ -227,6 +229,7 @@ public class LocalTransport : INetTransport, IDisposable
             toHost = null;
             LocalPlayerIndex = -1;
             Disconnected?.Invoke();
+            PeerLost?.Invoke(0);
         }
     }
 

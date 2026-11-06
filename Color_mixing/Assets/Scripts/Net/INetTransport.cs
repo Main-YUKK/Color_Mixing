@@ -16,6 +16,11 @@ public interface INetTransport
     // (index pengirim, data mentah)
     event Action<int, byte[]> DataReceived;
 
+    // Koneksi ke pemain ini putus tanpa pesan LEAVE (sinyal hilang, app ditutup, dll).
+    // Host: dipanggil dengan index client yang hilang. Client: hanya dipanggil dengan 0 (host hilang).
+    // HARUS di main thread, dan tidak dipanggil untuk transport yang kita tutup sendiri.
+    event Action<int> PeerLost;
+
     void SendToHost(byte[] data);               // dipanggil di client saja
     void SendToAll(byte[] data);                // ke semua pemain LAIN (tanpa diri sendiri)
     void SendTo(int playerIndex, byte[] data);  // ke satu pemain lain
