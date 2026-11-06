@@ -8,6 +8,7 @@ public class MixButton : MonoBehaviour
 {
     [SerializeField] private ColorMixingController colorMixingController;
     [SerializeField, Range(0, 2)] private int player;   // sementara 0, nanti dari local player
+    private int Player => LocalPlayer.Index(player);   // nomor pemain di device ini
     [SerializeField] private TMP_Text label;
 
     private Button button;
@@ -22,13 +23,14 @@ public class MixButton : MonoBehaviour
     private void OnDisable() => colorMixingController.StateChanged -= Refresh;
     private void Start() => Refresh();
 
-    private void Toggle() => colorMixingController.SetReady(player, !colorMixingController.IsReady(player));
+    private void Toggle() => colorMixingController.SetReady(Player, !colorMixingController.IsReady(Player));
 
     private void Refresh()
     {
-        bool ready = colorMixingController.IsReady(player);
+        bool ready = colorMixingController.IsReady(Player);
         label.text = ready ? "Un-Mix" : "Mix";
-        button.interactable = !colorMixingController.IsMixConfirmed
+        button.interactable = colorMixingController.IsSynced
+                              && !colorMixingController.IsMixConfirmed
                               && (ready || !colorMixingController.MixingBowl.IsEmpty);
     }
 }

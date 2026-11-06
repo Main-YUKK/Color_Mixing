@@ -6,6 +6,7 @@ public class StatusText : MonoBehaviour
 {
     [SerializeField] private ColorMixingController colorMixingController;
     [SerializeField, Range(0, 2)] private int player;   // sementara 0, nanti dari local player
+    private int Player => LocalPlayer.Index(player);   // nomor pemain di device ini
     [SerializeField] private TMP_Text text;
     [SerializeField] private float rotationAlertDuration = 1.5f;
     [SerializeField] private string rotationMessage = "*Time to change colors!*";
@@ -42,7 +43,7 @@ public class StatusText : MonoBehaviour
 
 private void Refresh()
 {
-    if (colorMixingController.IsReady(player) && !colorMixingController.IsMixConfirmed)
+    if (colorMixingController.IsReady(Player) && !colorMixingController.IsMixConfirmed)
         text.text = waitingMessage;          // prioritas 1: sudah Mix -> selalu waiting
     else if (alertTimeLeft > 0f)
         text.text = rotationMessage;         // prioritas 2: baru rotasi

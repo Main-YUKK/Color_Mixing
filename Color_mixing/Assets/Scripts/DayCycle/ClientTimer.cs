@@ -17,6 +17,17 @@ public class ClientTimer : MonoBehaviour
     private float remaining;
     private bool running;
 
+    // Timer yang sedang aktif di scene, dan kabar "waktu habis" dari timer host (dikirim MixNet ke client).
+    public static ClientTimer Current { get; private set; }
+    public static event Action HostTimedOut;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ClearOnPlay()
+    {
+        Current = null;
+        HostTimedOut = null;
+    }
+
     public event Action TimedOut;   // kalau ada pendengar, dia yang memanggil OnClientTimeout setelah ucapan tampil
 
     // Sisa waktu klien 0-1 (1 = penuh, 0 = habis), untuk timer bar di scene lain (ColorMixing).
@@ -24,6 +35,7 @@ public class ClientTimer : MonoBehaviour
 
     private void OnEnable()
     {
+        Current = this;
         if (startManually)
         {
             cycle.OnClientRequested += Stop;
@@ -40,6 +52,7 @@ public class ClientTimer : MonoBehaviour
 
     private void OnDisable()
     {
+        if (Current == this) Current = null;
         cycle.OnClientRequested -= Stop;
         cycle.OnClientRequested -= StartTimer;
         if (spawner != null) spawner.OnClientArrived -= StartTimer;
@@ -56,6 +69,16 @@ public class ClientTimer : MonoBehaviour
 
     public void Stop() => running = false;
 
+    // Client: host bilang waktu klien habis.
+    public void ForceTimeout()
+    {
+        running = false;
+        remaining = 0f;
+        if (timerBar != null) timerBar.value = 0f;
+        if (timerText != null) timerText.text = "0";
+        TimedOut?.Invoke();
+    }
+
     private void OnDayEnded(DayResult _) => Stop();
 
     private void Update()
@@ -70,6 +93,11 @@ public class ClientTimer : MonoBehaviour
         if (remaining > 0f) return;
 
         running = false;
+
+        // Client tidak memutuskan sendiri: waktu habis menurut host datang lewat ForceTimeout().
+        if (!cycle.IsAuthority) return;
+
+        HostTimedOut?.Invoke();
         if (TimedOut != null) TimedOut.Invoke();
         else cycle.OnClientTimeout();
     }

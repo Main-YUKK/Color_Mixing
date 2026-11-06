@@ -11,6 +11,12 @@ public static class NetMessageType
     public const string Go = "GO";                   // host: semua siap, game jalan
     public const string Leave = "LEAVE";             // pemain: aku keluar
     public const string DayState = "DAY_STATE";      // host: foto keadaan hari (DaySnapshot)
+    public const string MixAdd = "MIX_ADD";          // client -> host: tambah pigmen (isi: slot, jumlah)
+    public const string MixReady = "MIX_READY";      // client -> host: Mix / Un-Mix
+    public const string MixVote = "MIX_VOTE";        // client -> host: vote Apply / Redo
+    public const string MixPull = "MIX_PULL";        // client -> host: kirim ulang keadaan mixing (scene client baru selesai dimuat)
+    public const string MixState = "MIX_STATE";      // host -> semua: foto keadaan mixing + vote (MixSnapshot)
+    public const string ClientTimeout = "CLIENT_TIMEOUT";   // host -> semua: waktu klien habis
     public const string Ping = "PING";               // detak: aku masih terhubung
 }
 

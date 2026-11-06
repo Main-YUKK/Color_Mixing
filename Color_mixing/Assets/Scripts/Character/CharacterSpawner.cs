@@ -98,8 +98,13 @@ public class CharacterSpawner : MonoBehaviour
     {
         IsBusy = true;
 
-        // old client leaves
-        yield return SendOff();
+        // old client leaves. Only start the nested coroutine when there is something to walk:
+        // yielding one always costs a frame, and the new client must appear in the same frame when nobody walks.
+        if (current != null)
+        {
+            if (walk) yield return SendOff();
+            else { Destroy(current); current = null; }
+        }
 
         // new client arrives
         Transform t = spawnPoint != null ? spawnPoint : transform;

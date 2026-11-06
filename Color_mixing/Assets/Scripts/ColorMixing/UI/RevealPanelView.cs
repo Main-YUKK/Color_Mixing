@@ -10,6 +10,7 @@ public class RevealPanelView : MonoBehaviour
     [SerializeField] private ColorMixingController colorMixingController;
     [SerializeField] private ApplyRedoVoteController applyRedoVoteController;
     [SerializeField, Range(0, 2)] private int player;   // sementara 0, nanti dari local player
+    private int Player => LocalPlayer.Index(player);   // nomor pemain di device ini
     [SerializeField] private GameObject mixingPanel;
     [SerializeField] private GameObject revealPanel;
     [SerializeField] private Image resultColor;
@@ -38,7 +39,7 @@ public class RevealPanelView : MonoBehaviour
 
         resultColor.color = ColorMixer.Blend(colorMixingController.Palette, colorMixingController.MixingBowl.PigmentUnits);
 
-        bool hasVoted = applyRedoVoteController.GetVote(player) != ApplyRedoVoteController.Vote.None;
+        bool hasVoted = applyRedoVoteController.GetVote(Player) != Vote.None;
         statusText.text = hasVoted ? votedMessage : notVotedMessage;
     }
 }
