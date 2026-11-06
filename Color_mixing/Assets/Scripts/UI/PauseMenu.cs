@@ -5,7 +5,7 @@ using UnityEngine.UI;
 // Menu pause: Resume, BGM, SFX, Exit. Hanya menutupi layar; Time.timeScale TIDAK diubah, karena 3 pemain
 // bermain bersama dan game tidak bisa berhenti hanya untuk satu orang.
 //
-// Tampilan: kalau ada prefab Resources/PauseMenu dipakai itu (tombol dicari berdasarkan nama:
+// Tampilan: kalau ada prefab Resources/PauseMenu (atau Resources/Alerts/PauseMenu) dipakai itu (tombol dicari berdasarkan nama:
 // ResumeButton, ExitButton, BgmButton, SfxButton), kalau tidak dibuat menu sederhana dari kode.
 public class PauseMenu : MonoBehaviour
 {
@@ -58,7 +58,9 @@ public class PauseMenu : MonoBehaviour
         if (root != null) return;
 
         root = BuildOverlay();
+        // Boleh di Resources/PauseMenu atau Resources/Alerts/PauseMenu (bersama prefab peringatan lain).
         var prefab = Resources.Load<GameObject>(PrefabName);
+        if (prefab == null) prefab = Resources.Load<GameObject>("Alerts/" + PrefabName);
         if (prefab != null) WirePrefab(Instantiate(prefab, root.transform, false));
         else BuildDefaultPanel(root.transform);
         root.SetActive(false);
