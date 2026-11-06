@@ -14,6 +14,7 @@ public class MatchStarter : MonoBehaviour
     {
         public string scene;
         public int day;
+        public string[] players;   // nama pemain urut [host, client 1, client 2]: sama di semua device selama game
     }
 
     public static MatchStarter Instance { get; private set; }
@@ -77,7 +78,15 @@ public class MatchStarter : MonoBehaviour
 
         if (!BeginLoad(sceneName)) { handshake = null; return false; }
 
-        net.SendToAll(NetMessage.Create(NetMessageType.Start, new StartData { scene = sceneName, day = day }));
+        // Daftar pemain dikunci di host dan dikirim ke client, supaya nomor pemain tetap sama walau lobby berubah.
+        string[] roster = null;
+        if (net.Transport is IRosterTransport rosterTransport)
+        {
+            rosterTransport.Freeze();
+            roster = new System.Collections.Generic.List<string>(rosterTransport.Roster).ToArray();
+        }
+
+        net.SendToAll(NetMessage.Create(NetMessageType.Start, new StartData { scene = sceneName, day = day, players = roster }));
         Debug.Log($"[START] Host mulai '{sceneName}' hari {day}, menunggu {handshake.PlayerCount} device");
         return true;
     }
@@ -103,6 +112,8 @@ public class MatchStarter : MonoBehaviour
     {
         WaitingForGo = false;
         InGame = false;
+        Screen.sleepTimeout = SleepTimeout.SystemSetting;
+        (GameNet.Instance?.Transport as IRosterTransport)?.Unfreeze();
         LobbyService.Instance?.SetInGame(false);
     }
 
@@ -116,6 +127,9 @@ public class MatchStarter : MonoBehaviour
         if (WaitingForGo) return;                                           // START dobel
 
         StartDay = data.day;
+        if (GameNet.Instance?.Transport is IRosterTransport rosterTransport)
+            rosterTransport.Freeze(data.players);   // pakai daftar dari host
+
         if (!BeginLoad(data.scene))
             Debug.LogError($"[START] Client gagal memuat '{data.scene}', host akan menunggu sampai batas waktu");
     }
@@ -164,6 +178,7 @@ public class MatchStarter : MonoBehaviour
     {
         WaitingForGo = false;
         InGame = true;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;   // layar tidak boleh mati di tengah game
         SceneLoader.Release();
         var evt = Go;
         if (evt == null) return;
