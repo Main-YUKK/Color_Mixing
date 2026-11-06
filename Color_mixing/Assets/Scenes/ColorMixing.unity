@@ -1987,6 +1987,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 1624063603}
     m_Modifications:
     - target: {fileID: 454580523055476994, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
+      propertyPath: wobbleRatio
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 454580523055476994, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
+      propertyPath: wobbleSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 454580523055476994, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
+      propertyPath: outlineWidth
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 454580523055476994, guid: d4eea7807953146b2b5a6b0dc3a03554, type: 3}
       propertyPath: colorMixingController
       value: 
       objectReference: {fileID: 1904900950}
