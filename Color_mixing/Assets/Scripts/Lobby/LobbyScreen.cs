@@ -47,6 +47,7 @@ public class LobbyScreen : MonoBehaviour
 
     private void Start()
     {
+        MatchStarter.EndGame();   // masuk lobby dari jalur mana pun = game sebelumnya selesai
         AutoWireMissingReferences();
         CheckReferences();
 

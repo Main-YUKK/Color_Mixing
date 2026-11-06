@@ -6,6 +6,8 @@ public enum LeaveAlert
     HostLeft,                 // client: host keluar -> menu utama
     PlayerDisconnectedHost,   // host: ada client keluar -> lobby
     PlayerDisconnectedClient, // client: client lain keluar -> lobby
+    OwnConnectionHost,        // host: koneksi host sendiri bermasalah -> lobby
+    OwnConnectionClient,      // client: koneksi client sendiri bermasalah -> lobby
 }
 
 // Hal-hal yang dilakukan setelah ada pemain keluar. Dipisah dari aturannya supaya aturan bisa dites tanpa scene.
@@ -47,6 +49,19 @@ public class LeaveCoordinator : IDisposable
         net.Unsubscribe(NetMessageType.Leave, OnLeave);
         net.Unsubscribe(NetMessageType.PlayerLeft, OnPlayerLeft);
         net.PeerLost -= OnPeerLost;
+    }
+
+    // Kembali ke lobby dengan sengaja (game over): kabar keluar yang datang selama pindah scene diabaikan.
+    public void BeginReturn() => Ending = true;
+
+    // Koneksi device ini sendiri yang bermasalah (dinilai oleh ConnectionWatch): peringatan, lalu ke lobby.
+    // Pemain lain melihatnya sebagai pemain putus lewat detak jantung mereka sendiri.
+    public void OwnConnectionLost()
+    {
+        if (Ending) return;
+        Ending = true;
+        actions.Halt();
+        actions.ShowAlert(net.IsHost ? LeaveAlert.OwnConnectionHost : LeaveAlert.OwnConnectionClient, net.LocalPlayerIndex, actions.GoLobby);
     }
 
     // Scene tujuan sudah termuat: kejadian keluar berikutnya boleh diproses lagi.

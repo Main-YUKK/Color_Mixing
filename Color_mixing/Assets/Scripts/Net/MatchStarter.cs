@@ -21,6 +21,9 @@ public class MatchStarter : MonoBehaviour
     // Layar loading sudah memuat scene dan menunggu GO.
     public static bool WaitingForGo { get; private set; }
 
+    // true dari GO sampai kembali ke lobby / menu. Dipakai pemantau koneksi (ConnectionWatch).
+    public static bool InGame { get; private set; }
+
     // Hari awal yang dikirim host (client memakainya di langkah berikutnya).
     public static int StartDay { get; private set; } = 1;
 
@@ -37,6 +40,7 @@ public class MatchStarter : MonoBehaviour
     {
         Instance = null;
         WaitingForGo = false;
+        InGame = false;
         StartDay = 1;
         Go = null;
     }
@@ -89,7 +93,17 @@ public class MatchStarter : MonoBehaviour
             return false;
         }
         WaitingForGo = true;
+        LobbyService.Instance?.SetInGame(true);   // lobby tidak boleh membuka slot / menyusun ulang match selama game
         return true;
+    }
+
+    // Game selesai (game over, ada yang keluar, atau kembali ke menu): lobby boleh bekerja lagi dan ready dikosongkan.
+    // Aman dipanggil berkali-kali, dari jalur mana pun yang membuka lobby / menu.
+    public static void EndGame()
+    {
+        WaitingForGo = false;
+        InGame = false;
+        LobbyService.Instance?.SetInGame(false);
     }
 
     private void OnStart(NetMessage message)
@@ -149,6 +163,7 @@ public class MatchStarter : MonoBehaviour
     private void Open()
     {
         WaitingForGo = false;
+        InGame = true;
         SceneLoader.Release();
         var evt = Go;
         if (evt == null) return;

@@ -90,6 +90,7 @@ public class LobbyService : MonoBehaviour
     private int session;              // dinaikkan tiap Create/Join/Leave/Reform supaya proses lama diabaikan
     private int roomNameVersion;      // dinaikkan tiap host mengganti nama room
     private bool joinConfirmed;       // client sudah masuk match
+    private bool refillPending;       // host: ada slot kosong yang belum dibuka karena game sedang berjalan
     private bool reforming;           // lagi menyusun ulang match (setelah kick / ada yang keluar)
     private GKMatch fillingMatch;     // host: match yang sedang diisi lewat AddPlayers (null = tidak ada loop)
     private readonly HashSet<string> heardFrom = new HashSet<string>();   // nama pemain yang pesannya sudah diterima
@@ -147,6 +148,30 @@ public class LobbyService : MonoBehaviour
         {
             try { handler(reason); }
             catch (Exception e) { Debug.LogException(e); }
+        }
+    }
+
+    // ---------- Game berjalan ----------
+
+    // true selama game berjalan (dari MatchStarter). Lobby tidak boleh membuka slot kosong atau menyusun ulang match
+    // saat itu: pemain baru tidak boleh masuk ke tengah game.
+    public bool InGame { get; private set; }
+
+    // Game dimulai (true) atau selesai (false). Saat selesai: semua centang ready dikosongkan
+    // (semua harus ready lagi) dan slot yang kosong selama game dibuka kembali.
+    public void SetInGame(bool value)
+    {
+        if (InGame == value) return;
+        InGame = value;
+        if (value) return;
+
+        foreach (var p in Players) p.isReady = false;
+        NotifyPlayersChanged();
+
+        if (Mode == LobbyMode.Host && (refillPending || Players.Count < RequiredPlayers))
+        {
+            refillPending = false;
+            RefillEmptySlots();
         }
     }
 
@@ -333,6 +358,11 @@ public class LobbyService : MonoBehaviour
     private void RefillEmptySlots()
     {
         if (Mode != LobbyMode.Host || reforming) return;
+        if (InGame)
+        {
+            refillPending = true;   // dibuka setelah game selesai (SetInGame(false))
+            return;
+        }
 
         if (Players.Exists(p => !p.isLocal))
         {
@@ -911,6 +941,8 @@ public class LobbyService : MonoBehaviour
 
     private void ResetSession()
     {
+        InGame = false;
+        refillPending = false;
         joinConfirmed = false;
         reforming = false;
         heardFrom.Clear();

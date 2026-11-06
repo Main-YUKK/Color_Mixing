@@ -213,5 +213,65 @@ public class LeaveCoordinatorTests
         }
     }
 
+    // ---------- Koneksi sendiri bermasalah ----------
+
+    [Test]
+    public void OwnConnectionLost_Client_AlertThenLobby()
+    {
+        coordinators[1].OwnConnectionLost();
+
+        Assert.AreEqual(1, actions[1].halts);
+        Assert.AreEqual(LeaveAlert.OwnConnectionClient, actions[1].alerts[0].alert);
+        Assert.AreEqual(0, actions[1].lobbies);
+        actions[1].CloseAlert();
+        Assert.AreEqual(1, actions[1].lobbies);
+        Assert.AreEqual(0, actions[1].mainMenus);
+    }
+
+    [Test]
+    public void OwnConnectionLost_Host_AlertThenLobby()
+    {
+        coordinators[0].OwnConnectionLost();
+
+        Assert.AreEqual(LeaveAlert.OwnConnectionHost, actions[0].alerts[0].alert);
+        actions[0].CloseAlert();
+        Assert.AreEqual(1, actions[0].lobbies);
+    }
+
+    [Test]
+    public void OwnConnectionLost_SendsNothing_OthersFindOutByThemselves()
+    {
+        coordinators[1].OwnConnectionLost();
+
+        Assert.IsEmpty(actions[0].alerts);
+        Assert.IsEmpty(actions[2].alerts);
+    }
+
+    [Test]
+    public void OwnConnectionLost_IgnoredWhileAlreadyEnding()
+    {
+        network.Disconnect(2);   // host sedang memproses client 2 yang putus
+        coordinators[0].OwnConnectionLost();
+
+        Assert.AreEqual(1, actions[0].alerts.Count);
+        Assert.AreEqual(LeaveAlert.PlayerDisconnectedHost, actions[0].alerts[0].alert);
+    }
+
+    // ---------- Kembali ke lobby dengan sengaja ----------
+
+    [Test]
+    public void BeginReturn_IgnoresLeaveNewsDuringTheTransition()
+    {
+        coordinators[0].BeginReturn();
+        network.Disconnect(1);
+
+        Assert.IsEmpty(actions[0].alerts);
+        Assert.IsTrue(coordinators[0].Ending);
+
+        coordinators[0].ResetEnding();   // lobby sudah termuat
+        network.Disconnect(2);
+        Assert.AreEqual(1, actions[0].alerts.Count);
+    }
+
     [Serializable] private class PlayerLeftData { public int index; }
 }

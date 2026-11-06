@@ -14,6 +14,7 @@ public class AlertService : MonoBehaviour
 {
     private const int SortingOrder = 31000;   // di atas game, di bawah layar loading (32000)
 
+    private static readonly Regex HostToken = new Regex(@"\[Host\]", RegexOptions.Compiled);
     private static readonly Regex PlayerToken = new Regex(@"\[Player \d+\]", RegexOptions.Compiled);
 
     public static AlertService Instance { get; private set; }
@@ -31,13 +32,14 @@ public class AlertService : MonoBehaviour
 
     // prefabName = nama di Resources/Alerts. playerNumber (1 = host) mengganti "[Player 2]" di teks prefab.
     // onClosed selalu dipanggil tepat satu kali.
-    public static void Show(string prefabName, int playerNumber, Action onClosed, float seconds = 3f, string fallbackText = null)
+    // hostName mengganti "[Host]" di teks prefab (mis. "Please wait for [Host] to start the room again").
+    public static void Show(string prefabName, int playerNumber, Action onClosed, float seconds = 3f, string fallbackText = null, string hostName = "Host")
     {
         if (Instance == null) { onClosed?.Invoke(); return; }
-        Instance.StartCoroutine(Instance.Run(prefabName, playerNumber, onClosed, seconds, fallbackText));
+        Instance.StartCoroutine(Instance.Run(prefabName, playerNumber, onClosed, seconds, fallbackText, hostName));
     }
 
-    private IEnumerator Run(string prefabName, int playerNumber, Action onClosed, float seconds, string fallbackText)
+    private IEnumerator Run(string prefabName, int playerNumber, Action onClosed, float seconds, string fallbackText, string hostName)
     {
         var overlay = BuildOverlay();
         bool closed = false;
@@ -47,7 +49,7 @@ public class AlertService : MonoBehaviour
         {
             var card = Instantiate(prefab, overlay.transform, false);
             foreach (var text in card.GetComponentsInChildren<TMP_Text>(true))
-                text.text = PlayerToken.Replace(text.text, $"[Player {playerNumber}]");
+                text.text = HostToken.Replace(PlayerToken.Replace(text.text, $"[Player {playerNumber}]"), hostName ?? "Host");
 
             foreach (var button in card.GetComponentsInChildren<Button>(true))
                 if (button.gameObject.name == "OkayButton") button.onClick.AddListener(() => closed = true);
