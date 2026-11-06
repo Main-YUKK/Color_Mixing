@@ -10,6 +10,7 @@ public class OfflineTransport : INetTransport
 
 #pragma warning disable CS0067   // tidak pernah dipanggil: tidak ada pemain lain
     public event Action<int, byte[]> DataReceived;
+    public event Action<int> PeerLost;
 #pragma warning restore CS0067
 
     public void SendToHost(byte[] data) { }

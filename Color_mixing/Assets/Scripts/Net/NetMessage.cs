@@ -10,6 +10,7 @@ public static class NetMessageType
     public const string SceneReady = "SCENE_READY";  // pemain: scene sudah selesai dimuat
     public const string Go = "GO";                   // host: semua siap, game jalan
     public const string Leave = "LEAVE";             // pemain: aku keluar
+    public const string PlayerLeft = "PLAYER_LEFT";  // host -> client lain: pemain ini keluar (isi: index)
     public const string DayState = "DAY_STATE";      // host: foto keadaan hari (DaySnapshot)
     public const string MixAdd = "MIX_ADD";          // client -> host: tambah pigmen (isi: slot, jumlah)
     public const string MixReady = "MIX_READY";      // client -> host: Mix / Un-Mix

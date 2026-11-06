@@ -20,7 +20,28 @@ public class FakeNetwork
         return nets;
     }
 
-    internal void Deliver(int from, int to, byte[] data) => Nodes[to].Raise(from, data);
+    private readonly bool[] dead = new bool[PigmentAssignment.PlayerCount];
+
+    internal void Deliver(int from, int to, byte[] data)
+    {
+        if (dead[from] || dead[to]) return;   // pemain yang sudah putus tidak mengirim / menerima
+        Nodes[to].Raise(from, data);
+    }
+
+    // Putus tanpa pamit: host melihat client hilang, atau kedua client melihat host hilang.
+    public void Disconnect(int index)
+    {
+        if (dead[index]) return;
+        dead[index] = true;
+        if (index == 0)
+        {
+            for (int i = 1; i < Nodes.Length; i++) Nodes[i].RaisePeerLost(0);
+        }
+        else
+        {
+            Nodes[0].RaisePeerLost(index);
+        }
+    }
 }
 
 public class FakeTransport : INetTransport
@@ -37,6 +58,7 @@ public class FakeTransport : INetTransport
     public int LocalPlayerIndex { get; }
     public int PlayerCount => network.Nodes.Length;
     public event Action<int, byte[]> DataReceived;
+    public event Action<int> PeerLost;
 
     public void SendToHost(byte[] data) => network.Deliver(LocalPlayerIndex, 0, data);
 
@@ -49,6 +71,7 @@ public class FakeTransport : INetTransport
     public void SendTo(int playerIndex, byte[] data) => network.Deliver(LocalPlayerIndex, playerIndex, data);
 
     internal void Raise(int from, byte[] data) => DataReceived?.Invoke(from, data);
+    internal void RaisePeerLost(int index) => PeerLost?.Invoke(index);
 
     // Untuk test: pura-pura ada data mentah masuk dari pemain lain.
     public void InjectRaw(int from, byte[] data) => Raise(from, data);

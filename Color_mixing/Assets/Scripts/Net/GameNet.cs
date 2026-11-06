@@ -51,6 +51,7 @@ public class GameNet
     {
         this.transport = transport ?? throw new ArgumentNullException(nameof(transport));
         this.transport.DataReceived += OnData;
+        this.transport.PeerLost += OnPeerLost;
     }
 
     public bool IsHost => transport.IsHost;
@@ -61,10 +62,27 @@ public class GameNet
     private void Dispose()
     {
         transport.DataReceived -= OnData;
+        transport.PeerLost -= OnPeerLost;
         handlers.Clear();
+        PeerLost = null;
+        (transport as IDisposable)?.Dispose();   // koneksi ikut ditutup saat sesi berakhir
     }
 
     // ---------- Terima ----------
+
+    // Koneksi ke pemain ini putus tanpa pamit (lihat INetTransport.PeerLost).
+    public event Action<int> PeerLost;
+
+    private void OnPeerLost(int index)
+    {
+        var evt = PeerLost;
+        if (evt == null) return;
+        foreach (Action<int> h in evt.GetInvocationList())
+        {
+            try { h(index); }
+            catch (Exception e) { Debug.LogException(e); }
+        }
+    }
 
     public void Subscribe(string type, Action<NetMessage> handler)
     {

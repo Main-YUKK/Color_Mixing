@@ -170,6 +170,14 @@ public class DayCycleManager : MonoBehaviour
         }
     }
 
+    // Ada pemain keluar: hentikan hari ini. Hari yang belum selesai tidak tersimpan, jadi dimainkan ulang dari awal.
+    public void Halt()
+    {
+        IsRunning = false;
+        AwaitingNextDay = false;
+        State = DayState.Inactive;
+    }
+
     // Tutup laporan dan mulai hari berikutnya.
     public void StartNextDay()
     {
