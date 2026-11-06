@@ -32,6 +32,12 @@ MonoBehaviour:
     m_path: Assets/Scenes/Lobby.unity
     m_guid: 70b50161f43c346689f880349bc71a58
   - m_enabled: 1
+    m_path: Assets/Scenes/ClientArrival.unity
+    m_guid: 8c9cfa26abfee488c85f1582747f6a02
+  - m_enabled: 1
+    m_path: Assets/Scenes/ColorMixing.unity
+    m_guid: b0948b7408ec04a428e826fd2ba2718f
+  - m_enabled: 0
     m_path: Assets/Scenes/SaveFiles.unity
     m_guid: 639d03d15b8654a2685ae615a6ef5cfc
   - m_enabled: 1
@@ -862,7 +868,7 @@ MonoBehaviour:
     - rid: 3793419938451947545
       type: {class: iOSPlatformSettings, ns: UnityEditor.iOS, asm: UnityEditor.iOS.Extensions}
       data:
-        m_Development: 0
+        m_Development: 1
         m_ConnectProfiler: 0
         m_BuildWithDeepProfilingSupport: 0
         m_BuildWithCodeCoverage: 0
