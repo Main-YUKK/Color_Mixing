@@ -24,18 +24,19 @@ public sealed class SoftBlobSim
 
     // MARK: - Tuning
     public const int PointCount = 36;
-    private const float FillRatio = 0.92f;      // total luas cat terhadap luas piring
+    private const float FillRatio = 0.95f;      // total luas cat terhadap luas piring
     private const int SubSteps = 2;
     private const int Iterations = 6;
     private const float Damping = 0.95f;        // naikkan supaya goyangan lebih lama
     private const float SkinStiffness = 0.2f;
-    private const float Tension = 0.04f;
+    private const float Tension = 0.02f;
     private const float PressureStiffness = 0.15f;
     private const float GrowRate = 3f;          // kecepatan luas menuju target
     private const float MaxPush = 2f;           // batas dorongan tekanan per iterasi
     private const float MaxSpeed = 900f;
     private const float PokeStrength = 260f;    // kekuatan goyangan saat cat masuk
-    private const float CreaseCos = 0.8f;       // sudut lebih tajam dari ini dihaluskan kuat
+    private const float CreaseCos = 0.8f;       // mulai dihaluskan saat sudut lebih tajam dari ini
+    private const float CreaseRange = 0.6f;     // penguatan bertahap, supaya titik tidak bergetar di ambang sudut
     private const float CreaseStrength = 0.8f;
     private const float SpawnRadiusRatio = 0.05f;
 
@@ -130,6 +131,10 @@ public sealed class SoftBlobSim
     {
         var b = new Blob(id, PointCount);
         float r = plateRadius * SpawnRadiusRatio;
+        // Selalu muncul di tepi piring: blob baru yang lahir di dalam blob lain bisa melilit dua putaran.
+        float dist = MathF.Max(MathF.Sqrt(cx * cx + cy * cy), 1f);
+        cx *= (plateRadius - r) / dist;
+        cy *= (plateRadius - r) / dist;
         for (int i = 0; i < PointCount; i++)
         {
             float t = i / (float)PointCount * 2f * MathF.PI;
@@ -205,7 +210,7 @@ public sealed class SoftBlobSim
         }
     }
 
-    // Tarik titik ke tengah tetangganya; sudut tajam dihaluskan lebih kuat.
+    // Tarik titik ke tengah tetangganya; makin tajam sudutnya, makin kuat dihaluskan.
     private static void SolveTension(Blob b)
     {
         for (int i = 0; i < PointCount; i++)
@@ -214,7 +219,9 @@ public sealed class SoftBlobSim
             float ux = b.X[i] - b.X[a], uy = b.Y[i] - b.Y[a];
             float vx = b.X[c] - b.X[i], vy = b.Y[c] - b.Y[i];
             float len = MathF.Max(MathF.Sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy)), 1e-4f);
-            float k = (ux * vx + uy * vy) / len < CreaseCos ? CreaseStrength : Tension;
+            float cosAngle = (ux * vx + uy * vy) / len;
+            float sharpness = Math.Clamp((CreaseCos - cosAngle) / CreaseRange, 0f, 1f);
+            float k = Tension + (CreaseStrength - Tension) * sharpness;
             b.X[i] += ((b.X[a] + b.X[c]) * 0.5f - b.X[i]) * k;
             b.Y[i] += ((b.Y[a] + b.Y[c]) * 0.5f - b.Y[i]) * k;
         }
@@ -244,7 +251,7 @@ public sealed class SoftBlobSim
         }
     }
 
-    // Titik `a` yang masuk ke `b` didorong ke tepi terdekat `b`, dibagi dua sisi.
+    // Titik `a` yang masuk ke `b` didorong ke tepi terdekat `b`, dibagi sesuai ukuran blob.
     private static void SolveCollision(Blob a, Blob b)
     {
         float minX = float.MaxValue, maxX = float.MinValue, minY = float.MaxValue, maxY = float.MinValue;
@@ -272,12 +279,22 @@ public sealed class SoftBlobSim
                 if (d < best) { best = d; bestEdge = j; bestT = t; qx = cx; qy = cy; }
             }
 
-            float dx = (qx - x) * 0.5f, dy = (qy - y) * 0.5f;
+            // Blob besar lebih banyak mengalah, supaya blob kecil tidak terlipat.
+            float aShare = PushShare(a, b);
+            float bShare = 1f - aShare;
+            float dx = qx - x, dy = qy - y;
             int next = (bestEdge + 1) % PointCount;
-            a.X[i] += dx; a.Y[i] += dy;
-            b.X[bestEdge] -= dx * (1f - bestT); b.Y[bestEdge] -= dy * (1f - bestT);
-            b.X[next] -= dx * bestT; b.Y[next] -= dy * bestT;
+            a.X[i] += dx * aShare; a.Y[i] += dy * aShare;
+            b.X[bestEdge] -= dx * bShare * (1f - bestT); b.Y[bestEdge] -= dy * bShare * (1f - bestT);
+            b.X[next] -= dx * bShare * bestT; b.Y[next] -= dy * bShare * bestT;
         }
+    }
+
+    private static float PushShare(Blob a, Blob b)
+    {
+        float areaA = MathF.Abs(a.TargetArea), areaB = MathF.Abs(b.TargetArea);
+        float sum = areaA + areaB;
+        return sum <= 0f ? 0.5f : areaA / sum;
     }
 
     private static bool Contains(Blob b, float x, float y)
