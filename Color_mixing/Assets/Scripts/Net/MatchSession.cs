@@ -54,6 +54,7 @@ public class MatchSession : MonoBehaviour, ILeaveActions
 
     public void Halt()
     {
+        PauseMenu.Close();   // menu pause tidak boleh menutupi peringatan
         if (DayCycleManager.Instance != null) DayCycleManager.Instance.Halt();
         if (ClientTimer.Current != null) ClientTimer.Current.Stop();
     }
