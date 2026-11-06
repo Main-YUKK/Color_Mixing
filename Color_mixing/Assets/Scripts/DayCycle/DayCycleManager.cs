@@ -39,6 +39,7 @@ public class DayCycleManager : MonoBehaviour
 
     private int snapshotSeq;       // host: nomor kiriman terakhir
     private int runId;             // host: id run ini
+    private static int nextRunId;  // host: id run berikutnya (naik tiap StartSession)
     private int lastRunId;         // client: run yang sedang diikuti
     private int lastAppliedSeq;    // client: nomor kiriman terakhir yang dipakai
     private bool dayJustStarted;
@@ -53,7 +54,9 @@ public class DayCycleManager : MonoBehaviour
     {
         if (!IsAuthority) return;
         snapshotSeq = 0;
-        runId = UnityEngine.Random.Range(1, int.MaxValue);
+        // Naik terus (bukan acak penuh): client bisa membedakan run yang lebih baru dari kiriman lama yang terlambat.
+        if (nextRunId == 0) nextRunId = UnityEngine.Random.Range(1, 1_000_000);
+        runId = ++nextRunId;
         CurrentDay = continueSaved && SaveService.Active != null ? SaveService.Active.nextDay : 1;
 
         History.Clear();
@@ -219,6 +222,7 @@ public class DayCycleManager : MonoBehaviour
     {
         if (IsAuthority || s == null) return false;
 
+        if (s.runId < lastRunId) return false;   // kiriman dari run lama yang terlambat
         bool newRun = s.runId != lastRunId;
         if (newRun) { lastRunId = s.runId; lastAppliedSeq = 0; }
         if (s.seq <= lastAppliedSeq) return false;
