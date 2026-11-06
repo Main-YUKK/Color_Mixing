@@ -66,6 +66,11 @@ public class LobbyScreen : MonoBehaviour
 
         Debug.Log($"[LobbyScreen] Mode={service.Mode}, RoomCode={service.RoomCode}");
 
+#if !UNITY_EDITOR
+        // Di device: pesan game lewat match Game Center ini. Dipasang sekali, dipakai ulang sampai keluar ke menu.
+        GameKitTransport.EnsureSession(service.GameLink);
+#endif
+
         if (readyButton != null)
         {
             readyButton.onClick.AddListener(OnReadyClicked);

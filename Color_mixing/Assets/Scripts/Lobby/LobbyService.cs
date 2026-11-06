@@ -157,6 +157,43 @@ public class LobbyService : MonoBehaviour
     // saat itu: pemain baru tidak boleh masuk ke tengah game.
     public bool InGame { get; private set; }
 
+    // Sambungan untuk game: GameKitTransport memakai match lobby ini untuk mengirim pesan game.
+    public IGameLink GameLink => gameLink ??= new GameLinkAdapter(this);
+    private GameLinkAdapter gameLink;
+
+    private class GameLinkAdapter : IGameLink
+    {
+        private readonly LobbyService service;
+        public GameLinkAdapter(LobbyService service) { this.service = service; }
+
+        public event Action<string, byte[]> RawReceived;
+        public event Action<string> PlayerGone;
+
+        public bool IsHost => service.Mode == LobbyMode.Host;
+        public string LocalName => service.localName;
+
+        public IReadOnlyList<string> CurrentRoster()
+        {
+            var names = new List<string>();
+            var host = service.Players.Find(p => p.isHost);
+            names.Add(host != null ? host.name : "");
+            foreach (var p in service.GetOthersInSlotOrder()) names.Add(p.name);
+            return names;
+        }
+
+        public void SendRaw(byte[] data)
+        {
+#if !UNITY_EDITOR
+            if (service.match == null) return;
+            try { service.match.Send(data, GKMatch.GKSendDataMode.Reliable); }
+            catch (Exception e) { service.Log("Kirim pesan game gagal: " + e.Message); }
+#endif
+        }
+
+        public void Raise(string fromName, byte[] data) => RawReceived?.Invoke(fromName, data);
+        public void RaiseGone(string name) => PlayerGone?.Invoke(name);
+    }
+
     // Game dimulai (true) atau selesai (false). Saat selesai: semua centang ready dikosongkan
     // (semua harus ready lagi) dan slot yang kosong selama game dibuka kembali.
     public void SetInGame(bool value)
@@ -513,20 +550,22 @@ public class LobbyService : MonoBehaviour
         // Semua callback dipindah ke main thread dan dicek session-nya.
         match.Delegate.DataReceived += (data, from) =>
         {
+            string fromName = from.DisplayName;   // dibaca di thread asal
             RunOnMain(() =>
             {
                 if (mySession != session) return;
-                OnDataReceived(data);
+                OnDataReceived(data, fromName);
             });
         };
         // iOS bisa mengirim pesan lewat event ini (bukan DataReceived). Pesan yang sama bisa datang
         // lewat dua event, itu aman (diproses idempoten).
         match.Delegate.DataReceivedForPlayer += (data, recipient, from) =>
         {
+            string fromName = from.DisplayName;
             RunOnMain(() =>
             {
                 if (mySession != session) return;
-                OnDataReceived(data);
+                OnDataReceived(data, fromName);
             });
         };
         match.Delegate.PlayerConnectionChanged += (player, state) =>
@@ -755,8 +794,15 @@ public class LobbyService : MonoBehaviour
 #endif
     }
 
-    private void OnDataReceived(byte[] data)
+    private void OnDataReceived(byte[] data, string fromName)
     {
+        // Pesan game (bukan JSON lobby): langsung ke GameKitTransport.
+        if (data != null && data.Length > 0 && data[0] == GameKitTransport.FrameMarker)
+        {
+            gameLink?.Raise(fromName, data);
+            return;
+        }
+
         LobbyMessage msg;
         try { msg = JsonUtility.FromJson<LobbyMessage>(Encoding.UTF8.GetString(data)); }
         catch (Exception e) { Log("Pesan tidak terbaca: " + e.Message); return; }
@@ -856,6 +902,8 @@ public class LobbyService : MonoBehaviour
         }
 
         if (!string.Equals(state, "Disconnected", StringComparison.OrdinalIgnoreCase)) return;
+
+        gameLink?.RaiseGone(playerName);   // game yang sedang berjalan ikut tahu (dipilah di GameKitTransport)
 
         // Pemain yang di-kick sudah dihapus dari lobby saat KickPlayer; sekarang dia boleh masuk lagi nanti.
         if (kickedNames.Remove(playerName)) return;

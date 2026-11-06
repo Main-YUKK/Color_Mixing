@@ -54,6 +54,7 @@ public class GameNet
         this.transport.PeerLost += OnPeerLost;
     }
 
+    public INetTransport Transport => transport;
     public bool IsHost => transport.IsHost;
     public int LocalPlayerIndex => transport.LocalPlayerIndex;
     public int PlayerCount => transport.PlayerCount;
