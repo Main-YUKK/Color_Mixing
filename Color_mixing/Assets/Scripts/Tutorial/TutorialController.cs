@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // Mengatur screen tutorial: hanya satu panel yang aktif, berpindah lewat tombol Back dan Next.
+// Back di screen pertama dan Next di screen terakhir keluar dari tutorial ke scene asal (lihat TutorialEntry).
 [ExecuteAlways]
 public class TutorialController : MonoBehaviour
 {
@@ -42,11 +43,23 @@ public class TutorialController : MonoBehaviour
 
     private void ShowPrevious()
     {
+        if (currentIndex == 0)
+        {
+            TutorialEntry.Exit();
+            return;
+        }
+
         ShowPage(currentIndex - 1);
     }
 
     private void ShowNext()
     {
+        if (currentIndex >= pages.Length - 1)
+        {
+            TutorialEntry.Exit();
+            return;
+        }
+
         ShowPage(currentIndex + 1);
     }
 
@@ -59,9 +72,5 @@ public class TutorialController : MonoBehaviour
 
         if (salonBackground != null)
             salonBackground.SetActive(currentIndex >= salonBackgroundFromPage);
-
-        // Tujuan tombol di screen pertama dan terakhir ditentukan saat navigasi antar-scene dibuat.
-        backButton.gameObject.SetActive(currentIndex > 0);
-        nextButton.gameObject.SetActive(currentIndex < pages.Length - 1);
     }
 }
