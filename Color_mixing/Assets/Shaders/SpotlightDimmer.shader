@@ -1,4 +1,4 @@
-// Dimmer UI dengan lubang lingkaran yang dihitung per pixel, jadi pinggirannya halus (anti-aliased).
+// Dimmer UI dengan lubang lingkaran atau kapsul (pill) yang dihitung per pixel, jadi pinggirannya halus (anti-aliased).
 // Posisi dan ukuran lubang dikirim oleh script SpotlightDimmer dari RectTransform hole di scene.
 Shader "UI/SpotlightDimmer"
 {
@@ -82,7 +82,8 @@ Shader "UI/SpotlightDimmer"
             float4 _MainTex_ST;
             float _Feather;
 
-            // xy = pusat lubang, z = radius (semua dalam koordinat lokal canvas).
+            // xy = pusat lubang, z = radius sudut, w = setengah panjang bagian lurus (kapsul).
+            // w >= 0: memanjang horizontal, w < 0: memanjang vertikal, w = 0: lingkaran biasa.
             float4 _Holes[MAX_HOLES];
             float _HoleCount;
 
@@ -111,7 +112,12 @@ Shader "UI/SpotlightDimmer"
                 {
                     if (i < (int)_HoleCount)
                     {
-                        float dist = distance(pos, _Holes[i].xy);
+                        float2 d = pos - _Holes[i].xy;
+                        float seg = _Holes[i].w;
+                        d = seg >= 0.0
+                            ? float2(max(abs(d.x) - seg, 0.0), d.y)
+                            : float2(d.x, max(abs(d.y) + seg, 0.0));
+                        float dist = length(d);
                         float radius = _Holes[i].z;
                         visible *= smoothstep(radius - aa - _Feather, radius + aa, dist);
                     }
