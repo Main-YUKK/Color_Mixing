@@ -2,8 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // Membuat lubang spotlight bulat yang halus di Image dimmer (shader UI/SpotlightDimmer).
-// Setiap RectTransform di "holes" jadi satu lubang: posisinya = pusat lingkaran,
-// diameternya = sisi terpendek antara Width dan Height. Lubang ikut berubah langsung di Edit Mode.
+// Setiap RectTransform di "holes" jadi satu lubang: posisinya = pusat lubang.
+// Pill Shape mati: lingkaran dengan diameter = sisi terpendek antara Width dan Height.
+// Pill Shape nyala: kapsul, sisi terpendek = diameter ujung bulat, sisi terpanjang = panjang total.
+// Lubang ikut berubah langsung di Edit Mode.
 [ExecuteAlways]
 [RequireComponent(typeof(Graphic))]
 public class SpotlightDimmer : MonoBehaviour, IMaterialModifier
@@ -15,6 +17,9 @@ public class SpotlightDimmer : MonoBehaviour, IMaterialModifier
 
     [Tooltip("RectTransform lubang spotlight (maksimal 8).")]
     [SerializeField] private RectTransform[] holes;
+
+    [Tooltip("Nyala: lubang berbentuk kapsul (pill) mengikuti Width x Height. Mati: lingkaran dengan diameter sisi terpendek.")]
+    [SerializeField] private bool pillShape;
 
     private readonly Vector4[] holeData = new Vector4[MaxHoles];
     private Graphic graphic;
@@ -87,7 +92,15 @@ public class SpotlightDimmer : MonoBehaviour, IMaterialModifier
                 Vector3 center = canvasSpace.InverseTransformPoint(hole.TransformPoint(rect.center));
                 Vector3 edge = canvasSpace.InverseTransformPoint(hole.TransformPoint(rect.center + new Vector2(radius, 0f)));
 
-                holeData[count++] = new Vector4(center.x, center.y, Vector2.Distance(center, edge), 0f);
+                float canvasRadius = Vector2.Distance(center, edge);
+                float scale = radius > 0f ? canvasRadius / radius : 0f;
+
+                // w = setengah panjang bagian lurus; positif = horizontal, negatif = vertikal.
+                float half = !pillShape ? 0f : (Mathf.Max(rect.width, rect.height) - Mathf.Min(rect.width, rect.height)) * 0.5f * scale;
+                if (pillShape && rect.height > rect.width)
+                    half = -half;
+
+                holeData[count++] = new Vector4(center.x, center.y, canvasRadius, half);
             }
         }
 
