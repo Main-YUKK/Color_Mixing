@@ -290,6 +290,7 @@ GameObject:
   - component: {fileID: 1760182977565361478}
   - component: {fileID: 7702415434269893093}
   - component: {fileID: 3698151436972202298}
+  - component: {fileID: 5680651283196071000}
   m_Layer: 5
   m_Name: HelpButton
   m_TagString: Untagged
@@ -398,3 +399,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5680651283196071000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5680651283196070566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1d8b3a7c2f4960a4b8e0d1c3f6a972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::TutorialHelpButton

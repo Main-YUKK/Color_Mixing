@@ -1121,10 +1121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1e5c3a9d2f4e60a8c4d1f2b3e5a697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::TutorialPrompt
-  content: {fileID: 0}
   skipButton: {fileID: 960000034}
   watchButton: {fileID: 960000043}
-  tutorialSceneName: Tutorial
 --- !u!1 &960000002
 GameObject:
   m_ObjectHideFlags: 0
