@@ -10,6 +10,7 @@ public class LobbyScreen : MonoBehaviour
     [SerializeField] private TMP_Text roomNameText;
     [SerializeField] private TMP_Text roomCodeText;
     [SerializeField] private TMP_Text statusText;
+    [SerializeField] private GameObject statusFrame;             // StatusTextFrame (parent StatusText), hanya tampil di host sebelum Play muncul
 
     [Header("Slot (kiri, tengah=host, kanan)")]
     [SerializeField] private PlayerSlotView leftSlot;
@@ -25,7 +26,7 @@ public class LobbyScreen : MonoBehaviour
     [SerializeField] private Sprite readySprite;                 // belum ready (bisa ditekan)
     [SerializeField] private Sprite waitingSprite;               // sudah ready, pemain lain belum semua ready (waitingMessage)
     [SerializeField] private Sprite waitingHostSprite;           // sudah ready, semua ready, tunggu host (waitingHostMessage)
-    [Tooltip("Pengali ukuran asli sprite pesan tunggu (356 x 127,52). Hanya berlaku saat pesan tampil; ukuran ReadyButton biasa tidak berubah.")]
+    [Tooltip("Pengali ukuran sprite waitingMessage. Kedua pesan tunggu (waiting & waitingHost) memakai ukuran ini supaya sama persis. Hanya berlaku saat pesan tampil; ukuran ReadyButton biasa tidak berubah.")]
     [SerializeField, Min(0.1f)] private float waitingScale = 1.5f;
 
     [Header("Edit nama room (khusus host)")]
@@ -201,6 +202,11 @@ public class LobbyScreen : MonoBehaviour
         if (editRoomNameButton != null)
             editRoomNameButton.gameObject.SetActive(isHost && !editing && roomNameInput != null);
 
+        // Frame status hanya di host, dan disembunyikan saat Play sudah bisa ditekan (posisinya sama dengan PlayButton).
+        bool showStatus = isHost && !service.CanStart;
+        if (statusFrame != null) statusFrame.SetActive(showStatus);
+        else if (statusText != null) statusText.gameObject.SetActive(showStatus);
+
         if (statusText != null)
         {
             bool allReady = players.TrueForAll(p => p.isHost || p.isReady);
@@ -239,12 +245,13 @@ public class LobbyScreen : MonoBehaviour
                 if (target != null) img.sprite = target;
                 img.preserveAspect = localReady;
 
-                // Pesan tunggu memakai ukuran sendiri (ukuran asli sprite x waitingScale),
-                // ukuran ReadyButton biasa dikembalikan ke nilai awal.
+                // Kedua pesan tunggu memakai ukuran waitingMessage (ukuran sprite x waitingScale) supaya sama persis;
+                // sprite waitingHostMessage aslinya lebih kecil. Ukuran ReadyButton biasa dikembalikan ke nilai awal.
                 if (readyRect != null)
                 {
-                    readyRect.sizeDelta = (localReady && target != null)
-                        ? target.rect.size * waitingScale
+                    Sprite sizeSource = waitingSprite != null ? waitingSprite : target;
+                    readyRect.sizeDelta = (localReady && sizeSource != null)
+                        ? sizeSource.rect.size * waitingScale
                         : readyOriginalSize;
                 }
             }
@@ -258,7 +265,8 @@ public class LobbyScreen : MonoBehaviour
 
         if (playButton != null)
         {
-            playButton.gameObject.SetActive(isHost);
+            // Play baru muncul saat bisa ditekan; sebelumnya tempatnya dipakai frame status.
+            playButton.gameObject.SetActive(isHost && service.CanStart);
             playButton.interactable = service.CanStart;
         }
     }
@@ -291,6 +299,11 @@ public class LobbyScreen : MonoBehaviour
         if (readyButton == null) readyButton = FindInScene<Button>("ReadyButton");
         if (editRoomNameButton == null) editRoomNameButton = FindInScene<Button>("EditNameButton");
         if (roomNameInput == null) roomNameInput = FindInScene<TMP_InputField>("RoomNameInput");
+        if (statusFrame == null)
+        {
+            var frame = FindInScene<RectTransform>("StatusTextFrame");
+            if (frame != null) statusFrame = frame.gameObject;
+        }
         if (readyButtonLabel == null && readyButton != null)
             readyButtonLabel = readyButton.GetComponentInChildren<TMP_Text>(true);
     }
