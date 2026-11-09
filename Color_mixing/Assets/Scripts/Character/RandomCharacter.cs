@@ -39,6 +39,13 @@ public class RandomCharacter : MonoBehaviour
     public int hairSortingOffset = -1;          // sorting order offset used for "Back" hair
     public int frontSortingOffset = 1;          // sorting order offset used for "Front" hair
 
+    [Header("Outline")]
+    [Tooltip("Garis tepi putih (gaya stiker) di sekeliling rambut, supaya rambut berwarna tetap jelas di atas latar.")]
+    public bool hairOutline = true;
+    [Tooltip("Tebal garis dalam unit lokal rambut. Naikkan kalau terlalu tipis, turunkan kalau tepinya bergerigi.")]
+    public float outlineWidth = 0.04f;
+    public Color outlineColor = Color.white;
+
     [Header("Behaviour")]
     [Tooltip("Off: hair is chosen once when the character appears and stays. On: hair keeps coming and going on the timers below.")]
     public bool cycleHair = false;
@@ -61,6 +68,7 @@ public class RandomCharacter : MonoBehaviour
         if (bodyRenderer == null) bodyRenderer = GetComponent<SpriteRenderer>();
         hairRenderer.sortingLayerID = bodyRenderer.sortingLayerID;
         hairRenderer.transform.localScale = Vector3.zero;
+        if (hairOutline) SpriteOutline.Add(hairRenderer, outlineWidth, outlineColor);
     }
 
     void Start()

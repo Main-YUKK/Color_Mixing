@@ -1001,10 +1001,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 910646376707238420, guid: 31e1b0ace7dfa48048a7175e2ed513a9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 530500191}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31e1b0ace7dfa48048a7175e2ed513a9, type: 3}
 --- !u!224 &530500187 stripped
 RectTransform:
@@ -1038,23 +1035,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 910646376707238420, guid: 31e1b0ace7dfa48048a7175e2ed513a9, type: 3}
   m_PrefabInstance: {fileID: 530500186}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &530500191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 530500190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f80ceb8c350d945808edf091483c5c69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game::EndOfDayReport
-  cycle: {fileID: 1858323252}
-  panel: {fileID: 530500190}
-  titleText: {fileID: 530500189}
-  targetText: {fileID: 530500188}
-  showSeconds: 3
 --- !u!1 &603652666 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 219958599879573470, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
