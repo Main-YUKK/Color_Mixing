@@ -1,0 +1,187 @@
+requestId	difficulty	requestName	targetHex	description	kunciMerah	kunciKuning	kunciBiru	kunciHitam	kunciPutih	kunciMatch
+L1_BLUE_01	LevelOne	Midnight Blue	#191970	Mas, aku mau midnight blue yang gelap tapi cakep. Soalnya masa depan aku aja udah gelap, sekalian rambutnya.	1	1	11	14	2	99.90
+L1_BLUE_02	LevelOne	Baby Blue	#89CFF0	Abang tolong dibikin jadi baby blue gemes gitu dong. Aku pengen kelihatan soft mahal tapi ya, bukan kayak jamet.	0	2	5	0	8	93.73
+L1_BLUE_03	LevelOne	Navy Blue	#000080	Kak mau dibuat navy gitu dong, aura-aura bos besar meskipun saldo ai mini banget	0	0	1	1	0	99.96
+L1_BLUE_04	LevelOne	Sky Blue	#5DADEC	Bestie, aku mau warna biru langit yang CERAH GAADA AWAN pokoknya yang birunya tuh ngebiru banget	0	5	14	0	11	94.52
+L1_BLUE_05	LevelOne	Denim Blue	#1560BD	Kak, aku mau biru kayak celana jeans baru. Yang birunya masih agak gelap, bukan yang udah kecuci 1000 kali.	0	5	17	0	1	98.69
+L1_RED_01	LevelOne	Ruby Red	#9B111E	Mas, aku mau ruby red yang merahnya pekat, mewah gitu. Pokoknya merah yang gak kampungan ya	17	1	2	9	1	99.93
+L1_RED_02	LevelOne	Scarlet	#FF2400	Kak, aku mau merah terang kayak jubah superhero. Yang terang, ngejreng gitu. Jangan yang kalem-kalem ya mas, gak suka aku.	7	1	0	0	0	99.48
+L1_RED_03	LevelOne	Watermelon Red	#FD4659	Bestie, aku mau merah semangka yang udah matang gitu dong. Merahnya kudu seger, cerah, manis, trus ada nuansa pinknya dikit gitu yaa	17	0	1	0	7	99.59
+L1_RED_04	LevelOne	Fire Engine Red	#CE2029	Bang, kasih warna merah mobil pemadam kebakaran! Pokoknya kalau gua lewat, orang harus langsung minggir, tunduk. Karena gua memang se yoi itu	21	0	1	5	3	99.86
+L1_RED_05	LevelOne	Rose Red	#C21E56	Kak, mau warna kek sekuntum mawar merah, please. Romantis, seksi gitu	14	1	4	1	1	99.76
+L1_RED_06	LevelOne	Brick Red	#B55239	Kak, mau merah bata yang agak kecoklatan dong, agak kusam-kusam dikit gitu. Jangan yang nyala ya warnanya, pokoknya warna bata mateng gitu	8	2	0	5	3	99.87
+L1_RED_07	LevelOne	Tomato Red	#FF6347	Bestie, aku mau tomato red, merah tomat matang yang cerah dan agak oranye. Bukan yang merah tua kayak tomat yang udah kelamaan ditinggal di kulkas sampe udah mau bonyok gitu ya	17	3	0	0	6	99.72
+L1_RED_08	LevelOne	Mario Red	#E52521	Bestie, aku mau merah kayak warna topi karakter kartun berkumis itu. Idungnya gede, di topinya ada tulisan M. siapa hayo? Maria? Mulyadi?	18	1	1	0	2	99.80
+L1_YELLOW_01	LevelOne	Butter Yellow	#FFF1A8	Kak, aku mau kuning lembut kayak mentega. Kuningnya kalem, creamy, dan nggak terlalu mencolok. Pokoknya jangan sampai kelihatan kayak stabilo, norak deh!	1	3	0	0	6	99.75
+L1_YELLOW_02	LevelOne	Lemon Yellow	#FFF44F	Bang, lemon yellow yeeee. Gue mau kuning lemon yang cerah nyegrak, bukan kuning pucat. Pokoknya sekali lihat langsung mata melek persis kek pas dimakan, aseemm!	2	17	0	0	7	99.85
+L1_YELLOW_03	LevelOne	Golden Yellow	#FFC000	Bestie, aku mau kuning emas batangan ya. Kuningnya tuh yang kaya gitu, shining berkilau seperti rambutku ahai	11	16	0	0	0	98.64
+L1_YELLOW_04	LevelOne	Honey Yellow	#DDAF26	Kang, kasih kuning madu yang agak emas, tapi agak coklat juga gitu. Jangan terlalu terang ya, yang kalem-kalem aja atuh.	10	16	0	3	0	99.84
+L1_YELLOW_05	LevelOne	Mustard Yellow	#E1AD01	Mas bikin jadi mustard yellow ya kayak saus itu. Earthy dan gak ngejreng. Itu referensi enggresnya sih mas, bahasa kampungnya ya kuning mencret itu	4	6	0	1	0	99.00
+L1_YELLOW_06	LevelOne	Neon Yellow	#EFFF00	Mas, kuning neon yang terang buaaaanget. Biar kayak teh Elis yang penyanyi luar itu, cuma aku maunya kuning ya bukan hijau	0	18	1	0	0	99.33
+L1_YELLOW_07	LevelOne	Bright Yellow	#FFF200	Mas, aku mau kuning kayak spons kotak yang kerja di restoran bawah laut itu. Ceria banget, padahal kerjaannya goreng-goreng terus.	1	10	0	0	0	99.78
+L1_GREEN_01	LevelOne	Hijau Miskin	#7ED957	Mau ijo miskin bang. Kaga ada penjelasan tambahan sih bang pokoknya ijo miskin yg agak terang ituloh	0	8	7	0	3	99.29
+L1_GREEN_02	LevelOne	Mint Green	#98FF98	Bestie, aku mau hijau mint seger gitu. Tapi bukan hijau daun mint ya, lebih ke hijau es krim rasa mint yang terang dan artificial gimana gitu	0	9	8	0	12	95.21
+L1_GREEN_03	LevelOne	Olive Green	#808000	Bang, hijau olive yak kayak warna buah zaitun gitu. Gua mau yang kalemnya ngalem banget. tp bukan kusem gitu, tetap hijau agak kecoklatan	0	1	0	1	0	99.90
+L1_GREEN_04	LevelOne	Sage Green	#9CAF88	Kak, aku mau hijau sage yang lembut, agak keabu-abuan. Hijau yang adem, nggak terlalu terang, kayak warna dekorasi kamar aesthetic yang bikin orang merasa hidupnya teratur.	0	3	2	6	11	99.71
+L1_GREEN_05	LevelOne	Emerald Green	#009B77	Mas, aku mau hijau zamrud kayak batu permata. Ijonya tuh yang KAYA, kayak kaya CEO, bukan pucat kek orang susah ya	0	7	12	0	0	97.37
+L1_GREEN_06	LevelOne	Pistachio Green	#93C572	Bang mau hijaunya yang di dubai cuwi kuki itu, yang dalemnya mirip bihun goreng. Nah hijau kalem yang itu, agak kuning tapi dikit aja ya	1	6	5	0	5	99.80
+L1_PINK_01	LevelOne	Celana Sahroni	#FF1493	Mowning Mowning Mowning, Mas aku mau pink yang NYALA BANGET, kayak celana pink si om-om golf yang sempet bikin satu Indo heboh itu hehe, YTTA	16	0	5	0	6	97.33
+L1_PINK_02	LevelOne	Blush Pink	#F4C2C2	Kak, aku mau pink lembut kayak pipi orang yang baru dipuji gebetannya. Bikin aku kelihatan gemes natural, biar keliatan gitu loh hatiku lagi berbunga-bunga nich.	5	0	0	1	19	99.88
+L1_PINK_03	LevelOne	Bubblegum Pink	#FF85C2	Bestie, aku mau pink terang kayak permen karet. Harus manis, mencolok kayak permen karet belum dikunyah, dan kelihatan dari jarak tiga kecamatan.	11	0	4	0	14	98.03
+L1_PINK_04	LevelOne	Tuna Pink	#E07A7F	Bestie, aku mau pink kayak daging ikan tuna. Warnanya harus elegan dan sehat. Biar yang bergizi bukan cuma badan, tapi rambutku juga anjai slebew	9	0	0	3	11	99.17
+L1_PINK_05	LevelOne	Flamingo Pink	#F98B88	Mas, pink flamingo. Cerah, agak orange dikit kayak bulu flamingo. Aku mau berdiri di satu kaki sambil jadi pusat perhatian	13	0	0	1	16	99.41
+L1_PINK_06	LevelOne	Dusty Pink	#D8A0A6	Tolong bikin pink dusty yang agak pudar gitu. Vibes-nya vintage, kayak foto lama yang biasa ada di rumah nenek gue, pudar-pudar foto kita blur~ gimanaa gitu	4	1	1	0	8	98.85
+L1_PURPLE_01	LevelOne	Lavender	#C8B4F4	Bestie, aku mau ungu muda kayak bunga lavender. Harus kelihatan kalem, elegan, dan wangi mahal. Padahal gue aja ga inget deh udah mandi apa belom tadi.	2	0	6	1	19	99.70
+L1_PURPLE_02	LevelOne	Plum Purple	#673147	Abang, saya mau ungu gelap kayak kulit buah plum mateng. Warnanya pekat, agak kemerahan sedikit. Bikin biar misteriusnya dapet shuushhh	7	1	3	14	4	99.43
+L1_PURPLE_03	LevelOne	Lilac	#C8A2C8	Mas, ungu muda yang manis, ada pinknya sedikit. Lilac. Harus ringan, manis, dan pastel. Jangan kegelapan plis, nanti malah jadi vibes dukun nih gue.	5	1	4	2	16	99.84
+L1_PURPLE_04	LevelOne	Eggplant Purple	#4A1C55	Mas kasih warna ungu terong. Aku mau yang gelap, glossynya juga ungu banget, yang polosan ya bukan yang udah dimasak balado	6	2	6	11	0	99.42
+L1_PURPLE_05	LevelOne	Royal purple	#6A1B9A	Yang mulia mau royal purple! Aku mau ungu yang pekat dan berwibawa, bukan ungu pucat. Kalau bisa, sekali masuk ruangan semua orang langsung kasih jalan.	9	0	11	9	0	99.91
+L1_ORANGE_01	LevelOne	Carrot Orange	#ED9121	Bestie, aku mau oren terang kayak wortel. Aku mau warnanya ngejreng tapi tetap natural, kayak wortel yang habis dipanen.	13	10	0	1	0	99.22
+L1_ORANGE_02	LevelOne	Peach	#FFCBA4	Kak, aku mau warna buah persik, campuran oren muda sama pink gitu ya. Jangan terlalu terang, aku mau warna pastel yang manis dan bikin rambut kelihatan soft, kek orangnya gitu	5	3	0	0	10	99.63
+L1_ORANGE_03	LevelOne	Tangerine	#F28500	Mas, aku mau oren kayak kulit jeruk mandarin. Aku mau kelihatan seger kayak habis liburan. Terang, cerah.	16	11	0	1	0	98.51
+L1_ORANGE_04	LevelOne	Burnt Orange	#CC5500	Bang gua mau oren tua kayak daun kering yang kena matahari. Agak kecoklatan musim gugur gitu. tau kann? Intinya oren yg earthy	15	7	0	5	0	98.65
+L1_ORANGE_05	LevelOne	Mango Orange	#FFA62F	Mau oranye warna daging mangga mateng. Juicy, agak kuning. tapi bukan yang agak kemerahan kayak jeruk loh ya	7	6	0	0	0	98.95
+L1_BROWN_01	LevelOne	Dark Chocolate	#3B1F16	Bestie, aku mau coklat tua kayak coklat batangan yang kandungan susunya dikit banget. Pahit, pekat, dan mahal. Bukan yang ada campuran susu pokoknya, jangan kek bocil deh	5	3	2	14	0	99.54
+L1_BROWN_02	LevelOne	Caramel Brown	#BF7E3D	Kak, aku mau warna coklat karamel leleh gitu. Warnanya lembut, agak golden gitu. Minimal jangan bikin orang ingat warna pagar rumah.	7	5	0	4	2	99.87
+L1_BROWN_03	LevelOne	Beige	#D9C3A5	Abang bikinin aku coklat muda pucat kayak pasir pantai. Netral, kalem, dan estetik. Jangan terlalu kuning atau terlalu cokelat, aku maunya warna nude yang kalem seperti akuh.	5	4	0	4	17	99.16
+L1_BROWN_04	LevelOne	Espresso Brown	#3B2417	Mas mau coklat pekat kayak espresso. Gelap, kuat, pahit, bikin melek. Hampir hitam tapi masih kelihatan coklatnya. Jangan sampai hasilnya malah kayak kopi susu atau americano malahan ya	2	1	0	13	1	99.80
+L1_BROWN_05	LevelOne	Cinnamon Brown	#B5602F	Mas, coklat kayu manis yang warm gitu ya. Shining dan punya semburat kemerahan dikiit aja.	12	7	2	2	0	99.78
+L2_BLUE_01	LevelTwo	Sonic Blue	#1356C9	Tolong rambut gue dibuat kayak landak di game yang larinya kenceng banget itu. Mau cepetan move-on dari kenangan masa lalu	0	5	22	0	2	98.85
+L2_BLUE_02	LevelTwo	Biru le mineral	#0070C0	Mau dong mas dibuat kayak tutup botol air putih yang ada manis-manisnya entuh xixixi	0	3	9	0	1	97.95
+L2_BLUE_03	LevelTwo	Twitter Blue	#1DA1F2	Beb, aku mau warna aplikasi tempat orang ribut di internet, yang ada gambar burungnya tapi sekarang ganti huruf doang. Aduh, aku masih kangen sama warna burung itu…	0	5	14	0	8	92.72
+L2_BLUE_04	LevelTwo	Smurf Blue	#4EA6DC	Mas, bikinin rambut gue kayak warna kurcaci yang pake topi putih itu dan tinggal di rumah jamur itu. Intinya satu desa isinya sama semua warnanya	0	4	11	0	7	95.24
+L2_BLUE_05	LevelTwo	Biru Doraemon	#00A0E9	Mas, samain kayak robot kucing dari masa depan dan takut banget sama tikus. Kantongnya ajaib, kalo kantong celanaku mah kosong.	0	4	11	0	6	92.69
+L2_BLUE_06	LevelTwo	Biru Stitch	#4B7BC4	Bang, aku mau kayak kartun alien kecil dari Hawaii yang kerjanya ngacak-ngacak. Katanya ‘ohana’ itu keluarga, tapi kok yang diacak-acak kamarku.	0	3	10	0	3	99.06
+L2_BLUE_07	LevelTwo	Biru Na’vi (Avatar)	#3F84B5	Mas, pengen kayak makhluk tinggi di planet Pandora yang rambutnya bisa colok-colokan ke pohon.	0	4	11	0	3	98.39
+L2_BLUE_08	LevelTwo	Biru Seragam SMP	#1B2A5A	Mas, mau warna bawahan anak sekolah SMP, masa-masa cinta monyet tapi PR numpuk.	0	2	9	13	1	99.81
+L2_BLUE_09	LevelTwo	Biru Pepsi	#004B93	Bang, kayak cola merk itu yang selalu jadi juara dua. Di warung cuma dikasih kalau yang satunya abis.	0	5	17	4	0	98.80
+L2_BLUE_10	LevelTwo	Biru Masker Medis	#9ACEEB	Met, samain kayak benda yang dulu wajib dipakai ke mana-mana pas jaman covid dong.	0	3	8	0	14	96.10
+L2_BLUE_11	LevelTwo	Biru BlueBird	#2E9BD6	Bre, mau warna kayak mobil taksi mahal yang biasa di bandara, padahal argonya udah bikin dompet gemeteran.	0	6	16	0	7	95.06
+L2_RED_01	LevelTwo	Merah Angpao	#D7261E	Kak, aku mau warna amplop yang dibagiin pas Imlek deng.	22	3	2	0	1	99.93
+L2_RED_02	LevelTwo	Merah Spiderman	#DF1F2D	Men, mau kayak pahlawan laba-laba itu aja. Rambutku juga harus punya tanggung jawab besar.	17	0	1	2	2	99.83
+L2_RED_03	LevelTwo	Merah Cabai Rawit	#D0191E	Bang, samain kayak tanaman yang kecil kecil tapi panasnya bikin mules. Jadi nyesel tadi sok kuat bilang mau ‘level 10’.	11	0	0	3	2	99.75
+L2_RED_04	LevelTwo	Merah Saus Sambal	#D2381F	Bang, kayak yang saos yang dituang ke bakso sampe kuahnya ganti warna. Rasanya mantep sih, tapi cuma toilet yang tau kelanjutannya.	19	5	2	0	0	99.78
+L2_RED_05	LevelTwo	Merah Lampu Lalu Lintas	#F01B1B	Men, mau kayak lampu di jalan raya yang suruh aku berhenti, tapi aku sih gas terus kayak banteng.	15	0	0	1	2	99.86
+L2_RED_06	LevelTwo	Merah Angry Bird	#D9262A	Bang, kayak burung yang mukanya marah terus, dilempar pake ketapel buat ngancurin rumah babi.	21	2	2	0	3	99.74
+L2_RED_07	LevelTwo	Merah Udang Rebus	#F07152	Woi, apa sih binatang laut yang aslinya abu-abu, terus direbus jadi cantik dan melengkung, mau glow up gitu dong.	13	3	0	1	6	99.87
+L2_RED_08	LevelTwo	Merah Rambutan	#D12A3B	Kak, mau kayak buah bulat, berambut, berbiji, yang rasanya manis itu kayak gebetanku, MAKSUDKU MANISNYA YA!	13	0	1	3	3	99.81
+L2_RED_09	LevelTwo	Merah Beta Buka Gudang	#C62828	Kang, mau warna baju karakter yang bilang “beta buka gudang, benderanya hilang…”	21	3	3	0	2	99.89
+L2_YELLOW_01	LevelTwo	Kuning Pisang	#F5E6A8	Bang, warnanya samain kayak dalamnya buah kesukaan monyet. daleman-nya ya, bukan luarnya	3	7	0	1	17	99.83
+L2_YELLOW_02	LevelTwo	Kuning Spongebob	#FFF34F	Mas, bikinin kayak spons kotak yang tinggal di nanas di dasar laut itu.	2	15	0	0	6	99.82
+L2_YELLOW_03	LevelTwo	Kuning Pikachu	#F8D030	Met, mau kayak pokemon tikus listrik ikonik dong.	6	13	0	0	1	99.94
+L2_YELLOW_04	LevelTwo	Kuning Minion	#FCE029	Bestie, samain kayak makhluk kecil yang pake overalls-denim yang demen pisang dan teriak ‘bello!’. gpp kerja buat orang jahat, asal gaji diatas UMR.	6	21	0	0	2	99.81
+L2_YELLOW_05	LevelTwo	Kuning Telur Mata Sapi	#FFB91C	Kak, mau kayak ceplok yang ada di atas nasi goreng itu.	5	6	0	0	0	98.67
+L2_YELLOW_06	LevelTwo	Kuning Mie Ayam	#F0D27A	Bang, warna kayak mie yang dijual di pinggir jalan itu. duh enak banget di-topping sama ayam	7	11	0	1	11	99.88
+L2_YELLOW_07	LevelTwo	Kuning Durian	#E9C46A	Mas, samain kayak daging raja buah yang orang antara suka banget atau dibilang bau kentut	8	11	0	2	8	99.76
+L2_YELLOW_08	LevelTwo	Kuning Lampu Kuning	#FFBF00	Weh, bikinin kayak lampu di jalan raya yang tiap kali nyala orang malah mikirnya ‘gas lebih kenceng’.	12	17	0	0	0	98.61
+L2_YELLOW_09	LevelTwo	Kuning Kunyit	#E8A317	Beb, kayak bumbu dapur atau biasa dibikin jamu juga, yang kalau kena baju nggak mau lepas kayak mantan gwe.	9	9	0	1	0	98.71
+L2_YELLOW_10	LevelTwo	Kuning Lemon	#FFF44F	Kak, kayak buah kecut banget itu, digigit langsung bikin muka kayak lagi ditagih utang. Tampilannya cerah banget, sampe bikin ketipu.	2	17	0	0	7	99.85
+L2_GREEN_01	LevelTwo	Hijau Hulk	#6CA931	Tolong mas dibuat kayak orang besar yang marah-marah itu. Kalau berubah, bajunya sampe sobek. POKOKNYA PAS DIA NGAMUKNYA ITUUU	1	10	7	2	0	99.87
+L2_GREEN_02	LevelTwo	Hijau Gojek	#00AA13	Mas, kayak jaket driver yang bilang ‘sudah di depan ya kak’ padahal aku-nya masih skincare-an.	0	8	8	3	0	97.79
+L2_GREEN_03	LevelTwo	Hijau Shrek	#A0B940	Bang, samain kayak raksasa rawa yang cuma pengen tinggal tenang tapi didatengin keledai cerewet.	2	13	5	1	3	99.85
+L2_GREEN_04	LevelTwo	Hijau Matcha	#93AA4E	Woi, mau kayak minuman cafe yang kata orang rasanya kayak rumput. Katanya si sehat, cuma kok yang dijual di pasaran gulanya segunung	3	12	6	1	4	99.84
+L2_GREEN_05	LevelTwo	Hijau Bayem	#3F6F2A	Men, mau kayak sayur yang bikin kartun pelaut berotot dalam sekali telen. Aku pengen kuat kayak dia, tapi males olahraga.	2	9	9	9	0	99.70
+L2_GREEN_06	LevelTwo	Hijau Wasabi	#A2C04A	Abang, mau warna kayak yang bikin hidung panas dan mata nangis pas makan bareng sushi.	0	12	4	5	6	99.85
+L2_GREEN_07	LevelTwo	Hijau Starbucks	#00704A	Kak, kayak logo franchise kopi elit yang nama kita selalu salah ditulis di gelas. ‘Atas nama Budi?’ Padahal aku Bambang.	0	5	8	5	0	97.81
+L2_GREEN_08	LevelTwo	Hijau Lampu Hijau	#14B85A	Bang, kayak lampu jalan raya yang baru nyala dua detik, kendaraan di belakang udah klakson. KALO MAU CEPET, BERANGKAT KEMARIN!	0	11	14	0	0	97.54
+L2_GREEN_09	LevelTwo	Hijau Lumut	#5B6F2D	Kak, kayak yang tumbuh di dinding kolam ikan yang gak dibersihin berminggu-minggu.	3	8	5	4	0	99.87
+L2_GREEN_10	LevelTwo	Hijau Tokopedia	#03AC0E	Mas, kayak marketplace lokal yang tiap hari bikin aku bilang ‘cuma lihat-lihat’ terus checkout tiga barang.	0	3	3	1	0	97.78
+L2_PINK_01	LevelTwo	Pink Susu Stroberi	#F4B6C2	Mas, aku mau rambut kayak susu rasa stroberi yang diminum anak SD pas istirahat. Jangan yang ngejreng brutal ya mas, natural aja.	7	0	1	1	21	99.71
+L2_PINK_02	LevelTwo	Pink Barbie	#E0218A	Sayy mau dong kayak warna ikonik boneka yang punya segalanya: rumah, mobil, dan pacar bernama Ken. YANG PALING IKONIK YA.	16	0	6	0	3	99.21
+L2_PINK_03	LevelTwo	Pink Panther	#E79CC1	Buatkan seperti warna kartun macan kurus yang jalannya santai banget. Jujur warnanya gak wajar sih, gak kayak panther pada umumnya	8	0	3	1	16	99.61
+L2_PINK_04	LevelTwo	Pink Patrick	#F59BB0	Bro mau dong kayak sahabat spons yang tinggal di bawah batu, IQ-nya misterius. Tapi kok hidupnya bahagia ya…	6	0	1	0	10	99.97
+L2_PINK_05	LevelTwo	Pink Permen Kapas	#FFBCD9	Buatkan seperti gulali yang ilang kalau kena air. Tapi buat warna yang paling umum ya. Kayak tanpa ada ala-ala rasa lain gitu	6	0	2	0	19	98.87
+L2_PINK_06	LevelTwo	Pink Sakura	#FFB7C5	Bestiee mau warnanya bunga ikonik Jepang yang mekarnya cuma bentar. Di indo ada sih, imitasinya doang tapi	8	0	1	0	21	99.44
+L2_PINK_07	LevelTwo	Pink Flamingo	#FC8EAC	Mas buat kayak burung yang berdiri satu kaki sambil ngelamun. Katanya warnanya dari makan udang, tapi saya gamau.	11	0	2	0	15	99.20
+L2_PINK_08	LevelTwo	Pink Kirby	#F8A5C2	Kak, bikinin kayak kartun bola bulat imut yang nyedot musuh terus niru kekuatannya! Hayoooo kakak tau gak?	4	0	1	0	8	99.48
+L2_PINK_09	LevelTwo	Pink Jambu Biji	#F2807A	Met bikin kek warna daging jambu biji yang udah dibelah. Yang udah mateng tapi ya, siap dijus.	14	1	0	1	14	99.49
+L2_PURPLE_01	LevelTwo	Ungu Terong	#5A2A63	Bro, gue mau warna sayur panjang yang emoji-nya paling sering disalahgunain itu. Jangan mikir yang aneh-aneh ya, gue cuma mau rambut yang mengkilap, hmph.	6	0	5	16	3	99.60
+L2_PURPLE_02	LevelTwo	Ungu Barney	#7A4CA6	Bang bikin kayak dinosaurus yang nyanyi ‘I love you, you love me’ ke anak-anak. Warna perutnya ijo kayaknya. Tapi gua mau warna badannya bukan perutnya	7	2	10	4	5	99.88
+L2_PURPLE_03	LevelTwo	Ungu Thanos	#7B5B8E	Tolong buat kayak titan yang jentikin jari bikin separuh alam semesta ilang. Aku juga mau jentikin tangan gitu tapi gamau jadi titan, jelek	8	5	9	0	4	99.73
+L2_PURPLE_04	LevelTwo	Ungu Anggur	#6F2DA8	Met, mau kayak buah yang bulet-bulet, numpuk-numpuk, trus kalau difermentasi jd minuman orang tua awokaowkaoka	6	0	9	6	2	99.79
+L2_PURPLE_05	LevelTwo	Ungu Ubi	#7E4A9C	Tolong bikin seperti umbi manis yang direbus enak, jadi es krim malah viral. Trus skrg jadi segala jenis makanan. Keren juga tu semua jadi di ubi-ubi kan	8	3	9	2	3	99.93
+L2_PURPLE_06	LevelTwo	Ungu Lavender	#B57EDC	Mau warnanya bunga yang di minyak kayu putih itu dong kak. Yang jadi pewangi tambahan minyaknya tapi yak.	7	1	9	0	11	99.92
+L2_PURPLE_07	LevelTwo	Ungu Tinky Winky	#8A4FBF	Mas saya mau warna kartun yang kepalanya punya antena segitiga itu. Temen-temennya juga sama sih ada bentuk bentuk lain dan warna lain.	6	0	9	5	6	99.81
+L2_PURPLE_08	LevelTwo	Ungu Memar	#5E3B6E	Bikin rambut saya kayak warna kaki saya mas, habis kepentok meja ini. baru 1 hari ini kepentoknya, jadi belum kuning-kuning.	4	1	4	9	3	99.73
+L2_ORANGE_01	LevelTwo	Oren Naruto	#F6851F	Bang, rambutku dibikin kayak baju ninja yang mimpinya jadi Hokage itu. Aku juga mau, jadi crazy rich Surabaya tapi maunya	8	5	0	0	0	99.27
+L2_ORANGE_02	LevelTwo	Oren Garfield	#F39A27	Beibh bikinkan sepertih kucing gendut yang benci hari Senin dan doyan lasagna. kucing pemalas, suka semirik, mukanya nyebelin. KAYAK ABANG AKU–	5	4	0	0	0	99.30
+L2_ORANGE_03	LevelTwo	Oren Nemo	#F36F21	BESTIE gue mau kayak ikan badut yang hilang terus bapaknya nyari ke seluruh samudra dibantu ikan pelupa. Warna dominan si ikan aja ya tapi	18	9	0	1	0	99.49
+L2_ORANGE_04	LevelTwo	Oren Goku	#F57C1F	Tolong buat seperti warna jaket pejuang rambut jabrik yang teriak ‘Kamehameha’ sampe tenaganya abis. Aku mau rambutku rizz that aura	16	9	0	0	0	99.34
+L2_ORANGE_05	LevelTwo	Oren Wortel	#ED9121	Bikinkan sperti makanan kelinci yang katanya bagus buat mata, tapi kacamataku tetep tebel. Biasanya dimasak ke sayur sop sih	13	10	0	1	0	99.22
+L2_ORANGE_06	LevelTwo	Oren Rompi Tahanan	#FF6A13	Buat kayak baju tahanan gitu boss. Biar ngejreng warna rambutku bahhh	11	5	0	0	0	99.13
+L2_ORANGE_07	LevelTwo	Oren Cone Jalan	#FF5F15	Mas mau warna kerucut di jalan yang katanya ‘hati-hati’, tapi selalu ketabrak. Aku harus rambut yang cuek dan tetep tegak. Periodt	18	7	0	0	0	99.32
+L2_ORANGE_08	LevelTwo	Oren Shopee	#EE4D2D	Bang buatkan macam marketplace S word yang tiap tanggal kembar bikin dompet bergetar. ‘Cuma ngecek keranjang’, padahal checkout.	15	3	0	1	2	99.76
+L2_ORANGE_09	LevelTwo	Oren Cheetos	#F98E2B	Tolong bikin kayak warna jari kita abis makan snack keju itu, terus lupa cuci tangan dan megang HP.	3	2	0	0	0	99.58
+L2_ORANGE_10	LevelTwo	Oren Labu Halloween	#FF7518	Bang, kayak buah yang diukir mukanya terus ditaruh buat hiasan halloween itu. Kalau di Manado udah jadi bubur itu padahal	19	10	0	0	0	99.08
+L2_ORANGE_11	LevelTwo	Oren Senja	#FA8A3C	Kak, kayak langit sore yang bikin orang mendadak puitis dan upload story galau. Tapi gamau ada pink, ungu. biru juga gak mau. Gak mau pas mendung juga	16	9	0	0	2	99.72
+L2_BROWN_01	LevelTwo	Capybara	#9C7550	Mas, samain warnanya kayak hewan paling santai sedunia. Biasanya suka berendam sambil ada jeruk di kepalanya. Pengennya sih biar hidupku setenang dia juga.	8	6	1	9	6	99.73
+L2_BROWN_02	LevelTwo	Coklat Rendang	#4B2614	Bang, buatlah rambutku macam masakan Padang yang masaknya berjam-jam. Makanan paling enak sedunia itu BAHH	5	2	0	19	1	99.59
+L2_BROWN_03	LevelTwo	Coklat Telur Kecap Manis	#7A4527	Met, lu tau telur kecap kan? Yang warnanya kecapnya udah nyerep gitu. Nah gua mau rambut kayak telur itu, bukan telur ceplok biasa	11	7	3	9	0	99.72
+L2_BROWN_04	LevelTwo	Coklat Kopi Tubruk	#2F1B12	Kak mau kayak minuman yang ampasnya nggak mau pergi di dasar gelas, kayak kenangan. Pahit, tapi diminum juga.	4	2	1	22	1	99.47
+L2_BROWN_05	LevelTwo	Coklat Lumpur Sawah	#6E5A3C	Bang bikinin kayak kubangan tempat kerbau berendam, trus bocah main bola pas hujan. Yang agak jemek benyek itu loh…	6	6	2	12	3	99.36
+L2_BROWN_06	LevelTwo	Coklat Banjir	#8E7350	Mas, buat kayak air yang tiba-tiba masuk rumah tiap musim hujan, airnya Indo tapi ya bukan kayak banjir luar yang agak bersih.	5	4	0	12	7	99.57
+L2_BROWN_07	LevelTwo	Coklat Gudeg	#7D3F27	Mas tolong dibuat seperti makanan khas Jogja yang manis banget itu. Legi gitu, makannya sama nasi. Kalau dibilang kemanisan, jawabannya ‘nggih’.	9	4	1	12	2	99.67
+L2_BROWN_08	LevelTwo	Coklat Kecoa	#6E3518	Bang, kayak serangga yang terbang pas kita nggak siap dan bikin seisi rumah teriak. Anehnya, kuat banget katanya sampe kiamat.	7	3	0	14	1	99.81
+L2_BROWN_09	LevelTwo	Coklat Nutella	#5C3317	Kang buat kayak selai yang pernah diklaim sarapan sehat padahal ya gulanya segunung. Logonya kalau gak salah tulisan hitam putih.	5	3	1	9	0	99.41
+L2_BROWN_10	LevelTwo	Coklat Es Teh	#B0622A	Buatkan seperti minuman nasional yang kalau dipesen di warung selalu jadi pilihan. ‘Es teh manis aja.’ Selalu.	12	7	0	8	1	99.80
+L2_BROWN_11	LevelTwo	Coklat Kayu Manis	#9F5530	Mas mau warnanya bumbu wangi yang ada di kue-kue Natal, tapi kalau dikunyah langsung bikin batuk. Wanginya bohong.	10	5	1	7	2	99.79
+L3_BLUE_01	LevelThree	Biru Latar Nikah	#1C5FB8	Mas, aku mau warna latar foto nikahan yang sering dipakai buat foto buku nikah. Aku mau langsung ke KUA ni habis ini	0	6	21	0	1	98.97
+L3_BLUE_02	LevelThree	Biru Bolpen	#1A43BF	Bang, aku mau warna benda yang biasa dipakai anak sekolah buat nulis PR mereka.	0	1	5	0	0	99.80
+L3_BLUE_03	LevelThree	Biru Laut	#1E9CC8	Kak, aku mau warna yang sering dibayangkan orang kalau melihat brosur liburan Bali.	0	2	5	0	2	95.18
+L3_BLUE_04	LevelThree	Tinta Stempel	#2B3990	Abang, aku mau warna yang muncul setelah dokumen profesional itu. Gelap dan dingin kayak suasana kantor ku.	2	4	15	4	1	99.83
+L3_BLUE_05	LevelThree	Biru Besi Karatan	#43B3AE	Mas, mau warna dari logam yang dia aslinya coklat, tapi setelah ditinggal di hujan bakal berubah warna	0	1	2	0	1	95.22
+L3_BLUE_06	LevelThree	Biru Peringatan Darurat	#0A1E5A	Met, mau warna yang muncul waktu negara ndak baik-baik saja. Udah gelap dan darurat ini situasinya!	0	2	10	13	0	99.67
+L3_BLUE_07	LevelThree	Biru Belanda	#21468B	Apa si warna dari bendera kolonial di sejarah itu? Iya aku mau warna persis itu!	0	3	11	3	0	99.82
+L3_RED_01	LevelThree	Merah Mawar	#B3001B	Sob, mau warna kayak bunga yang biasa dikasih waktu februari, mau kasih buat pacar aku tu.	11	0	1	4	0	99.73
+L3_RED_02	LevelThree	Merah Celana SD	#A11D33	Weh, aku mau warna bawahan anak sekolah itu. Duh, pusing banget ngajar bocil seharian seharian.	10	1	2	4	1	99.79
+L3_RED_03	LevelThree	Rapor Sekolah	#E3241B	Mas, aku mau warna yang paling tidak ingin dilihat orang tua saat pembagian hasil belajar. Satu angka saja bisa mengubah suasana rumah seharian.	24	2	1	1	2	99.86
+L3_RED_04	LevelThree	Lampu Rem Mobil	#D9000D	Mas, aku mau warna yang bikin pengendara di belakang langsung rem juga, penting loh jaga jarak di jalan.	25	0	1	4	0	99.82
+L3_RED_05	LevelThree	Merah Lipstik	#BF0A30	Ges, aku mau warna yang sering dipilih orang kalau ingin tampil berani buat ngelabrak pelakor	20	0	3	5	0	99.87
+L3_RED_06	LevelThree	Merah Darah	#8A0303	Men, samain warnanya kayak warna yang di film-film horror kalau pemeran utamanya lagi terluka.	13	0	0	11	0	99.78
+L3_RED_07	LevelThree	Merah Wine	#722F37	Bestie, mau yang kayak minuman beralkohol yang romantis buat dinner date di resto fancy yaa.	10	2	3	11	3	99.26
+L3_YELLOW_01	LevelThree	Kuning Telur Asin	#F39C2B	Bro, aku mau warna bagian telur yang sering diperebutkan waktu makan bersama. Enak bangit tuh asin-asin masir gimana gitu.	16	13	0	0	0	99.44
+L3_YELLOW_02	LevelThree	Rambu Jalan	#FFCC00	Kak, aku mau warna yang bikin pengendara mulai mikir dua kali. Bukan berhenti sepenuhnya, tapi juga jangan terlalu percaya diri.	1	2	0	0	0	98.97
+L3_YELLOW_03	LevelThree	Kartu Pelanggaran	#FDE100	Men, aku mau warna yang bisa bikin pemain bola mendadak jadi anak paling sopan di lapangan. Sekali diangkat, langsung pura-pura tidak melakukan apa-apa.	1	4	0	0	0	99.63
+L3_YELLOW_04	LevelThree	Pisang Kulit	#FFE135	Mas, aku mau warna buah praktis buat jadi bekal itu. Tapi kalau ditinggal beberapa hari aja udah muncul bintik-bintik coklat.	6	20	0	0	3	99.56
+L3_YELLOW_05	LevelThree	Lampu Kamar	#FFD27F	Kak, aku mau warna cahaya yang bikin kamar terasa hangat. Cocok buat malam-malam produktif, walaupun ujung-ujungnya malah rebahan.	9	10	0	0	10	99.30
+L3_YELLOW_06	LevelThree	Kulit Jagung	#FBEC5D	Kak, aku mau warna yang sering muncul sebelum jagung direbus. Kalau sudah matang, biasanya tinggal menunggu siapa yang paling cepat mengambil.	3	15	0	0	8	99.87
+L3_YELLOW_07	LevelThree	Emas	#D4AF37	Mas, aku mau warna yang bikin orang rela antre panjang di toko perhiasan. Katanya investasi, tapi kalau sudah dipakai malah takut hilang.	4	7	0	2	1	99.84
+L3_GREEN_01	LevelThree	Anggur	#B3C95A	Kak, aku mau warna yang biasanya bikin orang mengira buah ini masih muda. Padahal sudah matang, cuma penampilannya saja yang bikin orang salah sangka.	1	9	3	1	5	99.91
+L3_GREEN_02	LevelThree	Lampu Lalu Lintas	#00B050	Mas, aku mau warna yang bikin semua orang mendadak merasa punya hak untuk ngebut. Begitu warnanya muncul, klakson langsung konser.	0	13	17	0	0	97.75
+L3_GREEN_03	LevelThree	Uang	#85BB65	Kak, aku mau warna yang paling bikin orang semangat bangun pagi. Kalau warnanya muncul di dompet, rasanya hidup masih ada harapan.	0	6	5	3	5	99.78
+L3_GREEN_04	LevelThree	Seragam Dokter	#3F8F80	Mas, aku mau warna yang sering dipakai orang di rumah sakit. Melihatnya saja sudah bikin ingat antrean panjang dan biaya administrasi.	0	10	19	0	1	99.24
+L3_GREEN_05	LevelThree	Timun	#5E9B3E	Kak, aku mau warna yang sering muncul di lalapan. Biasanya cuma jadi pelengkap, tapi kalau nggak ada rasanya ada yang kurang.	3	11	10	0	0	99.94
+L3_GREEN_06	LevelThree	Rumput Tetangga	#4CA62A	Mas, aku mau warna yang selalu terlihat lebih menarik di halaman orang lain. Padahal belum tentu dirawat, cuma memang kita suka membandingkan hidup.	0	5	5	2	0	99.58
+L3_GREEN_07	LevelThree	Obat Herbal	#6B8E23	Kak, aku mau warna yang sering diasosiasikan dengan minuman sehat. Katanya bisa bikin badan segar, walaupun rasanya seperti sedang minum hasil blender kebun.	1	13	6	9	1	99.95
+L3_GREEN_08	LevelThree	Tombol Chat	#25D366	Mas, aku mau warna yang sering bikin orang langsung percaya kalau pesannya sudah terkirim. Tapi belum tentu dibalas, apalagi kalau yang dikirimi gebetan.	0	11	12	0	3	96.30
+L3_PINK_01	LevelThree	Permen Karet	#F7A1C4	Kak, aku mau warna yang sering menempel di bawah meja sekolah. Sudah bertahun-tahun di sana, mungkin lebih setia daripada teman sekelas.	7	0	2	0	13	99.32
+L3_PINK_02	LevelThree	Daging Salmon	#FA8072	Mas, aku mau warna yang sering muncul di menu restoran mahal. Namanya terdengar mewah, padahal kalau dimasak sendiri juga tetap ikan.	9	1	0	0	7	99.63
+L3_PINK_03	LevelThree	Susu Stroberi	#F7B7C3	Kak, aku mau warna minuman yang sering dibeli anak kecil. Tapi jangan terlalu manis, nanti gigi ikut minta cuti.	7	0	1	0	19	99.73
+L3_PINK_04	LevelThree	Pipi Bayi	#F2A7A7	Mas, aku mau warna yang sering muncul di wajah bayi setelah dicubit gemas. Padahal bayinya belum tentu setuju dengan tindakan tersebut.	6	0	0	1	13	99.82
+L3_PINK_05	LevelThree	Permen Kapas	#FFBCD9	Kak, aku mau warna yang sering muncul di pasar malam. Kelihatannya besar, tapi dimakan sebentar langsung hilang. Mirip uang jajan.	6	0	2	0	19	98.87
+L3_PINK_06	LevelThree	Baju Senam	#FF3E9A	Mas, aku mau warna yang bikin orang terlihat siap olahraga. Walaupun baru lima menit, biasanya sudah sibuk cari alasan istirahat.	10	0	3	0	5	97.64
+L3_PINK_07	LevelThree	Bunga Sakura	#FFB7C5	Kak, aku mau warna yang sering muncul di foto orang liburan ke luar negeri. Padahal di rumah sendiri lihat pohon mangga saja jarang.	8	0	1	0	21	99.44
+L3_PINK_08	LevelThree	Es Krim	#F7A8B8	Mas, aku mau warna rasa yang biasanya dipilih orang karena tampilannya lucu. Tapi kalau meleleh, sudah tidak ada yang mau memotretnya.	7	0	1	0	15	99.78
+L3_PURPLE_01	LevelThree	Anggur	#5E2A84	Mas, aku mau warna yang membuat buah ini terlihat seperti sudah siap masuk katalog parfum mahal. Bukan yang biasa dijadikan bekal anak sekolah.	6	0	8	13	3	99.86
+L3_PURPLE_02	LevelThree	Terong	#4B2C5E	Kak, aku mau warna yang sering bikin orang salah fokus waktu belanja sayur. Bentuknya panjang, tapi jangan berpikiran macam-macam.	5	2	6	12	2	99.75
+L3_PURPLE_03	LevelThree	Ubi	#7D3C98	Mas, aku mau warna yang baru kelihatan setelah kulitnya dibuka. Dari luar kelihatan biasa saja, ternyata dalamnya punya kejutan.	7	0	7	9	4	99.81
+L3_PURPLE_04	LevelThree	Baju Wisuda	#4B2E83	Kak, aku mau warna yang sering muncul di acara kelulusan. Dipakai sebentar untuk foto, tapi perjuangan mendapatkannya bertahun-tahun.	4	1	9	10	3	99.81
+L3_PURPLE_05	LevelThree	Lampu Diskotik	#9B30FF	Mas, aku mau warna yang bikin suasana tempat karaoke terasa lebih dramatis. Padahal yang nyanyi masih fals dari tadi.	5	0	8	0	2	98.52
+L3_PURPLE_06	LevelThree	Bunga	#6A0DAD	Kak, aku mau warna yang sering dipilih orang untuk buket kalau ingin terlihat misterius dan sedikit mahal. Cocok untuk orang yang susah ditebak, termasuk isi dompetnya.	6	0	9	5	0	99.48
+L3_PURPLE_07	LevelThree	Ubur-Ubur	#B48EDB	Mas, aku mau warna yang mungkin terlihat cantik saat berenang, tapi jangan sampai disentuh. Niatnya healing, malah pulang bawa cerita ke IG Story rumah sakit.	5	1	8	1	14	99.77
+L3_ORANGE_01	LevelThree	Wortel	#ED9121	Kak, aku mau warna sayuran yang katanya bikin mata sehat. Tapi kalau melihat saldo rekening tetap saja buram.	13	10	0	1	0	99.22
+L3_ORANGE_02	LevelThree	Jersey Sepak Bola	#F36C21	Mas, aku mau warna yang sering dipakai tim yang mainnya bikin penonton deg-degan. Bukan karena hebat, tapi karena kita tidak tahu bakal menang atau kalah.	19	9	0	1	0	99.60
+L3_ORANGE_03	LevelThree	Senja	#F7874A	Kak, aku mau warna langit ketika matahari mulai pulang kerja. Momen paling romantis, kecuali kalau sedang terjebak macet.	15	7	0	0	4	99.82
+L3_ORANGE_04	LevelThree	Kulit Jeruk	#FF9F00	Mas, aku mau warna yang langsung mengingatkan orang pada buah yang kalau dikupas aromanya memenuhi satu ruangan. Jangan sampai salah pilih, nanti dikira sedang makan wortel.	6	5	0	0	0	98.27
+L3_ORANGE_05	LevelThree	Rompi Proyek	#FF6700	Kak, aku mau warna yang sering dipakai orang di lokasi pembangunan. Kelihatannya sibuk, walaupun kadang cuma berdiri sambil mengawasi.	11	5	0	0	0	98.76
+L3_ORANGE_06	LevelThree	Api Kompor	#FF7E1F	Mas, aku mau warna yang muncul saat ibu sedang masak dan semua orang mendadak dilarang mendekat. Bahkan kucing pun tahu kapan harus minggir.	16	9	0	0	0	99.17
+L3_ORANGE_07	LevelThree	Saus Keju	#F9B233	Kak, aku mau warna yang sering muncul di atas makanan cepat saji. Katanya cuma topping, tapi bisa bikin harga makanan naik dua kali lipat.	1	1	0	0	0	99.31
+L3_ORANGE_08	LevelThree	Daun Musim Gugur	#C8571B	Mas, aku mau warna daun yang sudah capek jadi hijau. Saatnya pensiun dan jatuh dengan penuh gaya.	11	5	0	4	0	99.74
+L3_BROWN_01	LevelThree	Kopi Susu	#A67B5B	Kak, aku mau warna minuman yang sering dibeli orang sebelum mulai bekerja. Katanya biar fokus, padahal yang dikerjakan tetap buka media sosial.	5	3	0	7	6	99.80
+L3_BROWN_02	LevelThree	Tanah	#7A5233	Mas, aku mau warna yang selalu ada di bawah kaki kita. Sering diinjak, tapi kalau hilang semua orang langsung panik.	6	4	1	9	2	99.81
+L3_BROWN_03	LevelThree	Kardus Paket	#C39A6B	Kak, aku mau warna benda yang paling sering datang ke rumah orang yang hobi belanja online. Isinya belum tentu penting, tapi membukanya selalu bikin bahagia.	6	5	1	2	5	99.74
+L3_BROWN_04	LevelThree	Roti Panggang	#9A5B2B	Mas, aku mau warna bagian roti yang sudah terlalu lama dekat panas. Kalau sudah begini, jangan bilang gosong, bilang saja ekstra matang.	10	6	0	11	2	99.91
+L3_BROWN_05	LevelThree	Kayu	#966F33	Kak, aku mau warna yang sering dipakai buat furnitur supaya rumah terlihat mahal. Padahal cicilannya masih berjalan.	9	8	1	9	2	99.40
+L3_BROWN_06	LevelThree	Gula Aren	#7F4A23	Mas, aku mau warna pemanis yang sering bikin minuman terasa lebih tradisional. Kalau masuk menu kafe, harganya bisa langsung naik.	9	6	2	8	0	99.73
+L3_BROWN_07	LevelThree	Kulit Sawo	#8A6642	Kak, aku mau warna buah yang kalau sudah matang terlihat seperti habis kehujanan lumpur. Tapi jangan tertipu penampilan, rasanya tetap enak.	8	7	4	0	0	99.64
+L3_BROWN_08	LevelThree	Seragam Pramuka	#A88B5A	Mas, aku mau warna yang sering dipakai saat upacara sekolah. Begitu melihatnya, langsung teringat tali-temali, baris-berbaris, dan tugas yang tidak selesai.	6	6	0	9	7	99.81
