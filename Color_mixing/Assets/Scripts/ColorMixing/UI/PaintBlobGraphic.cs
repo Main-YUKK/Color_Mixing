@@ -27,6 +27,12 @@ public class PaintBlobGraphic : MaskableGraphic
     private readonly Vector2[] ring = new Vector2[RingCount];
     private readonly Vector2[] normals = new Vector2[RingCount];
     private SoftBlobSim sim;
+    [SerializeField] private float swirlSpeed = 7f;        // kecepatan pusaran saat reveal (radian per detik)
+    [SerializeField] private float revealDuration = 1.8f;  // lama pusaran dan perubahan warna saat reveal (detik)
+
+    private bool revealing;     // fase reveal: semua blob dilebur jadi satu blob berwarna hasil campuran
+    private Color revealColor;
+    private float revealTime;
     private int[] knownUnits;   // isi mangkuk terakhir yang sudah digambar, untuk tahu pigmen mana yang bertambah
     private float accumulator;
 
@@ -63,6 +69,14 @@ public class PaintBlobGraphic : MaskableGraphic
         {
             sim.Clear();
             Array.Clear(knownUnits, 0, knownUnits.Length);
+            revealing = false;
+            sim.SwirlSpeed = 0f;
+            return;
+        }
+
+        if (colorMixingController.IsMixConfirmed)
+        {
+            if (!revealing) StartReveal(bowl);
             return;
         }
 
@@ -78,6 +92,22 @@ public class PaintBlobGraphic : MaskableGraphic
         }
     }
 
+    // Semua pemain sudah Mix: blob paling besar menelan sisanya, lalu semuanya berwarna hasil campuran.
+    private void StartReveal(MixingBowl bowl)
+    {
+        revealing = true;
+        revealTime = 0f;
+        revealColor = ColorMixer.Blend(colorMixingController.Palette, bowl.PigmentUnits);
+
+        int keeper = 0;
+        for (int i = 1; i < bowl.PigmentUnits.Count; i++)
+            if (bowl.PigmentUnits[i] > bowl.PigmentUnits[keeper]) keeper = i;
+
+        for (int i = 0; i < bowl.PigmentUnits.Count; i++)
+            if (i != keeper) sim.SetUnits(i, 0, 0f, 0f);
+        sim.SetUnits(keeper, bowl.TotalUnits, 0f, 0f);
+    }
+
     // Host mencatat siapa yang terakhir menuang tiap pigmen. Tangan sendiri: kiri untuk slot 0, kanan untuk slot 1.
     // Selain itu (pemain lain, atau belum diketahui) dianggap dituang dari atas.
     private Vector2 PourSource(int pigment)
@@ -90,6 +120,14 @@ public class PaintBlobGraphic : MaskableGraphic
     private void Update()
     {
         if (sim == null) return;
+
+        if (revealing)
+        {
+            // Pusaran naik lalu turun lagi (bentuk setengah sinus), selesai tepat di akhir revealDuration.
+            revealTime += Time.deltaTime;
+            float progress = Mathf.Clamp01(revealTime / revealDuration);
+            sim.SwirlSpeed = swirlSpeed * Mathf.Sin(progress * Mathf.PI);
+        }
 
         accumulator += Mathf.Min(Time.deltaTime, 0.1f);
         while (accumulator >= StepTime)
@@ -110,6 +148,7 @@ public class PaintBlobGraphic : MaskableGraphic
             BuildRing(blob);
             AddFan(vh, 0f, Color.black);
             Color pigmentColor = colorMixingController.Palette.GetPigment(blob.Id).color;
+            if (revealing) pigmentColor = Color.Lerp(pigmentColor, revealColor, Mathf.SmoothStep(0f, 1f, revealTime / revealDuration));
             AddFan(vh, outlineWidth, pigmentColor);
             AddShadeBand(vh, pigmentColor);
         }

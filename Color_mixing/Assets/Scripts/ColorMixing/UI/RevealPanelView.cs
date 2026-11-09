@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,11 @@ public class RevealPanelView : MonoBehaviour
     [SerializeField] private GameObject canvasRoot;   
     [SerializeField] private string notVotedMessage = "Kamu punya (1) pilihan";
     [SerializeField] private string votedMessage = "menunggu semua pemain untuk memilih";
+    [SerializeField] private GameObject[] showAfterDelay;   // tombol Ulangi/Warnai + teks status: baru muncul setelah animasi aduk
+    [SerializeField] private float revealDelay = 1.8f;      // samakan dengan Reveal Duration di PaintBlobs
+
+    private bool wasVoting;
+    private Coroutine showRoutine;
 
     // MARK: - Unity Lifecycle
     private void OnEnable() => applyRedoVoteController.StateChanged += Refresh;
@@ -35,11 +41,35 @@ public class RevealPanelView : MonoBehaviour
         bool voting = applyRedoVoteController.IsVoting;
         mixingPanel.SetActive(!voting);
         revealPanel.SetActive(voting);
+        if (voting && !wasVoting) HideUntilRevealDone();
+        wasVoting = voting;
         if (!voting) return;
 
         resultColor.color = ColorMixer.Blend(colorMixingController.Palette, colorMixingController.MixingBowl.PigmentUnits);
 
         bool hasVoted = applyRedoVoteController.GetVote(Player) != Vote.None;
         statusText.text = hasVoted ? votedMessage : notVotedMessage;
+    }
+
+    // MARK: - Jeda reveal
+    // Tombol vote disembunyikan dulu supaya pemain menonton cat diaduk, lalu muncul setelah revealDelay.
+    private void HideUntilRevealDone()
+    {
+        SetDelayedActive(false);
+        if (showRoutine != null) StopCoroutine(showRoutine);
+        showRoutine = StartCoroutine(ShowAfterDelay());
+    }
+
+    private IEnumerator ShowAfterDelay()
+    {
+        yield return new WaitForSeconds(revealDelay);
+        SetDelayedActive(true);
+        showRoutine = null;
+    }
+
+    private void SetDelayedActive(bool active)
+    {
+        foreach (GameObject target in showAfterDelay)
+            if (target != null) target.SetActive(active);
     }
 }
