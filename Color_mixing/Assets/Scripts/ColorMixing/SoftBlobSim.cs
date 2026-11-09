@@ -39,6 +39,7 @@ public sealed class SoftBlobSim
     private const float CreaseRange = 0.6f;     // penguatan bertahap, supaya titik tidak bergetar di ambang sudut
     private const float CreaseStrength = 0.8f;
     private const float SpawnRadiusRatio = 0.05f;
+    private const float RemoveRadiusRatio = 0.06f; // blob tanpa unit dibuang saat sudah sekecil ini
 
     private readonly float plateRadius;
     private readonly float paintArea;
@@ -47,6 +48,9 @@ public sealed class SoftBlobSim
     private readonly float[] gradY = new float[PointCount];
 
     public IReadOnlyList<Blob> Blobs => blobs;
+
+    // Kecepatan pusaran di tengah piring (radian per detik), 0 = diam. Dipakai saat reveal supaya cat terlihat diaduk.
+    public float SwirlSpeed { get; set; }
 
     public SoftBlobSim(float plateRadius)
     {
@@ -105,6 +109,35 @@ public sealed class SoftBlobSim
                     b.VelX[i] = vx;
                     b.VelY[i] = vy;
                 }
+            }
+
+            if (SwirlSpeed != 0f) Swirl(h);
+        }
+
+        // Blob yang unitnya 0 (mis. saat reveal digabung jadi satu) mengecil lalu dibuang.
+        float removeArea = MathF.PI * MathF.Pow(plateRadius * RemoveRadiusRatio, 2f);
+        blobs.RemoveAll(b => b.Units == 0 && MathF.Abs(Area(b)) < removeArea);
+    }
+
+    // Putar semua titik mengelilingi tengah piring. Bagian dalam lebih cepat, jadi blob terpelintir seperti diaduk.
+    // Kecepatan ikut diputar, jadi putaran ini tidak menambah dorongan.
+    private void Swirl(float h)
+    {
+        foreach (Blob b in blobs)
+        {
+            for (int i = 0; i < PointCount; i++)
+            {
+                float r = MathF.Sqrt(b.X[i] * b.X[i] + b.Y[i] * b.Y[i]);
+                float angle = SwirlSpeed * h * (1f - 0.6f * MathF.Min(r / plateRadius, 1f));
+                float cos = MathF.Cos(angle), sin = MathF.Sin(angle);
+
+                float x = b.X[i], y = b.Y[i];
+                b.X[i] = x * cos - y * sin;
+                b.Y[i] = x * sin + y * cos;
+
+                float vx = b.VelX[i], vy = b.VelY[i];
+                b.VelX[i] = vx * cos - vy * sin;
+                b.VelY[i] = vx * sin + vy * cos;
             }
         }
     }

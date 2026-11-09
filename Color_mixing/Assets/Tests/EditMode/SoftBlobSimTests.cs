@@ -71,6 +71,27 @@ public class SoftBlobSimTests
         Assert.Greater(y, 0f);
     }
 
+    // Reveal: blob terbesar menelan semua, yang lain mengecil lalu hilang.
+    [Test]
+    public void RevealMenyisakanSatuBlobPenuh()
+    {
+        const float radius = 346f;
+        var sim = new SoftBlobSim(radius);
+        sim.SetUnits(2, 10, -100f, -150f);
+        sim.SetUnits(1, 2, 250f, -120f);
+        sim.SetUnits(4, 4, 0f, 280f);
+        for (int i = 0; i < 240; i++) sim.Step(1f / 60f);
+
+        sim.SetUnits(1, 0, 0f, 0f);
+        sim.SetUnits(4, 0, 0f, 0f);
+        sim.SetUnits(2, 16, 0f, 0f);
+        for (int i = 0; i < 240; i++) sim.Step(1f / 60f);
+
+        Assert.AreEqual(1, sim.Blobs.Count);
+        Assert.AreEqual(1, WindingCount(sim.Blobs[0]));
+        Assert.AreEqual(1f, SoftBlobSim.Area(sim.Blobs[0]) / (0.95f * MathF.PI * radius * radius), 0.02f);
+    }
+
     private static int WindingCount(SoftBlobSim.Blob blob)
     {
         int n = SoftBlobSim.PointCount;
