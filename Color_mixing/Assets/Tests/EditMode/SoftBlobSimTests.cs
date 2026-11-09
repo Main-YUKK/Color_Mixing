@@ -57,6 +57,20 @@ public class SoftBlobSimTests
             Assert.AreEqual(1, WindingCount(blob));
     }
 
+    [Test]
+    public void BlobBaruMunculDariArahTuangan()
+    {
+        var sim = new SoftBlobSim(346f);
+        sim.SetUnits(0, 1, -300f, 160f);
+        sim.Step(1f / 60f);
+
+        float x = 0f, y = 0f;
+        foreach (SoftBlobSim.Blob blob in sim.Blobs)
+            for (int i = 0; i < SoftBlobSim.PointCount; i++) { x += blob.X[i]; y += blob.Y[i]; }
+        Assert.Less(x, 0f);
+        Assert.Greater(y, 0f);
+    }
+
     private static int WindingCount(SoftBlobSim.Blob blob)
     {
         int n = SoftBlobSim.PointCount;

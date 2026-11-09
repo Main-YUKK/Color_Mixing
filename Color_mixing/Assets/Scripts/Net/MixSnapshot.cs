@@ -15,6 +15,7 @@ public class MixSnapshot
     public bool confirmed;
     public float rotationLeft;
     public int rotationCount;   // naik tiap rotasi pigmen: client menampilkan alert kalau angkanya naik
+    public int[] lastPourers;   // per pigmen: penuang terakhir (pemain * 2 + slot), -1 = belum ada. Untuk arah animasi tuang
 
     // vote
     public int[] votes;

@@ -8,11 +8,13 @@ public class MixingState
     private readonly int pigmentCount;
     private readonly bool[] ready = new bool[PigmentAssignment.PlayerCount];
     private int[] slots;
+    private readonly int[] lastPourers;   // per pigmen: slot penuang terakhir (pemain * 2 + slot), -1 = belum ada
 
     public MixingState(int pigmentCount)
     {
         this.pigmentCount = pigmentCount;
         Bowl = new MixingBowl(pigmentCount);
+        lastPourers = Enumerable.Repeat(-1, pigmentCount).ToArray();
     }
 
     public MixingBowl Bowl { get; }
@@ -26,9 +28,15 @@ public class MixingState
     // Salinan keadaan untuk dikirim ke client.
     public int[] Units => Bowl.PigmentUnits.ToArray();
     public bool[] ReadyFlags => (bool[])ready.Clone();
+    public int[] LastPourers => (int[])lastPourers.Clone();
+
+    // Siapa yang terakhir menuang pigmen ini: pemain * 2 + slot, atau -1 kalau belum ada / tidak diketahui.
+    // Disimpan saat menuang, jadi tetap benar walau pigmen sudah dirotasi ke pemain lain.
+    public int LastPourer(int pigment) => pigment >= 0 && pigment < pigmentCount ? lastPourers[pigment] : -1;
 
     // Client: ganti seluruh keadaan dengan kiriman host. false (dan tidak ada yang berubah) kalau datanya tidak masuk akal.
-    public bool Import(int[] newSlots, int[] units, bool[] newReady, bool confirmed)
+    // newLastPourers boleh null / tidak cocok (kiriman versi lama): dianggap tidak diketahui, foto tetap diterima.
+    public bool Import(int[] newSlots, int[] units, bool[] newReady, bool confirmed, int[] newLastPourers = null)
     {
         if (newReady == null || newReady.Length != ready.Length) return false;
         if (units == null || units.Length != pigmentCount || units.Any(n => n < 0)) return false;
@@ -37,6 +45,10 @@ public class MixingState
         Bowl.Set(units);
         System.Array.Copy(newReady, ready, ready.Length);
         IsConfirmed = confirmed;
+
+        bool pourersValid = newLastPourers != null && newLastPourers.Length == pigmentCount
+                            && newLastPourers.All(p => p >= -1 && p < PigmentAssignment.PlayerCount * 2);
+        for (int i = 0; i < pigmentCount; i++) lastPourers[i] = pourersValid ? newLastPourers[i] : -1;
         return true;
     }
 
@@ -62,6 +74,7 @@ public class MixingState
         if (pigment < 0 || amount < 1 || IsConfirmed || ready[player]) return false;
 
         Bowl.AddPigment(pigment, amount);
+        lastPourers[pigment] = player * 2 + slot;
         return true;
     }
 
@@ -81,6 +94,7 @@ public class MixingState
     {
         Bowl.Clear();
         System.Array.Clear(ready, 0, ready.Length);
+        for (int i = 0; i < pigmentCount; i++) lastPourers[i] = -1;
         IsConfirmed = false;
     }
 

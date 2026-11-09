@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,17 +19,23 @@ public class PaintBlobGraphic : MaskableGraphic
     [SerializeField] private float shadeBlur = 6f;                       // Sketch: blur 2 x 3
     [SerializeField, Range(0f, 0.06f)] private float wobbleRatio = 0.03f; // kedalaman gelombang tepi terhadap jari-jari blob
     [SerializeField] private float wobbleSpeed = 0f;                     // 0 = gelombang diam
-    [SerializeField] private Vector2[] spawnPoints;                      // urutan = PigmentPalette
+    [SerializeField, Range(0, 2)] private int player;                    // cadangan nomor pemain saat tes tanpa jaringan
+    [SerializeField] private Vector2 leftPour = new Vector2(-300f, 160f);  // tangan kiri (slot 0)
+    [SerializeField] private Vector2 rightPour = new Vector2(320f, 120f);  // tangan kanan (slot 1)
+    [SerializeField] private Vector2 friendPour = new Vector2(150f, 320f); // pemain lain, dari atas
 
     private readonly Vector2[] ring = new Vector2[RingCount];
     private readonly Vector2[] normals = new Vector2[RingCount];
     private SoftBlobSim sim;
+    private int[] knownUnits;   // isi mangkuk terakhir yang sudah digambar, untuk tahu pigmen mana yang bertambah
     private float accumulator;
 
     protected override void Awake()
     {
         base.Awake();
-        if (Application.isPlaying) sim = new SoftBlobSim(rectTransform.rect.width * 0.5f);
+        if (!Application.isPlaying) return;
+        sim = new SoftBlobSim(rectTransform.rect.width * 0.5f);
+        knownUnits = new int[colorMixingController.Palette.Count];
     }
 
     protected override void OnEnable()
@@ -55,11 +62,29 @@ public class PaintBlobGraphic : MaskableGraphic
         if (bowl.IsEmpty)
         {
             sim.Clear();
+            Array.Clear(knownUnits, 0, knownUnits.Length);
             return;
         }
 
-        for (int i = 0; i < bowl.PigmentUnits.Count; i++)
-            sim.SetUnits(i, bowl.PigmentUnits[i], spawnPoints[i].x, spawnPoints[i].y);
+        // Pigmen yang bertambah sejak terakhir digambar = baru saja dituang.
+        for (int i = 0; i < knownUnits.Length; i++)
+        {
+            int units = bowl.PigmentUnits[i];
+            if (units == knownUnits[i]) continue;
+
+            Vector2 source = PourSource(i);
+            sim.SetUnits(i, units, source.x, source.y);
+            knownUnits[i] = units;
+        }
+    }
+
+    // Host mencatat siapa yang terakhir menuang tiap pigmen. Tangan sendiri: kiri untuk slot 0, kanan untuk slot 1.
+    // Selain itu (pemain lain, atau belum diketahui) dianggap dituang dari atas.
+    private Vector2 PourSource(int pigment)
+    {
+        int pourer = colorMixingController.LastPourer(pigment);
+        if (pourer < 0 || pourer / 2 != LocalPlayer.Index(player)) return friendPour;
+        return pourer % 2 == 0 ? leftPour : rightPour;
     }
 
     private void Update()
