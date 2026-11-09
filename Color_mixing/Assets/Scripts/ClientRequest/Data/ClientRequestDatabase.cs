@@ -12,5 +12,5 @@ public class ClientRequestDatabase : ScriptableObject
     // Ambil daftar request berdasarkan level difficulty.
     public List<ClientRequest> GetByDifficulty(RequestDifficulty difficulty) => clientRequests.FindAll(request => request.difficulty == difficulty);
     
-    // TODO: Import data request dari spreadsheet (TSV). Sementara diisi manual di Inspector.
+    // Isi list lewat menu Tools > Color Mixing > Import Client Requests (sumber: Assets/Data/ClientRequests.tsv).
 }
