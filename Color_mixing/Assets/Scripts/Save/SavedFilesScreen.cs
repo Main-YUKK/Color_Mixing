@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -34,6 +35,9 @@ public class SavedFilesScreen : MonoBehaviour
         foreach (Transform child in container) Destroy(child.gameObject);
 
         var saves = SaveService.LoadAll();
+#if UNITY_EDITOR
+        saves.InsertRange(0, dummySaves);   // save palsu (tombol tes) tampil paling atas
+#endif
         Debug.Log($"[SavedFiles] {saves.Count} save(s) di {SaveService.Dir}");
         if (emptyText != null) emptyText.SetActive(saves.Count == 0);
 
@@ -60,7 +64,8 @@ public class SavedFilesScreen : MonoBehaviour
         }
 
         SaveService.SetActive(save);
-        LobbyService.Instance.CreateRoom(save.roomCode, save.roomName);
+        // Kode ruang tidak disimpan: setiap kali dibuka, room mendapat kode baru.
+        LobbyService.Instance.CreateRoom(null, save.roomName);
         SceneLoader.Load(lobbySceneName);
     }
 
@@ -94,6 +99,61 @@ public class SavedFilesScreen : MonoBehaviour
     private void DeleteNow(SaveFile save)
     {
         SaveService.Delete(save);
+#if UNITY_EDITOR
+        dummySaves.Remove(save);
+#endif
         Rebuild();
     }
+
+    // ---------- Debug (tombol tes di Editor) ----------
+
+#if UNITY_EDITOR
+    // Save palsu hanya ada di memori selama Play: tidak ditulis ke disk (lihat SaveService.Write) dan hilang saat Play dihentikan.
+    private static readonly List<SaveFile> dummySaves = new List<SaveFile>();
+    private static int dummyCounter;
+
+    // Nama ketiga = 20 karakter (batas maksimal nama room) untuk cek nama panjang di kartu.
+    private static readonly string[] DummyNames = { "Ruang Player {0}", "Kelas Seni {0}", "Ruangan Seru Banget!" };
+
+    // Reload Domain dimatikan: static tidak reset sendiri saat Play berikutnya.
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ClearDummiesOnPlay()
+    {
+        dummySaves.Clear();
+        dummyCounter = 0;
+    }
+
+    private void OnGUI()
+    {
+        float scale = Mathf.Max(1f, Screen.height / 540f);
+        GUI.matrix = Matrix4x4.Scale(Vector3.one * scale);
+
+        // Pojok kanan atas supaya tidak menutupi tombol back.
+        float x = Screen.width / scale - 170;
+        if (GUI.Button(new Rect(x, 10, 160, 28), "Tambah save palsu"))
+        {
+            AddDummy();
+            Rebuild();
+        }
+        if (GUI.Button(new Rect(x, 42, 160, 28), "Hapus save palsu") && dummySaves.Count > 0)
+        {
+            dummySaves.RemoveAt(0);
+            Rebuild();
+        }
+    }
+
+    private static void AddDummy()
+    {
+        int n = ++dummyCounter;
+        int day = (n * 7) % 31;   // campuran angka 1 dan 2 digit
+        dummySaves.Insert(0, new SaveFile
+        {
+            id = SaveService.EditorDummyPrefix + n,
+            roomName = string.Format(DummyNames[(n - 1) % DummyNames.Length], n),
+            hostName = "Player " + n,
+            completedDay = day,
+            nextDay = day + 1,
+        });
+    }
+#endif
 }

@@ -12,6 +12,11 @@ public static class SaveService
     // Save yang sedang dimainkan (dipilih dari Saved Files). Null = game baru, file dibuat saat hari pertama selesai.
     public static SaveFile Active { get; private set; }
 
+#if UNITY_EDITOR
+    // id save palsu dari tombol tes di layar Saved Files (Editor saja). Save ini tidak pernah ditulis ke disk.
+    public const string EditorDummyPrefix = "editor-dummy-";
+#endif
+
     // Reload Domain dimatikan: static tidak reset sendiri saat Play berikutnya.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ClearOnPlay() => Active = null;
@@ -94,13 +99,16 @@ public static class SaveService
         {
             id = Guid.NewGuid().ToString("N"),
             roomName = hasRoomName ? lobby.RoomName : $"{hostName}'s Room",
-            roomCode = lobby != null && lobby.RoomCode != null ? lobby.RoomCode : "",
             hostName = hostName,
         };
     }
 
     private static void Write(SaveFile file)
     {
+#if UNITY_EDITOR
+        // Rename / hari selesai pada save palsu cukup diubah di memori.
+        if (file.id != null && file.id.StartsWith(EditorDummyPrefix)) return;
+#endif
         try
         {
             Directory.CreateDirectory(Dir);
