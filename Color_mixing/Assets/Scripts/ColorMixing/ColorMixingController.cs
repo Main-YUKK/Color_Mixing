@@ -99,6 +99,9 @@ public class ColorMixingController : MonoBehaviour
     // slot 0 atau 1 milik pemain -> index pigmen di palet
     public int GetPigment(int player, int slot) => state.GetPigment(player, slot);
 
+    // Penuang terakhir pigmen ini (pemain * 2 + slot), -1 kalau belum ada. Dipakai blob untuk arah tuangan.
+    public int LastPourer(int pigment) => state.LastPourer(pigment);
+
     private string Name(int player, int slot) => palette.GetPigment(GetPigment(player, slot)).pigmentName;
 
     // MARK: - Player Actions
@@ -165,13 +168,14 @@ public class ColorMixingController : MonoBehaviour
         s.confirmed = state.IsConfirmed;
         s.rotationLeft = RotationTimerLeft;
         s.rotationCount = RotationCount;
+        s.lastPourers = state.LastPourers;
     }
 
     // Client: pasang bagian mixing dari foto host. false = ditolak (ini host, atau datanya rusak).
     public bool ApplyRemote(MixSnapshot s)
     {
         if (IsAuthority || s == null) return false;
-        if (!state.Import(s.slots, s.units, s.ready, s.confirmed)) return false;
+        if (!state.Import(s.slots, s.units, s.ready, s.confirmed, s.lastPourers)) return false;
 
         RotationTimerLeft = s.rotationLeft;
         enabled = !s.confirmed;   // sama seperti host: selesai Mix = timer rotasi berhenti

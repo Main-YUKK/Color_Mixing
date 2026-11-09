@@ -45,7 +45,6 @@ public sealed class SoftBlobSim
     private readonly List<Blob> blobs = new List<Blob>();
     private readonly float[] gradX = new float[PointCount];
     private readonly float[] gradY = new float[PointCount];
-    private readonly Random random = new Random();
 
     public IReadOnlyList<Blob> Blobs => blobs;
 
@@ -56,21 +55,22 @@ public sealed class SoftBlobSim
     }
 
     // MARK: - Public API
-    // Samakan jumlah unit satu pigmen. Blob baru muncul di (spawnX, spawnY).
-    public void SetUnits(int id, int units, float spawnX, float spawnY)
+    // Samakan jumlah unit satu pigmen. (sourceX, sourceY) = arah tuangan:
+    // blob baru muncul di tepi piring ke arah itu, dan goyangan dimulai dari sisi yang paling dekat.
+    public void SetUnits(int id, int units, float sourceX, float sourceY)
     {
         Blob blob = Find(id);
         if (blob == null)
         {
             if (units <= 0) return;
-            blob = Spawn(id, spawnX, spawnY);
+            blob = Spawn(id, sourceX, sourceY);
         }
         if (blob.Units == units) return;
 
         bool added = units > blob.Units;
         blob.Units = units;
         UpdateGoals();
-        if (added) Poke(blob);
+        if (added) Poke(blob, sourceX, sourceY);
     }
 
     public void Clear() => blobs.Clear();
@@ -153,10 +153,18 @@ public sealed class SoftBlobSim
         foreach (Blob b in blobs) b.GoalArea = total == 0 ? 0f : (float)b.Units / total * paintArea;
     }
 
-    // Dorongan lokal ke arah tengah blob, supaya bergoyang saat cat masuk.
-    private void Poke(Blob b)
+    // Dorongan lokal ke arah tengah blob, dimulai dari titik terdekat ke arah tuangan.
+    private static void Poke(Blob b, float sourceX, float sourceY)
     {
-        int center = random.Next(PointCount);
+        int center = 0;
+        float nearest = float.MaxValue;
+        for (int i = 0; i < PointCount; i++)
+        {
+            float sx = b.X[i] - sourceX, sy = b.Y[i] - sourceY;
+            float d = sx * sx + sy * sy;
+            if (d < nearest) { nearest = d; center = i; }
+        }
+
         float mx = 0f, my = 0f;
         for (int i = 0; i < PointCount; i++) { mx += b.X[i]; my += b.Y[i]; }
         mx /= PointCount; my /= PointCount;

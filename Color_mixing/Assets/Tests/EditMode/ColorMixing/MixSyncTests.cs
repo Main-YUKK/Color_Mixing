@@ -165,4 +165,41 @@ public class MixSyncTests
         Assert.AreEqual(1, host.Units[2], "pigmen slot 0 milik pemain 1 = pigmen 2");
         Assert.AreEqual(0, host.Units[0]);
     }
+
+    // ---------- Penuang terakhir ----------
+
+    [Test]
+    public void LastPourer_TravelsToClient_AndSurvivesRotation()
+    {
+        var host = new MixingState(5);
+        host.SetSlots(Slots);
+        host.TryAdd(0, 1);                      // pemain 0 slot 1 menuang pigmen 1
+        host.TryAdd(2, 1);                      // pemain 2 slot 1 menuang pigmen 0
+        host.SetSlots(new[] { 4, 3, 2, 1, 0, 0 });   // rotasi: pigmen sudah pindah tangan
+
+        var s = Snapshot(host, new VoteState());
+        s.lastPourers = host.LastPourers;
+        s = Roundtrip(s);
+
+        var client = new MixingState(5);
+        Assert.IsTrue(client.Import(s.slots, s.units, s.ready, s.confirmed, s.lastPourers));
+        Assert.AreEqual(1, client.LastPourer(1), "pemain 0 slot 1");
+        Assert.AreEqual(5, client.LastPourer(0), "pemain 2 slot 1");
+        Assert.AreEqual(-1, client.LastPourer(2), "belum pernah dituang");
+    }
+
+    [Test]
+    public void LastPourer_MissingOrBroken_IsUnknown_AndRedoClears()
+    {
+        var host = HostState();
+        var client = new MixingState(5);
+        Assert.IsTrue(client.Import(host.Slots, host.Units, host.ReadyFlags, host.IsConfirmed), "foto tanpa penuang tetap diterima");
+        Assert.AreEqual(-1, client.LastPourer(0));
+        Assert.IsTrue(client.Import(host.Slots, host.Units, host.ReadyFlags, host.IsConfirmed, new[] { 9, 9, 9, 9, 9 }));
+        Assert.AreEqual(-1, client.LastPourer(0), "isi aneh diabaikan");
+
+        Assert.AreEqual(0, host.LastPourer(0));
+        host.ResetForRedo();
+        Assert.AreEqual(-1, host.LastPourer(0));
+    }
 }
