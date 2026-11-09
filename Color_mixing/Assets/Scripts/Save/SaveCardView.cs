@@ -3,12 +3,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Satu kartu di layar Saved Files: nama room (bisa diganti), kode, host, hari berikutnya, Open Room, hapus.
+// Satu kartu di layar Saved Files: nama room (bisa diganti), host, hari terakhir yang selesai, Buka Ruang, hapus.
 public class SaveCardView : MonoBehaviour
 {
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_InputField nameInput;     // dimatikan otomatis, muncul saat pensil ditekan
-    [SerializeField] private TMP_Text codeText;
     [SerializeField] private TMP_Text hostText;
     [SerializeField] private TMP_Text dayText;             // opsional
     [SerializeField] private Button openButton;
@@ -44,9 +43,8 @@ public class SaveCardView : MonoBehaviour
     private void Refresh()
     {
         nameText.text = file.roomName;
-        codeText.text = $"Kode Ruang: {file.roomCode}";
         hostText.text = $"Host: {file.hostName}";
-        if (dayText != null) dayText.text = $"Lanjut: Hari {file.nextDay}";
+        if (dayText != null) dayText.text = $"Day: {file.completedDay}";
     }
 
     private void StartRename()
