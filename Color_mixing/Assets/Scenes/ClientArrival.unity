@@ -998,6 +998,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8101122334455667788, guid: 31e1b0ace7dfa48048a7175e2ed513a9, type: 3}
+      propertyPath: holdAfterSaved
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1006,33 +1010,6 @@ PrefabInstance:
 --- !u!224 &530500187 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3354428195508635037, guid: 31e1b0ace7dfa48048a7175e2ed513a9, type: 3}
-  m_PrefabInstance: {fileID: 530500186}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &530500188 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2499547878108357558, guid: 31e1b0ace7dfa48048a7175e2ed513a9, type: 3}
-  m_PrefabInstance: {fileID: 530500186}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!114 &530500189 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5347482187588321122, guid: 31e1b0ace7dfa48048a7175e2ed513a9, type: 3}
-  m_PrefabInstance: {fileID: 530500186}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &530500190 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 910646376707238420, guid: 31e1b0ace7dfa48048a7175e2ed513a9, type: 3}
   m_PrefabInstance: {fileID: 530500186}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &603652666 stripped
@@ -1268,7 +1245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4720734081526375256, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -83.600006
+      value: -83.60004
       objectReference: {fileID: 0}
     - target: {fileID: 6508494226386300525, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
       propertyPath: m_Name
@@ -1360,7 +1337,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7354777407278183537, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -83.600006
+      value: -83.60004
       objectReference: {fileID: 0}
     - target: {fileID: 8466590927506893290, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2467,7 +2444,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameOverToLobby
   cycle: {fileID: 1858323252}
-  lobbySceneName: HostLobby
   delay: 0
 --- !u!114 &1858323257
 MonoBehaviour:
