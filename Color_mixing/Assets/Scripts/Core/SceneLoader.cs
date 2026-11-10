@@ -16,6 +16,7 @@ public class SceneLoader : MonoBehaviour
     private const float FadeOutSeconds = 0.25f;
     private const float HoldTimeoutSeconds = 60f;   // pengaman: tahanan yang lupa dilepas tidak boleh menutup layar selamanya
     private const string PrefabName = "LoadingScreen";
+    private const float DotsPerSecond = 4f;     // kecepatan titik-titik "Loading...." (makin besar makin cepat)
 
     public static SceneLoader Instance { get; private set; }
 
@@ -143,7 +144,7 @@ public class SceneLoader : MonoBehaviour
     {
         // Titik-titik berjalan supaya terlihat tidak macet.
         if (!loading || label == null) return;
-        int dots = (int)(Time.unscaledTime * 2f) % 4;
+        int dots = (int)(Time.unscaledTime * DotsPerSecond) % 4;
         label.text = "Loading" + new string('.', dots);
     }
 
