@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 1b83852f7fc1e4022b476c9798f75436
+guid: ea1fb617cf2fb428299dd5632ac98c56
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5426506500976653055
-    second: Buttom (disabled)_0
+      213: -6429493399158520243
+    second: Blue_0
+  - first:
+      213: 3648764528808031850
+    second: Blue_1
+  - first:
+      213: -3688568089006841474
+    second: Blue_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +52,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -128,13 +134,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Buttom (disabled)_0
+      name: Blue_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 361
-        height: 360
+        y: 1
+        width: 215
+        height: 213
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +149,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 10d40f5961d21b4b0800000000000000
-      internalID: -5426506500976653055
+      spriteID: d46007181d9d5c6a0800000000000000
+      internalID: -6429493399158520243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_1
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 186
+        width: 37
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a66f5a8c10403a230800000000000000
+      internalID: 3648764528808031850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_2
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 160
+        width: 38
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e71e7ecadd29fccc0800000000000000
+      internalID: -3688568089006841474
       vertices: []
       indices: 
       edges: []
@@ -153,7 +203,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -163,7 +213,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Buttom (disabled)_0: -5426506500976653055
+      Blue_0: -6429493399158520243
+      Blue_1: 3648764528808031850
+      Blue_2: -3688568089006841474
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

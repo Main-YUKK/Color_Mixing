@@ -16,15 +16,30 @@ MonoBehaviour:
   - pigmentName: Red
     color: {r: 1, g: 0, b: 0, a: 1}
     ryb: {x: 1, y: 0, z: 0}
+    icon: {fileID: 21300000, guid: e1029278a3372428ca3960ed0eb4554d, type: 3}
+    bottle: {fileID: 1309299548795893892, guid: e0b0f89ae0d3a49a1a970676b801e2b6, type: 3}
+    bottlePressed: {fileID: -5779100132253426186, guid: ea819dc49d72f4553911dfc1425b3241, type: 3}
   - pigmentName: Yellow
     color: {r: 1, g: 1, b: 0, a: 1}
     ryb: {x: 0, y: 1, z: 0}
+    icon: {fileID: 21300000, guid: e427c734ee19c4ae09a8bffc344a1c97, type: 3}
+    bottle: {fileID: 8595165036846495738, guid: b7c8d7dfc489a445788953dba6aedf11, type: 3}
+    bottlePressed: {fileID: -1509980222415222315, guid: fb5e3779e2d614dbfbb25c6eef32a279, type: 3}
   - pigmentName: Blue
     color: {r: 0, g: 0, b: 1, a: 1}
     ryb: {x: 0, y: 0, z: 1}
+    icon: {fileID: 21300000, guid: ea1fb617cf2fb428299dd5632ac98c56, type: 3}
+    bottle: {fileID: -2989157572217007768, guid: 3b8977187fa58445aa52d9d88ba5a801, type: 3}
+    bottlePressed: {fileID: -8032798524904148782, guid: d16e65367332c4f49b1ac82fd510eb11, type: 3}
   - pigmentName: Black
     color: {r: 0, g: 0, b: 0, a: 1}
     ryb: {x: 1, y: 1, z: 1}
+    icon: {fileID: 21300000, guid: c9f3f41c7e3964614bdff73775cb2ce9, type: 3}
+    bottle: {fileID: 8925777349995612679, guid: e2da36d58773f4a36860c43fef56d892, type: 3}
+    bottlePressed: {fileID: -4459297838450774794, guid: b0df43423d9f14d38bbf9169d52934c9, type: 3}
   - pigmentName: White
     color: {r: 1, g: 1, b: 1, a: 1}
     ryb: {x: 0, y: 0, z: 0}
+    icon: {fileID: 21300000, guid: 34f29fac6a6384670b7b0ba29ac00799, type: 3}
+    bottle: {fileID: -3806853654514323053, guid: ffdfe8aca3f5743d59ccb51300117ce3, type: 3}
+    bottlePressed: {fileID: 3784406879341538109, guid: 63093f03d005149e0bca23c8fe059792, type: 3}
