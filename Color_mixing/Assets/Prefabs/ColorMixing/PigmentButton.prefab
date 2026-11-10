@@ -139,7 +139,6 @@ MonoBehaviour:
   slot: 0
   holdInterval: 0.2
   icon: {fileID: 3432155186588164117}
-  disabledIconColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!1 &5510773795172544545
 GameObject:
   m_ObjectHideFlags: 0

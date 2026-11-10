@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 // Tombol pigmen milik 1 pemain + 1 slot. Sumber nilai player/slot untuk PigmentSlotView di atasnya.
-// Tap = 1 unit, tahan = +1 unit tiap holdInterval. Gambar icon diatur PigmentSlotView (ikut animasi rotasi), tombol ini hanya menggelapkannya saat disabled.
+// Tap = 1 unit, tahan = +1 unit tiap holdInterval. Gambar icon diatur PigmentSlotView (ikut animasi rotasi).
 [RequireComponent(typeof(Button))]
 public class PigmentButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -12,8 +12,7 @@ public class PigmentButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     [SerializeField, Range(0, 2)] private int player;   // 0 = P1
     [SerializeField, Range(0, 1)] private int slot;
     [SerializeField] private float holdInterval = 0.2f;  // jeda antar unit saat ditahan
-    [SerializeField] private Image icon;                 // splat warna pigmen
-    [SerializeField] private Color disabledIconColor = new Color(0.5f, 0.5f, 0.5f);   // icon digelapkan saat disabled
+    [SerializeField] private Image icon;                 // splat warna pigmen (gambarnya diganti PigmentSlotView)
 
     private Button button;
     private bool holding;
@@ -72,6 +71,5 @@ public class PigmentButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     private void Refresh()
     {
         button.interactable = colorMixingController.IsSynced && !colorMixingController.IsReady(Player) && !locked;
-        icon.color = button.interactable ? Color.white : disabledIconColor;
     }
 }
