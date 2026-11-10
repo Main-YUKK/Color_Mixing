@@ -39,6 +39,7 @@ public class ColorMixingController : MonoBehaviour
     public event Action StateChanged; // event untuk update UI ketika ada perubahan state (rotasi pigmen, penambahan pigmen ke bowl, dll)
     public event Action MixConfirmed; // event untuk menandai bahwa semua pemain siap mencampur
     public event Action Rotated; // event untuk menandai bahwa pigmen pemain telah diacak ulang
+    public event Action<int, int> Poured; // (pigmen, penuang = pemain * 2 + slot): ada cat masuk mangkuk, untuk animasi tuang
 
     // MARK: - Unity Lifecycle
     private void Awake()
@@ -121,6 +122,7 @@ public class ColorMixingController : MonoBehaviour
         int pigment = GetPigment(player, slot);
         Debug.Log($"[MIX] Pemain {player + 1} menambahkan {palette.GetPigment(pigment).pigmentName} ke mangkuk. Total unit: {MixingBowl.TotalUnits}");
         StateChanged?.Invoke();
+        Poured?.Invoke(pigment, player * 2 + slot);
     }
 
     // Tombol Mix (ready = true) / Unmix (ready = false).
@@ -175,17 +177,25 @@ public class ColorMixingController : MonoBehaviour
     public bool ApplyRemote(MixSnapshot s)
     {
         if (IsAuthority || s == null) return false;
+        int[] before = state.Units;
         if (!state.Import(s.slots, s.units, s.ready, s.confirmed, s.lastPourers)) return false;
 
         RotationTimerLeft = s.rotationLeft;
         enabled = !s.confirmed;   // sama seperti host: selesai Mix = timer rotasi berhenti
 
-        bool rotated = synced && s.rotationCount > lastRotationCount;
+        bool wasSynced = synced;
+        bool rotated = wasSynced && s.rotationCount > lastRotationCount;
         lastRotationCount = s.rotationCount;
+        RotationCount = s.rotationCount;
         synced = true;
 
         StateChanged?.Invoke();
         if (rotated) Rotated?.Invoke();
+
+        // Pigmen yang bertambah = baru dituang. Foto pertama dilewati (isinya bukan tuangan baru).
+        if (wasSynced)
+            for (int i = 0; i < before.Length; i++)
+                if (s.units[i] > before[i]) Poured?.Invoke(i, state.LastPourer(i));
         return true;
     }
 

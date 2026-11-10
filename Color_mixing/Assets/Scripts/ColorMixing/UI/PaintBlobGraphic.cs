@@ -143,14 +143,14 @@ public class PaintBlobGraphic : MaskableGraphic
         vh.Clear();
         if (sim == null) return;
 
+        var style = new PaintStyle(outlineWidth, highlightOffset, highlightOpacity, shadowOffset, shadowOpacity, shadeBlur);
+
         foreach (SoftBlobSim.Blob blob in sim.Blobs)
         {
             BuildRing(blob);
-            AddFan(vh, 0f, Color.black);
             Color pigmentColor = colorMixingController.Palette.GetPigment(blob.Id).color;
             if (revealing) pigmentColor = Color.Lerp(pigmentColor, revealColor, Mathf.SmoothStep(0f, 1f, revealTime / revealDuration));
-            AddFan(vh, outlineWidth, pigmentColor);
-            AddShadeBand(vh, pigmentColor);
+            PaintMesh.Draw(vh, ring, normals, RingCount, pigmentColor, style);
         }
     }
 
@@ -172,7 +172,7 @@ public class PaintBlobGraphic : MaskableGraphic
 
         float area = SoftBlobSim.Area(blob);
         float sign = area > 0f ? 1f : -1f;
-        ComputeNormals(sign);
+        PaintMesh.ComputeNormals(ring, normals, RingCount, sign);
 
         // Gelombang hanya ke dalam, jadi tidak keluar piring dan tidak menimpa blob tetangga.
         float depth = wobbleRatio * Mathf.Sqrt(Mathf.Abs(area) / Mathf.PI);
@@ -184,65 +184,9 @@ public class PaintBlobGraphic : MaskableGraphic
             float wave = 0.6f * Mathf.Sin(4f * u + phase + time) + 0.4f * Mathf.Sin(7f * u + phase * 1.7f - time);
             ring[i] -= normals[i] * depth * (1f - wave);
         }
-        ComputeNormals(sign);
-    }
-
-    private void ComputeNormals(float sign)
-    {
-        for (int i = 0; i < RingCount; i++)
-        {
-            Vector2 tangent = ring[(i + 1) % RingCount] - ring[(i + RingCount - 1) % RingCount];
-            normals[i] = new Vector2(tangent.y, -tangent.x).normalized * sign;
-        }
+        PaintMesh.ComputeNormals(ring, normals, RingCount, sign);
     }
 
     private static float CatmullRom(float a, float b, float c, float d, float t) =>
         0.5f * (2f * b + (c - a) * t + (2f * a - 5f * b + 4f * c - d) * t * t + (3f * b - a - 3f * c + d) * t * t * t);
-
-    private void AddFan(VertexHelper vh, float inset, Color32 fanColor)
-    {
-        int start = vh.currentVertCount;
-        Vector2 center = Vector2.zero;
-        for (int i = 0; i < RingCount; i++) center += ring[i];
-        center /= RingCount;
-
-        vh.AddVert(center, fanColor, Vector2.zero);
-        for (int i = 0; i < RingCount; i++)
-            vh.AddVert(ring[i] - normals[i] * inset, fanColor, Vector2.zero);
-        for (int i = 0; i < RingCount; i++)
-            vh.AddTriangle(start, start + 1 + i, start + 1 + (i + 1) % RingCount);
-    }
-
-    // Meniru inner shadow Sketch: tebal pita mengikuti arah tepi, diukur dari tepi luar blob.
-    private void AddShadeBand(VertexHelper vh, Color baseColor)
-    {
-        int start = vh.currentVertCount;
-        Color32 highlight = Color.Lerp(baseColor, Color.white, highlightOpacity);
-        Color32 shadow = Color.Lerp(baseColor, Color.black, shadowOpacity);
-        Color32 plain = baseColor;
-
-        for (int i = 0; i < RingCount; i++)
-        {
-            float up = normals[i].y;
-            float depth = up > 0f ? highlightOffset * up : shadowOffset * -up;
-            Color32 tint = up > 0f ? highlight : shadow;
-            float solidEnd = Mathf.Max(outlineWidth, depth - shadeBlur * 0.5f);
-            float fadeEnd = Mathf.Max(outlineWidth, depth + shadeBlur * 0.5f);
-
-            vh.AddVert(ring[i] - normals[i] * outlineWidth, tint, Vector2.zero);
-            vh.AddVert(ring[i] - normals[i] * solidEnd, tint, Vector2.zero);
-            vh.AddVert(ring[i] - normals[i] * fadeEnd, plain, Vector2.zero);
-        }
-
-        for (int i = 0; i < RingCount; i++)
-        {
-            int a = start + i * 3;
-            int b = start + (i + 1) % RingCount * 3;
-            for (int row = 0; row < 2; row++)
-            {
-                vh.AddTriangle(a + row, a + row + 1, b + row);
-                vh.AddTriangle(b + row, a + row + 1, b + row + 1);
-            }
-        }
-    }
 }
