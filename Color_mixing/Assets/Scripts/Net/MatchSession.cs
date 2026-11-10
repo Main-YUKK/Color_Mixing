@@ -76,19 +76,19 @@ public class MatchSession : MonoBehaviour, ILeaveActions
         switch (alert)
         {
             case LeaveAlert.HostLeft:
-                AlertService.Show("HostLeftRoom", 1, onClosed, fallbackText: "Host have left the Room");
+                AlertService.Show("HostLeftRoom", 1, onClosed, fallbackText: "Host have left the Room", playerName: NameOf(0));
                 break;
             case LeaveAlert.PlayerDisconnectedHost:
-                AlertService.Show("PlayerDisconnectedHost", player + 1, onClosed, fallbackText: $"[Player {player + 1}] is disconnected");
+                AlertService.Show("PlayerDisconnectedHost", player + 1, onClosed, fallbackText: $"{NameOf(player) ?? $"Player {player + 1}"} is disconnected", playerName: NameOf(player));
                 break;
             case LeaveAlert.OwnConnectionHost:
-                AlertService.Show("UnstableConnectionHost", 1, onClosed, fallbackText: "Your internet connection is unstable");
+                AlertService.Show("UnstableConnectionHost", 1, onClosed, fallbackText: "Your internet connection is unstable", playerName: NameOf(0));
                 break;
             case LeaveAlert.OwnConnectionClient:
-                AlertService.Show("UnstableConnectionClient", player + 1, onClosed, fallbackText: "Your internet connection is unstable", hostName: HostName());
+                AlertService.Show("UnstableConnectionClient", player + 1, onClosed, fallbackText: "Your internet connection is unstable", hostName: HostName(), playerName: NameOf(player));
                 break;
             default:
-                AlertService.Show("PlayerDisconnectedClient", player + 1, onClosed, fallbackText: $"[Player {player + 1}] is disconnected");
+                AlertService.Show("PlayerDisconnectedClient", player + 1, onClosed, fallbackText: $"{NameOf(player) ?? $"Player {player + 1}"} is disconnected", playerName: NameOf(player));
                 break;
         }
     }
@@ -107,6 +107,15 @@ public class MatchSession : MonoBehaviour, ILeaveActions
     {
         MatchStarter.EndGame();
         StartCoroutine(LoadWhenFree(LobbyScene));
+    }
+
+    // Nama Game Center pemain dengan index game ini (0 = host). Daftar pemain dikunci selama game, jadi nama pemain
+    // yang baru keluar masih ada. Null kalau tidak ketahuan.
+    private static string NameOf(int index)
+    {
+        var roster = (GameNet.Instance != null ? GameNet.Instance.Transport as IRosterTransport : null)?.Roster;
+        if (roster != null && index >= 0 && index < roster.Count && !string.IsNullOrEmpty(roster[index])) return roster[index];
+        return null;
     }
 
     // Nama host untuk teks peringatan ("Please wait for [Host] to start the room again").

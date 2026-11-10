@@ -15,6 +15,14 @@ public class SpriteOutline : MonoBehaviour
     private Material solid;             // siluet satu warna; null = pakai warna biasa (garis hitam sprite ikut terlihat)
     private float width = 0.04f;
     private Color color = Color.white;
+    private bool shown = true;
+
+    // Garis tepi bisa dimatikan sementara (mis. rambut sheet berwarna yang sudah punya warna sendiri).
+    public bool Shown
+    {
+        get => shown;
+        set { shown = value; Sync(); }
+    }
 
     // Pasang garis tepi ke renderer ini. width dalam unit lokal renderer (sebelum skala induk).
     public static SpriteOutline Add(SpriteRenderer target, float width, Color color)
@@ -62,7 +70,7 @@ public class SpriteOutline : MonoBehaviour
     {
         if (ring == null || source == null) return;
 
-        bool visible = source.enabled && source.sprite != null;
+        bool visible = shown && source.enabled && source.sprite != null;
         // Dengan shader siluet, rgb diambil dari material; yang dipakai dari sini hanya transparansinya.
         var tint = solid != null ? new Color(1f, 1f, 1f, source.color.a) : new Color(color.r, color.g, color.b, color.a * source.color.a);
         foreach (var r in ring)

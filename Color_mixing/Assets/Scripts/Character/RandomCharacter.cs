@@ -62,13 +62,14 @@ public class RandomCharacter : MonoBehaviour
     float currentScale = 1f;
     int currentIndex;
     bool lookApplied;
+    SpriteOutline outline;
 
     void Awake()
     {
         if (bodyRenderer == null) bodyRenderer = GetComponent<SpriteRenderer>();
         hairRenderer.sortingLayerID = bodyRenderer.sortingLayerID;
         hairRenderer.transform.localScale = Vector3.zero;
-        if (hairOutline) SpriteOutline.Add(hairRenderer, outlineWidth, outlineColor);
+        if (hairOutline) outline = SpriteOutline.Add(hairRenderer, outlineWidth, outlineColor);
     }
 
     void Start()
@@ -122,6 +123,8 @@ public class RandomCharacter : MonoBehaviour
         currentIndex = look.style;
         var s = hairStyles[look.style];
         hairRenderer.sprite = SpriteFor(look.style, look.variant);
+        // Garis tepi hanya untuk sheet dasar (putih, diwarnai lewat tint); sheet berwarna tidak diberi garis.
+        if (outline != null) outline.Shown = hairRenderer.sprite == s.sprite;
         currentScale = s.scale;
         hairRenderer.sortingOrder = bodyRenderer.sortingOrder + (look.front ? frontSortingOffset : hairSortingOffset);
         hairRenderer.transform.localPosition = new Vector3(s.position.x + look.jitterX, s.position.y + look.jitterY, 0f);
@@ -147,6 +150,7 @@ public class RandomCharacter : MonoBehaviour
     {
         hairRenderer.sprite = hairStyles[currentIndex].sprite;   // base (white) sheet, so the tint gives the exact color
         hairRenderer.color = c;
+        if (outline != null) outline.Shown = true;               // sheet dasar yang diwarnai: garis tepi muncul
     }
 
     IEnumerator HairLoop()

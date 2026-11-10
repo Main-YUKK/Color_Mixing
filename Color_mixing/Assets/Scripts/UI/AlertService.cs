@@ -15,6 +15,7 @@ public class AlertService : MonoBehaviour
     private const int SortingOrder = 31000;   // di atas game, di bawah layar loading (32000)
 
     private static readonly Regex HostToken = new Regex(@"\[Host\]", RegexOptions.Compiled);
+    private static readonly Regex UsernameToken = new Regex(@"\[username\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex PlayerToken = new Regex(@"\[Player \d+\]", RegexOptions.Compiled);
 
     public static AlertService Instance { get; private set; }
@@ -33,13 +34,14 @@ public class AlertService : MonoBehaviour
     // prefabName = nama di Resources/Alerts. playerNumber (1 = host) mengganti "[Player 2]" di teks prefab.
     // onClosed selalu dipanggil tepat satu kali.
     // hostName mengganti "[Host]" di teks prefab (mis. "Please wait for [Host] to start the room again").
-    public static void Show(string prefabName, int playerNumber, Action onClosed, float seconds = 3f, string fallbackText = null, string hostName = "Host")
+    // playerName (nama Game Center) mengganti "[username]" di teks prefab; kosong = "Player N".
+    public static void Show(string prefabName, int playerNumber, Action onClosed, float seconds = 3f, string fallbackText = null, string hostName = "Host", string playerName = null)
     {
         if (Instance == null) { onClosed?.Invoke(); return; }
-        Instance.StartCoroutine(Instance.Run(prefabName, playerNumber, onClosed, seconds, fallbackText, hostName));
+        Instance.StartCoroutine(Instance.Run(prefabName, playerNumber, onClosed, seconds, fallbackText, hostName, playerName));
     }
 
-    private IEnumerator Run(string prefabName, int playerNumber, Action onClosed, float seconds, string fallbackText, string hostName)
+    private IEnumerator Run(string prefabName, int playerNumber, Action onClosed, float seconds, string fallbackText, string hostName, string playerName)
     {
         var overlay = BuildOverlay();
         bool closed = false;
@@ -48,8 +50,13 @@ public class AlertService : MonoBehaviour
         if (prefab != null)
         {
             var card = Instantiate(prefab, overlay.transform, false);
+            string shownName = string.IsNullOrEmpty(playerName) ? $"Player {playerNumber}" : playerName;
             foreach (var text in card.GetComponentsInChildren<TMP_Text>(true))
-                text.text = HostToken.Replace(PlayerToken.Replace(text.text, $"[Player {playerNumber}]"), hostName ?? "Host");
+            {
+                string t = UsernameToken.Replace(text.text, m => shownName);
+                t = PlayerToken.Replace(t, $"[Player {playerNumber}]");
+                text.text = HostToken.Replace(t, hostName ?? "Host");
+            }
 
             foreach (var button in card.GetComponentsInChildren<Button>(true))
                 if (button.gameObject.name == "OkayButton") button.onClick.AddListener(() => closed = true);
