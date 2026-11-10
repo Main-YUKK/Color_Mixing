@@ -247,11 +247,11 @@ MonoBehaviour:
   handOpen: {fileID: -435014254965884772, guid: ec3f67933769742b3a2795618760dace, type: 3}
   fallDistance: 1000
   openPause: 0.15
-  fallTime: 0.35
-  fallButtonLag: 0.3
-  bottomPause: 0.15
-  riseTime: 0.35
-  riseButtonLag: 0.35
+  fallTime: 0.3
+  fallButtonLag: 0.15
+  bottomPause: 0.4
+  riseTime: 0.3
+  riseButtonLag: 0.2
 --- !u!1001 &7182909699663936440
 PrefabInstance:
   m_ObjectHideFlags: 0
