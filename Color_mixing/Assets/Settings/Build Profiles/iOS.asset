@@ -32,6 +32,12 @@ MonoBehaviour:
     m_path: Assets/Scenes/Lobby.unity
     m_guid: 70b50161f43c346689f880349bc71a58
   - m_enabled: 1
+    m_path: Assets/Scenes/ClientArrival.unity
+    m_guid: 8c9cfa26abfee488c85f1582747f6a02
+  - m_enabled: 1
+    m_path: Assets/Scenes/ColorMixing.unity
+    m_guid: b0948b7408ec04a428e826fd2ba2718f
+  - m_enabled: 0
     m_path: Assets/Scenes/SaveFiles.unity
     m_guid: 639d03d15b8654a2685ae615a6ef5cfc
   - m_enabled: 1
@@ -40,6 +46,9 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/ClientArrival.unity
     m_guid: 8c9cfa26abfee488c85f1582747f6a02
+  - m_enabled: 1
+    m_path: Assets/Scenes/Tutorial.unity
+    m_guid: 463dd2f653dc4479cb7c392537e2d4a7
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
@@ -348,31 +357,6 @@ MonoBehaviour:
     - line: '|   - m_BuildTarget: iPhone'
     - line: '|     m_Icons:'
     - line: '|     - m_Textures: []'
-    - line: '|       m_Width: 180'
-    - line: '|       m_Height: 180'
-    - line: '|       m_Kind: 0'
-    - line: '|       m_SubKind: iPhone'
-    - line: '|     - m_Textures: []'
-    - line: '|       m_Width: 120'
-    - line: '|       m_Height: 120'
-    - line: '|       m_Kind: 0'
-    - line: '|       m_SubKind: iPhone'
-    - line: '|     - m_Textures: []'
-    - line: '|       m_Width: 167'
-    - line: '|       m_Height: 167'
-    - line: '|       m_Kind: 0'
-    - line: '|       m_SubKind: iPad'
-    - line: '|     - m_Textures: []'
-    - line: '|       m_Width: 152'
-    - line: '|       m_Height: 152'
-    - line: '|       m_Kind: 0'
-    - line: '|       m_SubKind: iPad'
-    - line: '|     - m_Textures: []'
-    - line: '|       m_Width: 76'
-    - line: '|       m_Height: 76'
-    - line: '|       m_Kind: 0'
-    - line: '|       m_SubKind: iPad'
-    - line: '|     - m_Textures: []'
     - line: '|       m_Width: 120'
     - line: '|       m_Height: 120'
     - line: '|       m_Kind: 3'
@@ -442,6 +426,36 @@ MonoBehaviour:
     - line: '|       m_Height: 1024'
     - line: '|       m_Kind: 4'
     - line: '|       m_SubKind: App Store'
+    - line: '|     - m_Textures:'
+    - line: '|       - {fileID: 2800000, guid: 3f78f6ca5cf44fe38a1b463a2c670d06, type: 3}'
+    - line: '|       m_Width: 180'
+    - line: '|       m_Height: 180'
+    - line: '|       m_Kind: 0'
+    - line: '|       m_SubKind: iPhone'
+    - line: '|     - m_Textures:'
+    - line: '|       - {fileID: 2800000, guid: 3f78f6ca5cf44fe38a1b463a2c670d06, type: 3}'
+    - line: '|       m_Width: 120'
+    - line: '|       m_Height: 120'
+    - line: '|       m_Kind: 0'
+    - line: '|       m_SubKind: iPhone'
+    - line: '|     - m_Textures:'
+    - line: '|       - {instanceID: 0}'
+    - line: '|       m_Width: 167'
+    - line: '|       m_Height: 167'
+    - line: '|       m_Kind: 0'
+    - line: '|       m_SubKind: iPad'
+    - line: '|     - m_Textures:'
+    - line: '|       - {instanceID: 0}'
+    - line: '|       m_Width: 152'
+    - line: '|       m_Height: 152'
+    - line: '|       m_Kind: 0'
+    - line: '|       m_SubKind: iPad'
+    - line: '|     - m_Textures:'
+    - line: '|       - {instanceID: 0}'
+    - line: '|       m_Width: 76'
+    - line: '|       m_Height: 76'
+    - line: '|       m_Kind: 0'
+    - line: '|       m_SubKind: iPad'
     - line: '|   m_BuildTargetBatching: []'
     - line: '|   m_BuildTargetShaderSettings: []'
     - line: '|   m_BuildTargetGraphicsJobs: []'
