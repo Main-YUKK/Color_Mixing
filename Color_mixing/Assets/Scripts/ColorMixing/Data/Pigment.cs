@@ -9,5 +9,6 @@ public class Pigment
     public Sprite icon;   // gambar untuk tombol
     public Sprite bottle;         // botol cat di tangan
     public Sprite bottlePressed;  // botol saat ditekan (menuang)
+    public Sprite unitIcon;       // tetes kecil di daftar jumlah unit (reveal)
 
 }
