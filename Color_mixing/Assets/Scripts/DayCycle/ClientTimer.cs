@@ -31,7 +31,10 @@ public class ClientTimer : MonoBehaviour
     public event Action TimedOut;   // kalau ada pendengar, dia yang memanggil OnClientTimeout setelah ucapan tampil
 
     // Sisa waktu klien 0-1 (1 = penuh, 0 = habis), untuk timer bar di scene lain (ColorMixing).
-    public float Normalized => Mathf.Clamp01(remaining / secondsPerClient);
+    public float Normalized => Mathf.Clamp01(remaining / Seconds);
+
+    // Lama waktu per klien: setelan playtest host kalau ada, kalau tidak nilai di Inspector.
+    private float Seconds => PlaytestSettings.ClientTime(secondsPerClient);
 
     private void OnEnable()
     {
@@ -62,7 +65,7 @@ public class ClientTimer : MonoBehaviour
 
     public void StartTimer()
     {
-        remaining = secondsPerClient;
+        remaining = Seconds;
         running = true;
         if (timerBar != null) timerBar.value = 1f;
     }
@@ -87,7 +90,7 @@ public class ClientTimer : MonoBehaviour
 
         remaining -= Time.deltaTime;
         if (timerBar != null)
-            timerBar.value = Mathf.Clamp01(remaining / secondsPerClient);
+            timerBar.value = Mathf.Clamp01(remaining / Seconds);
         if (timerText != null)
             timerText.text = Mathf.CeilToInt(Mathf.Max(0f, remaining)).ToString();
         if (remaining > 0f) return;

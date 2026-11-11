@@ -25,4 +25,10 @@ public class DaySnapshot
     public int clientIndex;
     public string requestId;   // kosong kalau tidak ada request baru
     public ClientLook look;    // rupa klien baru (valid = false kalau tidak ada)
+
+    // Setelan playtest dari host (PlaytestSettings). 0 = Default; host lama tanpa angka ini juga terbaca 0.
+    public int cfgDifficulty;
+    public int cfgClientSeconds;
+    public int cfgRotationSeconds;
+    public int cfgPassingScore;
 }

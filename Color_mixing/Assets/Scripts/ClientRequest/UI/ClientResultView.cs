@@ -41,7 +41,7 @@ public class ClientResultView : MonoBehaviour
         Color target = GameSession.CurrentRequest.targetColor;
         Color applied = GameSession.AppliedColor;
         double score = ScoreCalculator.MatchPercentage(applied, target);
-        bool success = score >= passingScore;
+        bool success = score >= PlaytestSettings.Passing(passingScore);
 
         targetColor.color = target;
         mixColor.color = applied;
