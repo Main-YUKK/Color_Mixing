@@ -1,53 +1,23 @@
 using TMPro;
 using UnityEngine;
 
-// Teks status di bawah mangkuk:
+// Teks status di atas tombol Campur: tampil hanya saat pemain ini sudah Campur dan menunggu pemain lain.
+// Alert "Waktunya ganti warna..." ada di ColorChangeAlert.
 public class StatusText : MonoBehaviour
 {
     [SerializeField] private ColorMixingController colorMixingController;
     [SerializeField, Range(0, 2)] private int player;   // sementara 0, nanti dari local player
     private int Player => LocalPlayer.Index(player);   // nomor pemain di device ini
     [SerializeField] private TMP_Text text;
-    [SerializeField] private float rotationAlertDuration = 1.5f;
-    [SerializeField] private string rotationMessage = "*Time to change colors!*";
-    [SerializeField] private string waitingMessage = "*Waiting all players to vote*";
+    [SerializeField] private string waitingMessage = "Menunggu semua pemain untuk Campur";
 
-    private float alertTimeLeft;
-
-    private void OnEnable()
-    {
-        colorMixingController.StateChanged += Refresh;
-        colorMixingController.Rotated += ShowRotationAlert;
-    }
-
-    private void OnDisable()
-    {
-        colorMixingController.StateChanged -= Refresh;
-        colorMixingController.Rotated -= ShowRotationAlert;
-    }
-
+    private void OnEnable() => colorMixingController.StateChanged += Refresh;
+    private void OnDisable() => colorMixingController.StateChanged -= Refresh;
     private void Start() => Refresh();
 
-    private void ShowRotationAlert()
+    private void Refresh()
     {
-        alertTimeLeft = rotationAlertDuration;
-        Refresh();
+        bool waiting = colorMixingController.IsReady(Player) && !colorMixingController.IsMixConfirmed;
+        text.text = waiting ? waitingMessage : "";
     }
-
-    private void Update()
-    {
-        if (alertTimeLeft <= 0f) return;
-        alertTimeLeft -= Time.deltaTime;
-        if (alertTimeLeft <= 0f) Refresh();   // alert habis -> kembali ke waiting / kosong
-    }
-
-private void Refresh()
-{
-    if (colorMixingController.IsReady(Player) && !colorMixingController.IsMixConfirmed)
-        text.text = waitingMessage;          // prioritas 1: sudah Mix -> selalu waiting
-    else if (alertTimeLeft > 0f)
-        text.text = rotationMessage;         // prioritas 2: baru rotasi
-    else
-        text.text = "";
-}
 }
