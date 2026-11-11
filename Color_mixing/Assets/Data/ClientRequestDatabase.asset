@@ -250,7 +250,7 @@ MonoBehaviour:
     difficulty: 0
   - requestId: L2_BLUE_01
     requestName: Sonic Blue
-    description: Tolong rambut gue dibuat kayak landak di game yang larinya kenceng banget itu. Mau cepetan move-on dari kenangan masa lalu
+    description: Tolong rambut gue dibuat kayak landak di game yang larinya kenceng banget itu. Mau cepetan move-on dari kenangan masa lalu bg
     targetColor: {r: 0.07450981, g: 0.3372549, b: 0.7882353, a: 1}
     difficulty: 1
   - requestId: L2_BLUE_02
@@ -288,59 +288,49 @@ MonoBehaviour:
     description: Mas, mau warna bawahan anak sekolah SMP, masa-masa cinta monyet tapi PR numpuk.
     targetColor: {r: 0.105882354, g: 0.16470589, b: 0.3529412, a: 1}
     difficulty: 1
-  - requestId: L2_BLUE_09
-    requestName: Biru Pepsi
-    description: Bang, kayak cola merk itu yang selalu jadi juara dua. Di warung cuma dikasih kalau yang satunya abis.
-    targetColor: {r: 0, g: 0.29411766, b: 0.5764706, a: 1}
-    difficulty: 1
-  - requestId: L2_BLUE_10
-    requestName: Biru Masker Medis
-    description: Met, samain kayak benda yang dulu wajib dipakai ke mana-mana pas jaman covid dong.
-    targetColor: {r: 0.6039216, g: 0.80784315, b: 0.92156863, a: 1}
-    difficulty: 1
   - requestId: L2_BLUE_11
     requestName: Biru BlueBird
-    description: Bre, mau warna kayak mobil taksi mahal yang biasa di bandara, padahal argonya udah bikin dompet gemeteran.
+    description: Bre, mau warna kayak mobil taksi mahal yang biasa di bandara, padahal argonya udah bikin dompet gemeteran brrr.
     targetColor: {r: 0.18039216, g: 0.60784316, b: 0.8392157, a: 1}
     difficulty: 1
   - requestId: L2_RED_01
     requestName: Merah Angpao
-    description: Kak, aku mau warna amplop yang dibagiin pas Imlek deng.
+    description: Met, aku mau warna amplop yang dibagiin pas Imlek deng. Gong xi Gong xi gan, biar banyak ong.
     targetColor: {r: 0.84313726, g: 0.14901961, b: 0.11764706, a: 1}
     difficulty: 1
   - requestId: L2_RED_02
     requestName: Merah Spiderman
-    description: Men, mau kayak pahlawan laba-laba itu aja. Rambutku juga harus punya tanggung jawab besar.
+    description: Men, mau kayak pahlawan laba-laba itu aja. Warna bajunya ituloh, seksi, keren, menyala. kayak pilemnya :*
     targetColor: {r: 0.8745098, g: 0.12156863, b: 0.1764706, a: 1}
     difficulty: 1
   - requestId: L2_RED_03
     requestName: Merah Cabai Rawit
-    description: "Bang, samain kayak tanaman yang kecil kecil tapi panasnya bikin mules. Jadi nyesel tadi sok kuat bilang mau \u2018level 10\u2019."
+    description: Bang, samain kayak tanaman yang kecil kecil tapi panasnya bikin mules. Warna yang versi biasa dipake buat mie viral tu ya tp bukan yang buat lengkapan gorengan
     targetColor: {r: 0.8156863, g: 0.09803922, b: 0.11764706, a: 1}
     difficulty: 1
   - requestId: L2_RED_04
     requestName: Merah Saus Sambal
-    description: Bang, kayak yang saos yang dituang ke bakso sampe kuahnya ganti warna. Rasanya mantep sih, tapi cuma toilet yang tau kelanjutannya.
+    description: Bang, kayak yang saos yang dituang ke bakso sampe kuahnya ganti warna. Rasanya mantep sih, tapi cuma toilet yang tau kelanjutannya :)
     targetColor: {r: 0.8235294, g: 0.21960784, b: 0.12156863, a: 1}
     difficulty: 1
   - requestId: L2_RED_05
     requestName: Merah Lampu Lalu Lintas
-    description: Men, mau kayak lampu di jalan raya yang suruh aku berhenti, tapi aku sih gas terus kayak banteng.
+    description: Men, mau kayak lampu di jalan raya yang suruh aku berhenti. T- tapi gua sih gas terus kayak banteng.
     targetColor: {r: 0.9411765, g: 0.105882354, b: 0.105882354, a: 1}
     difficulty: 1
   - requestId: L2_RED_06
     requestName: Merah Angry Bird
-    description: Bang, kayak burung yang mukanya marah terus, dilempar pake ketapel buat ngancurin rumah babi.
+    description: Bang, kayak burung yang mukanya marah terus, dilempar pake ketapel buat ngancurin rumah babi. Jenisnya? yg biasa dipake buat logonya itu
     targetColor: {r: 0.8509804, g: 0.14901961, b: 0.16470589, a: 1}
     difficulty: 1
   - requestId: L2_RED_07
     requestName: Merah Udang Rebus
-    description: Woi, apa sih binatang laut yang aslinya abu-abu, terus direbus jadi cantik dan melengkung, mau glow up gitu dong.
+    description: Woi, apa sih binatang laut yang aslinya abu-abu, terus direbus jadi cantik dan melengkung. mau warna pas dianya glow up itu
     targetColor: {r: 0.9411765, g: 0.44313726, b: 0.32156864, a: 1}
     difficulty: 1
   - requestId: L2_RED_08
     requestName: Merah Rambutan
-    description: Kak, mau kayak buah bulat, berambut, berbiji, yang rasanya manis itu kayak gebetanku, MAKSUDKU MANISNYA YA!
+    description: Kak, mau kayak buah bulat, berambut, berbiji, yang rasanya manis itu. kayak gebetanku (maksudnya sama manisnya)
     targetColor: {r: 0.81960785, g: 0.16470589, b: 0.23137255, a: 1}
     difficulty: 1
   - requestId: L2_RED_09
@@ -360,12 +350,12 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_YELLOW_03
     requestName: Kuning Pikachu
-    description: Met, mau kayak pokemon tikus listrik ikonik dong.
+    description: Met, mau kayak karakter game monster-monster itu. Yang jenis tikus listrik ikonik dong. Tau gk lu?
     targetColor: {r: 0.972549, g: 0.8156863, b: 0.1882353, a: 1}
     difficulty: 1
   - requestId: L2_YELLOW_04
     requestName: Kuning Minion
-    description: "Bestie, samain kayak makhluk kecil yang pake overalls-denim yang demen pisang dan teriak \u2018bello!\u2019. gpp kerja buat orang jahat, asal gaji diatas UMR."
+    description: "Bestie, samain kayak makhluk kecil kek kapsul yang pake overalls-denim yang demen pisang dan teriak \u2018bello!\u2019. gpp kerja buat orang jahat, asal gaji diatas UMR."
     targetColor: {r: 0.9882353, g: 0.8784314, b: 0.16078432, a: 1}
     difficulty: 1
   - requestId: L2_YELLOW_05
@@ -380,7 +370,7 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_YELLOW_07
     requestName: Kuning Durian
-    description: Mas, samain kayak daging raja buah yang orang antara suka banget atau dibilang bau kentut
+    description: Mas, samain kayak daging raja buah yang orang antara suka banget nget nget atau dibilang bau kentut
     targetColor: {r: 0.9137255, g: 0.76862746, b: 0.41568628, a: 1}
     difficulty: 1
   - requestId: L2_YELLOW_08
@@ -395,7 +385,7 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_YELLOW_10
     requestName: Kuning Lemon
-    description: Kak, kayak buah kecut banget itu, digigit langsung bikin muka kayak lagi ditagih utang. Tampilannya cerah banget, sampe bikin ketipu.
+    description: Kak, kayak buah kecut banget itu, digigit langsung bikin muka kayak lagi ditagih utang. Tampilannya cerah banget, fresh gityuuu
     targetColor: {r: 1, g: 0.95686275, b: 0.30980393, a: 1}
     difficulty: 1
   - requestId: L2_GREEN_01
@@ -410,7 +400,7 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_GREEN_03
     requestName: Hijau Shrek
-    description: Bang, samain kayak raksasa rawa yang cuma pengen tinggal tenang tapi didatengin keledai cerewet.
+    description: Bang, samain kayak raksasa rawa yang cuma pengen tinggal tenang tapi didatengin keledai cerewet. Oh sama pacarnya bentuknya jg sama. Tapi sama-sama bisa berubah jadi manusia itu dua aslinya
     targetColor: {r: 0.627451, g: 0.7254902, b: 0.2509804, a: 1}
     difficulty: 1
   - requestId: L2_GREEN_04
@@ -420,7 +410,7 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_GREEN_05
     requestName: Hijau Bayem
-    description: Men, mau kayak sayur yang bikin kartun pelaut berotot dalam sekali telen. Aku pengen kuat kayak dia, tapi males olahraga.
+    description: Men, buat gua seperti sayur yang bikin kartun pelaut berotot dalam sekali telen. Pengen sih gua kayak dia, tp malah mirip bayemnya (alias loyo)
     targetColor: {r: 0.24705882, g: 0.43529412, b: 0.16470589, a: 1}
     difficulty: 1
   - requestId: L2_GREEN_06
@@ -445,7 +435,7 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_GREEN_10
     requestName: Hijau Tokopedia
-    description: "Mas, kayak marketplace lokal yang tiap hari bikin aku bilang \u2018cuma lihat-lihat\u2019 terus checkout tiga barang."
+    description: "Mas, kayak marketplace lokal yang tiap hari bikin aku bilang \u2018cuma lihat-lihat\u2019 terus checkout tiga barang. Oh, marketplace yg mirip logo app belajar bahasa itu"
     targetColor: {r: 0.011764706, g: 0.6745098, b: 0.05490196, a: 1}
     difficulty: 1
   - requestId: L2_PINK_01
@@ -465,38 +455,33 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_PINK_04
     requestName: Pink Patrick
-    description: "Bro mau dong kayak sahabat spons yang tinggal di bawah batu, IQ-nya misterius. Tapi kok hidupnya bahagia ya\u2026"
+    description: "Bro mau dong kayak bintang laut, sahabat spons yang tinggal di bawah batu. IQ-nya misterius, tapi kok hidupnya bahagia ya\u2026"
     targetColor: {r: 0.9607843, g: 0.60784316, b: 0.6901961, a: 1}
     difficulty: 1
   - requestId: L2_PINK_05
     requestName: Pink Permen Kapas
-    description: Buatkan seperti gulali yang ilang kalau kena air. Tapi buat warna yang paling umum ya. Kayak tanpa ada ala-ala rasa lain gitu
+    description: Buatkan seperti gulali kapas. Tapi buatkan warna yang paling umum ya, warna kalem yang lucu buat anak cewek.
     targetColor: {r: 1, g: 0.7372549, b: 0.8509804, a: 1}
     difficulty: 1
   - requestId: L2_PINK_06
     requestName: Pink Sakura
-    description: Bestiee mau warnanya bunga ikonik Jepang yang mekarnya cuma bentar. Di indo ada sih, imitasinya doang tapi
+    description: Bestiee mau warnanya bunga paling ikonik Jepang yang mekarnya cuma bentar. Ini bunga paling sering dilihat di brosur travel Jepang.
     targetColor: {r: 1, g: 0.7176471, b: 0.77254903, a: 1}
     difficulty: 1
   - requestId: L2_PINK_07
     requestName: Pink Flamingo
-    description: Mas buat kayak burung yang berdiri satu kaki sambil ngelamun. Katanya warnanya dari makan udang, tapi saya gamau.
+    description: Mas buat kayak burung yang lehernya panjang dan berdiri satu kaki. Katanya warnanya dari makan udang, tapi saya gamau.
     targetColor: {r: 0.9882353, g: 0.5568628, b: 0.6745098, a: 1}
     difficulty: 1
   - requestId: L2_PINK_08
     requestName: Pink Kirby
-    description: Kak, bikinin kayak kartun bola bulat imut yang nyedot musuh terus niru kekuatannya! Hayoooo kakak tau gak?
+    description: Kak, bikinin kayak karakter game bola bulat imut yang nyedot musuh terus niru kekuatannya! Hayoooo kakak tau gak?
     targetColor: {r: 0.972549, g: 0.64705884, b: 0.7607843, a: 1}
     difficulty: 1
   - requestId: L2_PINK_09
     requestName: Pink Jambu Biji
     description: Met bikin kek warna daging jambu biji yang udah dibelah. Yang udah mateng tapi ya, siap dijus.
     targetColor: {r: 0.9490196, g: 0.5019608, b: 0.47843137, a: 1}
-    difficulty: 1
-  - requestId: L2_PURPLE_01
-    requestName: Ungu Terong
-    description: Bro, gue mau warna sayur panjang yang emoji-nya paling sering disalahgunain itu. Jangan mikir yang aneh-aneh ya, gue cuma mau rambut yang mengkilap, hmph.
-    targetColor: {r: 0.3529412, g: 0.16470589, b: 0.3882353, a: 1}
     difficulty: 1
   - requestId: L2_PURPLE_02
     requestName: Ungu Barney
@@ -510,32 +495,32 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_PURPLE_04
     requestName: Ungu Anggur
-    description: Met, mau kayak buah yang bulet-bulet, numpuk-numpuk, trus kalau difermentasi jd minuman orang tua awokaowkaoka
+    description: Met, mau kayak buah yang bulet, numpuk-numpuk, trus kalau difermentasi jd minuman orang tua awokaowkaoka
     targetColor: {r: 0.43529412, g: 0.1764706, b: 0.65882355, a: 1}
     difficulty: 1
   - requestId: L2_PURPLE_05
-    requestName: Ungu Ubi
-    description: Tolong bikin seperti umbi manis yang direbus enak, jadi es krim malah viral. Trus skrg jadi segala jenis makanan. Keren juga tu semua jadi di ubi-ubi kan
+    requestName: Ungu Ube
+    description: Tolong bikin seperti umbi manis yang warnanya beda sendiri. direbus enak, jadi es krim malah viral. Trus skrg jadi segala jenis makanan. Keren juga tu semua jadi di ubi-ubi kan
     targetColor: {r: 0.49411765, g: 0.2901961, b: 0.6117647, a: 1}
     difficulty: 1
   - requestId: L2_PURPLE_06
     requestName: Ungu Lavender
-    description: Mau warnanya bunga yang di minyak kayu putih itu dong kak. Yang jadi pewangi tambahan minyaknya tapi yak.
+    description: Mau warnanya bunga yang di minyak kayu putih itu dong kak. Yang jadi pewangi tambahan minyaknya tapi yak. aku juga sering liat bunga ini buat pewangi ruangan sama baju
     targetColor: {r: 0.70980394, g: 0.49411765, b: 0.8627451, a: 1}
     difficulty: 1
   - requestId: L2_PURPLE_07
     requestName: Ungu Tinky Winky
-    description: Mas saya mau warna kartun yang kepalanya punya antena segitiga itu. Temen-temennya juga sama sih ada bentuk bentuk lain dan warna lain.
+    description: Mas saya mau warna kartun anak-anak yang kepalanya punya antena segitiga itu. Temen-temennya juga sama sih ada bentuk bentuk lain dan warna lain.
     targetColor: {r: 0.5411765, g: 0.30980393, b: 0.7490196, a: 1}
     difficulty: 1
   - requestId: L2_PURPLE_08
     requestName: Ungu Memar
-    description: Bikin rambut saya kayak warna kaki saya mas, habis kepentok meja ini. baru 1 hari ini kepentoknya, jadi belum kuning-kuning.
+    description: Bikin rambut saya kayak warna kaki saya yang memar mas, habis kepentok meja ini. baru 1 hari ini kepentoknya, jadi belum kuning-kuning.
     targetColor: {r: 0.36862746, g: 0.23137255, b: 0.43137255, a: 1}
     difficulty: 1
   - requestId: L2_ORANGE_01
     requestName: Oren Naruto
-    description: Bang, rambutku dibikin kayak baju ninja yang mimpinya jadi Hokage itu. Aku juga mau, jadi crazy rich Surabaya tapi maunya
+    description: Bang, rambutku dibikin kayak baju ninja yang mimpinya jadi Hokage itu. Aku juga mau bermimpi besar, jadi crazy rich Surabaya tapi maunya
     targetColor: {r: 0.9647059, g: 0.52156866, b: 0.12156863, a: 1}
     difficulty: 1
   - requestId: L2_ORANGE_02
@@ -545,7 +530,7 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_ORANGE_03
     requestName: Oren Nemo
-    description: BESTIE gue mau kayak ikan badut yang hilang terus bapaknya nyari ke seluruh samudra dibantu ikan pelupa. Warna dominan si ikan aja ya tapi
+    description: BESTIE gue mau kayak ikan badut yang hilang terus bapaknya nyari ke seluruh samudra dibantu ikan biru pelupa. Warna dominan si ikan aja ya tapi
     targetColor: {r: 0.9529412, g: 0.43529412, b: 0.12941177, a: 1}
     difficulty: 1
   - requestId: L2_ORANGE_04
@@ -555,7 +540,7 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_ORANGE_05
     requestName: Oren Wortel
-    description: Bikinkan sperti makanan kelinci yang katanya bagus buat mata, tapi kacamataku tetep tebel. Biasanya dimasak ke sayur sop sih
+    description: Bikinkan seperti makanan kelinci yang katanya bagus buat mata, tapi kacamataku tetep tebel. Biasanya dimasak ke sayur sop sih
     targetColor: {r: 0.92941177, g: 0.5686275, b: 0.12941177, a: 1}
     difficulty: 1
   - requestId: L2_ORANGE_06
@@ -565,7 +550,7 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_ORANGE_07
     requestName: Oren Cone Jalan
-    description: "Mas mau warna kerucut di jalan yang katanya \u2018hati-hati\u2019, tapi selalu ketabrak. Aku harus rambut yang cuek dan tetep tegak. Periodt"
+    description: "Mas mau warna kerucut di jalan raya yang katanya \u2018hati-hati\u2019, tapi selalu ketabrak. Aku harus rambut yang cuek dan tetep tegak. Periodt"
     targetColor: {r: 1, g: 0.37254903, b: 0.08235294, a: 1}
     difficulty: 1
   - requestId: L2_ORANGE_08
@@ -605,7 +590,7 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_BROWN_04
     requestName: Coklat Kopi Tubruk
-    description: Kak mau kayak minuman yang ampasnya nggak mau pergi di dasar gelas, kayak kenangan. Pahit, tapi diminum juga.
+    description: Kak mau kayak minuman yang ampasnya nggak mau pergi di dasar gelas, kayak kenangan. Pahit, bikin begadang, tapi diminum juga.
     targetColor: {r: 0.18431373, g: 0.105882354, b: 0.07058824, a: 1}
     difficulty: 1
   - requestId: L2_BROWN_05
@@ -615,32 +600,27 @@ MonoBehaviour:
     difficulty: 1
   - requestId: L2_BROWN_06
     requestName: Coklat Banjir
-    description: Mas, buat kayak air yang tiba-tiba masuk rumah tiap musim hujan, airnya Indo tapi ya bukan kayak banjir luar yang agak bersih.
+    description: Mas, buat kayak air yang tiba-tiba masuk rumah tiap musim hujan, airnya Indo tapi ya bukan kayak banjir luar yang bersih.
     targetColor: {r: 0.5568628, g: 0.4509804, b: 0.3137255, a: 1}
-    difficulty: 1
-  - requestId: L2_BROWN_07
-    requestName: Coklat Gudeg
-    description: "Mas tolong dibuat seperti makanan khas Jogja yang manis banget itu. Legi gitu, makannya sama nasi. Kalau dibilang kemanisan, jawabannya \u2018nggih\u2019."
-    targetColor: {r: 0.49019608, g: 0.24705882, b: 0.15294118, a: 1}
     difficulty: 1
   - requestId: L2_BROWN_08
     requestName: Coklat Kecoa
-    description: Bang, kayak serangga yang terbang pas kita nggak siap dan bikin seisi rumah teriak. Anehnya, kuat banget katanya sampe kiamat.
+    description: Bang, kayak serangga yang terbang pas kita nggak siap dan bikin seisi rumah teriak. Anehnya, kuat banget katanya tahan nuklir dan selamat kiamat.
     targetColor: {r: 0.43137255, g: 0.20784314, b: 0.09411765, a: 1}
     difficulty: 1
   - requestId: L2_BROWN_09
     requestName: Coklat Nutella
-    description: Kang buat kayak selai yang pernah diklaim sarapan sehat padahal ya gulanya segunung. Logonya kalau gak salah tulisan hitam putih.
+    description: Kang buat kayak selai roti yang pernah diklaim sarapan sehat padahal ya ndak. Dibuatnya dari coklat sama kacang, tapi kok gulanya se-gunung?
     targetColor: {r: 0.36078432, g: 0.2, b: 0.09019608, a: 1}
     difficulty: 1
   - requestId: L2_BROWN_10
     requestName: Coklat Es Teh
-    description: "Buatkan seperti minuman nasional yang kalau dipesen di warung selalu jadi pilihan. \u2018Es teh manis aja.\u2019 Selalu."
+    description: "Buatkan seperti minuman di warung selalu jadi pilihan. \u2018Es teh manis aja.\u2019 Selalu."
     targetColor: {r: 0.6901961, g: 0.38431373, b: 0.16470589, a: 1}
     difficulty: 1
   - requestId: L2_BROWN_11
     requestName: Coklat Kayu Manis
-    description: Mas mau warnanya bumbu wangi yang ada di kue-kue Natal, tapi kalau dikunyah langsung bikin batuk. Wanginya bohong.
+    description: "Mas mau warnanya bumbu wangi yang ada di kue-kue Natal, baunya khas. Namanya ada \u201Cmanis-manisnya gitu\u201D cuma rasanya si gak manis."
     targetColor: {r: 0.62352943, g: 0.33333334, b: 0.1882353, a: 1}
     difficulty: 1
   - requestId: L3_BLUE_01
@@ -650,7 +630,7 @@ MonoBehaviour:
     difficulty: 2
   - requestId: L3_BLUE_02
     requestName: Biru Bolpen
-    description: Bang, aku mau warna benda yang biasa dipakai anak sekolah buat nulis PR mereka.
+    description: Bang, aku mau warna benda yang biasa dipakai anak sekolah buat nulis PR mereka. Biasanya gurunya ngomel sih abistu soalnya bukan warna item, meskipun tetep gelep
     targetColor: {r: 0.101960786, g: 0.2627451, b: 0.7490196, a: 1}
     difficulty: 2
   - requestId: L3_BLUE_03
@@ -664,13 +644,13 @@ MonoBehaviour:
     targetColor: {r: 0.16862746, g: 0.22352941, b: 0.5647059, a: 1}
     difficulty: 2
   - requestId: L3_BLUE_05
-    requestName: Biru Besi Karatan
-    description: Mas, mau warna dari logam yang dia aslinya coklat, tapi setelah ditinggal di hujan bakal berubah warna
+    requestName: Biru Patung Liberty
+    description: Mas, mau warna patung cewe yang terkenal di Amerika Serikat itu. Dia dibuat dari tembaga, tapi warnanya kok bisa berubah jadi gitu ya? karena karatan kali ya?
     targetColor: {r: 0.2627451, g: 0.7019608, b: 0.68235296, a: 1}
     difficulty: 2
   - requestId: L3_BLUE_06
     requestName: Biru Peringatan Darurat
-    description: Met, mau warna yang muncul waktu negara ndak baik-baik saja. Udah gelap dan darurat ini situasinya!
+    description: Met, mau warna yang banyak muncul di sosmed waktu negara ndak baik-baik saja. Udah gelap dan darurat ini situasinya!
     targetColor: {r: 0.039215688, g: 0.11764706, b: 0.3529412, a: 1}
     difficulty: 2
   - requestId: L3_BLUE_07
@@ -678,44 +658,49 @@ MonoBehaviour:
     description: Apa si warna dari bendera kolonial di sejarah itu? Iya aku mau warna persis itu!
     targetColor: {r: 0.12941177, g: 0.27450982, b: 0.54509807, a: 1}
     difficulty: 2
+  - requestId: L3_BLUE_08
+    requestName: Biru Pepsi
+    description: Bang, kayak cola merk itu yang selalu jadi juara dua. Di warung cuma dikasih kalau yang satunya abis.
+    targetColor: {r: 0, g: 0.29411766, b: 0.5764706, a: 1}
+    difficulty: 2
+  - requestId: L3_BLUE_09
+    requestName: Biru Masker Medis
+    description: Met, samain kayak barang yang dulu wajib dipakai ke mana-mana pas jaman covid dong. Yang paling basic, paling medis.
+    targetColor: {r: 0.6039216, g: 0.80784315, b: 0.92156863, a: 1}
+    difficulty: 2
   - requestId: L3_RED_01
     requestName: Merah Mawar
-    description: Sob, mau warna kayak bunga yang biasa dikasih waktu februari, mau kasih buat pacar aku tu.
+    description: Sob, mau warna kayak bunga klasik yang biasa dikasih waktu februari, mau kasih buat pacar aku tu.
     targetColor: {r: 0.7019608, g: 0, b: 0.105882354, a: 1}
     difficulty: 2
   - requestId: L3_RED_02
     requestName: Merah Celana SD
-    description: Weh, aku mau warna bawahan anak sekolah itu. Duh, pusing banget ngajar bocil seharian seharian.
+    description: Weh, aku mau warna bawahan anak sekolah itu. Duh, pusing banget ngajar bocil gen alpha seharian mana bawel banget lagi.
     targetColor: {r: 0.6313726, g: 0.11372549, b: 0.2, a: 1}
     difficulty: 2
   - requestId: L3_RED_03
-    requestName: Rapor Sekolah
-    description: Mas, aku mau warna yang paling tidak ingin dilihat orang tua saat pembagian hasil belajar. Satu angka saja bisa mengubah suasana rumah seharian.
-    targetColor: {r: 0.8901961, g: 0.14117648, b: 0.105882354, a: 1}
-    difficulty: 2
-  - requestId: L3_RED_04
     requestName: Lampu Rem Mobil
     description: Mas, aku mau warna yang bikin pengendara di belakang langsung rem juga, penting loh jaga jarak di jalan.
     targetColor: {r: 0.8509804, g: 0, b: 0.050980393, a: 1}
     difficulty: 2
-  - requestId: L3_RED_05
+  - requestId: L3_RED_04
     requestName: Merah Lipstik
     description: Ges, aku mau warna yang sering dipilih orang kalau ingin tampil berani buat ngelabrak pelakor
     targetColor: {r: 0.7490196, g: 0.039215688, b: 0.1882353, a: 1}
     difficulty: 2
-  - requestId: L3_RED_06
+  - requestId: L3_RED_05
     requestName: Merah Darah
     description: Men, samain warnanya kayak warna yang di film-film horror kalau pemeran utamanya lagi terluka.
     targetColor: {r: 0.5411765, g: 0.011764706, b: 0.011764706, a: 1}
     difficulty: 2
-  - requestId: L3_RED_07
+  - requestId: L3_RED_06
     requestName: Merah Wine
     description: Bestie, mau yang kayak minuman beralkohol yang romantis buat dinner date di resto fancy yaa.
     targetColor: {r: 0.44705883, g: 0.18431373, b: 0.21568628, a: 1}
     difficulty: 2
   - requestId: L3_YELLOW_01
     requestName: Kuning Telur Asin
-    description: Bro, aku mau warna bagian telur yang sering diperebutkan waktu makan bersama. Enak bangit tuh asin-asin masir gimana gitu.
+    description: Bro, aku mau warna telur yang biasa dimakan sama rawon. Enak banget tuh asin-asin krimi masir gimana gitu, yang bagian paling wenak pokoke
     targetColor: {r: 0.9529412, g: 0.6117647, b: 0.16862746, a: 1}
     difficulty: 2
   - requestId: L3_YELLOW_02
@@ -724,222 +709,237 @@ MonoBehaviour:
     targetColor: {r: 1, g: 0.8, b: 0, a: 1}
     difficulty: 2
   - requestId: L3_YELLOW_03
-    requestName: Kartu Pelanggaran
-    description: Men, aku mau warna yang bisa bikin pemain bola mendadak jadi anak paling sopan di lapangan. Sekali diangkat, langsung pura-pura tidak melakukan apa-apa.
-    targetColor: {r: 0.99215686, g: 0.88235295, b: 0, a: 1}
-    difficulty: 2
-  - requestId: L3_YELLOW_04
     requestName: Pisang Kulit
-    description: Mas, aku mau warna buah praktis buat jadi bekal itu. Tapi kalau ditinggal beberapa hari aja udah muncul bintik-bintik coklat.
+    description: Mas, aku mau warna buah pelancar eek yang biasa dijadiin sarapan. tapi kalau ditinggal beberapa hari aja udah muncul bintik-bintik coklat.
     targetColor: {r: 1, g: 0.88235295, b: 0.20784314, a: 1}
     difficulty: 2
-  - requestId: L3_YELLOW_05
+  - requestId: L3_YELLOW_04
     requestName: Lampu Kamar
     description: Kak, aku mau warna cahaya yang bikin kamar terasa hangat. Cocok buat malam-malam produktif, walaupun ujung-ujungnya malah rebahan.
     targetColor: {r: 1, g: 0.8235294, b: 0.49803922, a: 1}
     difficulty: 2
-  - requestId: L3_YELLOW_06
+  - requestId: L3_YELLOW_05
     requestName: Kulit Jagung
     description: Kak, aku mau warna yang sering muncul sebelum jagung direbus. Kalau sudah matang, biasanya tinggal menunggu siapa yang paling cepat mengambil.
     targetColor: {r: 0.9843137, g: 0.9254902, b: 0.3647059, a: 1}
     difficulty: 2
-  - requestId: L3_YELLOW_07
+  - requestId: L3_YELLOW_06
     requestName: Emas
-    description: Mas, aku mau warna yang bikin orang rela antre panjang di toko perhiasan. Katanya investasi, tapi kalau sudah dipakai malah takut hilang.
+    description: Mas, aku mau warna yang orang paling suka di toko perhiasan. Katanya investasi, tapi kalau sudah dipakai malah takut hilang.
     targetColor: {r: 0.83137256, g: 0.6862745, b: 0.21568628, a: 1}
     difficulty: 2
+  - requestId: L3_YELLOW_07
+    requestName: Kuning Padi
+    description: Bang, aku mau warna kayak makanan karbonya orang indo. Tapi yang masih bentuk tanaman, yang ada perumpamaannya itu.
+    targetColor: {r: 0.8509804, g: 0.7058824, b: 0.2901961, a: 1}
+    difficulty: 2
+  - requestId: L3_YELLOW_08
+    requestName: Kuning Jahe
+    description: Men, bikin sama dengan warna tanaman yang biasa dibuat jamu itu, hot-hot gimana gitu.
+    targetColor: {r: 0.8901961, g: 0.75686276, b: 0.43529412, a: 1}
+    difficulty: 2
   - requestId: L3_GREEN_01
-    requestName: Anggur
-    description: Kak, aku mau warna yang biasanya bikin orang mengira buah ini masih muda. Padahal sudah matang, cuma penampilannya saja yang bikin orang salah sangka.
-    targetColor: {r: 0.7019608, g: 0.7882353, b: 0.3529412, a: 1}
+    requestName: Hijau Idul Fitri
+    description: Bestie, apa sih warna yang biasa dipake buat acara tahunan besar di indonesia? ga sabar banget ngambil thr dan pulkam.
+    targetColor: {r: 0.12156863, g: 0.5411765, b: 0.29803923, a: 1}
     difficulty: 2
   - requestId: L3_GREEN_02
-    requestName: Lampu Lalu Lintas
-    description: Mas, aku mau warna yang bikin semua orang mendadak merasa punya hak untuk ngebut. Begitu warnanya muncul, klakson langsung konser.
-    targetColor: {r: 0, g: 0.6901961, b: 0.3137255, a: 1}
+    requestName: Hijau Pandan
+    description: Beb, warnanya samain dengan warna daun yang sering dipakai buat jajanan manis tradisional indonesia, baunya khas dan wangi banget.
+    targetColor: {r: 0.24313726, g: 0.60784316, b: 0.22745098, a: 1}
     difficulty: 2
   - requestId: L3_GREEN_03
-    requestName: Uang
-    description: Kak, aku mau warna yang paling bikin orang semangat bangun pagi. Kalau warnanya muncul di dompet, rasanya hidup masih ada harapan.
-    targetColor: {r: 0.52156866, g: 0.73333335, b: 0.39607844, a: 1}
+    requestName: Hijau Daun Salam Kering
+    description: Abang, rambutku jadiin warna daun kering yang sering dipakai buat makanan gurih indonesia. dia kelihatannya gak berguna, tapi kalau gak dipake, makanannya jadi ada yang kurang gitu.
+    targetColor: {r: 0.47843137, g: 0.47843137, b: 0.2901961, a: 1}
     difficulty: 2
   - requestId: L3_GREEN_04
-    requestName: Seragam Dokter
-    description: Mas, aku mau warna yang sering dipakai orang di rumah sakit. Melihatnya saja sudah bikin ingat antrean panjang dan biaya administrasi.
-    targetColor: {r: 0.24705882, g: 0.56078434, b: 0.5019608, a: 1}
+    requestName: Hijau Spotify
+    description: Kang, warnanya mau yang kayak khusus aplikasi dengerin musik itu, sampe udah hapal aku sama iklan-iklannya..
+    targetColor: {r: 0.11372549, g: 0.7254902, b: 0.32941177, a: 1}
     difficulty: 2
   - requestId: L3_GREEN_05
-    requestName: Timun
-    description: Kak, aku mau warna yang sering muncul di lalapan. Biasanya cuma jadi pelengkap, tapi kalau nggak ada rasanya ada yang kurang.
-    targetColor: {r: 0.36862746, g: 0.60784316, b: 0.24313726, a: 1}
+    requestName: Hijau Timun
+    description: "Bang, aku mau warna sayur kesukaanku dalam lalapan, yang paling terang sama seger itu, brrr\u2026"
+    targetColor: {r: 0.78431374, g: 0.8862745, b: 0.65882355, a: 1}
     difficulty: 2
   - requestId: L3_GREEN_06
-    requestName: Rumput Tetangga
-    description: Mas, aku mau warna yang selalu terlihat lebih menarik di halaman orang lain. Padahal belum tentu dirawat, cuma memang kita suka membandingkan hidup.
-    targetColor: {r: 0.29803923, g: 0.6509804, b: 0.16470589, a: 1}
+    requestName: Hijau Uang 20000
+    description: Mas mau dong warna uang yang dulu bisa buat beli nasi, es teh, sama gorengan. Sekarang beli rokok pun cuma dapet yang murah aja.
+    targetColor: {r: 0.24313726, g: 0.5568628, b: 0.36862746, a: 1}
     difficulty: 2
   - requestId: L3_GREEN_07
-    requestName: Obat Herbal
-    description: Kak, aku mau warna yang sering diasosiasikan dengan minuman sehat. Katanya bisa bikin badan segar, walaupun rasanya seperti sedang minum hasil blender kebun.
-    targetColor: {r: 0.41960785, g: 0.5568628, b: 0.13725491, a: 1}
+    requestName: Hijau Army
+    description: "Weh, bikin seperti orang-orang tegas yang bawa senjata dong. kata orang mereka melindungi negara, tapi\u2026"
+    targetColor: {r: 0.29411766, g: 0.3254902, b: 0.1254902, a: 1}
     difficulty: 2
   - requestId: L3_GREEN_08
-    requestName: Tombol Chat
-    description: Mas, aku mau warna yang sering bikin orang langsung percaya kalau pesannya sudah terkirim. Tapi belum tentu dibalas, apalagi kalau yang dikirimi gebetan.
-    targetColor: {r: 0.14509805, g: 0.827451, b: 0.4, a: 1}
+    requestName: Hijau Baju operasi dokter
+    description: Kak, aku ingin warna yang sering dilihat ruang operasi, fungsinya biar mata dokter gak lelah waktu lihat merah-merah lama.
+    targetColor: {r: 0.24705882, g: 0.56078434, b: 0.5019608, a: 1}
+    difficulty: 2
+  - requestId: L3_GREEN_09
+    requestName: Hijau Lontong
+    description: Woi, bikin rambut gue kayak makanan dari nasi yang dimakan bareng sate.
+    targetColor: {r: 0.83137256, g: 0.8901961, b: 0.70980394, a: 1}
+    difficulty: 2
+  - requestId: L3_GREEN_10
+    requestName: Hijau Uang 2000
+    description: Mas, aku mau warna yang biasanya diminta sosok tukang parkir waktu kita mau keluar, padahal tadi waktu datang gak ada siapa-siapa.
+    targetColor: {r: 0.47843137, g: 0.6039216, b: 0.5254902, a: 1}
     difficulty: 2
   - requestId: L3_PINK_01
     requestName: Permen Karet
-    description: Kak, aku mau warna yang sering menempel di bawah meja sekolah. Sudah bertahun-tahun di sana, mungkin lebih setia daripada teman sekelas.
+    description: Hoo, bikinin warna kayak yang permen yang sering dikunyah terus disebul jadi balon itu.
     targetColor: {r: 0.96862745, g: 0.6313726, b: 0.76862746, a: 1}
     difficulty: 2
   - requestId: L3_PINK_02
     requestName: Daging Salmon
-    description: Mas, aku mau warna yang sering muncul di menu restoran mahal. Namanya terdengar mewah, padahal kalau dimasak sendiri juga tetap ikan.
+    description: Mas, aku mau warna daging ikan mahal yang sering ada di resto, yang ada garis-garisnya.
     targetColor: {r: 0.98039216, g: 0.5019608, b: 0.44705883, a: 1}
     difficulty: 2
   - requestId: L3_PINK_03
     requestName: Susu Stroberi
-    description: Kak, aku mau warna minuman yang sering dibeli anak kecil. Tapi jangan terlalu manis, nanti gigi ikut minta cuti.
+    description: Kak, aku mau warna susu yang sering dibeli anak kecil. aku kira warnanya dari buah asli, ternyata cuma perasa doang.
     targetColor: {r: 0.96862745, g: 0.7176471, b: 0.7647059, a: 1}
     difficulty: 2
   - requestId: L3_PINK_04
     requestName: Pipi Bayi
-    description: Mas, aku mau warna yang sering muncul di wajah bayi setelah dicubit gemas. Padahal bayinya belum tentu setuju dengan tindakan tersebut.
+    description: Beb, bikin warna rambut aku kayak kulit bayi putih setelah di-gemesin banget sama orang
     targetColor: {r: 0.9490196, g: 0.654902, b: 0.654902, a: 1}
     difficulty: 2
   - requestId: L3_PINK_05
     requestName: Permen Kapas
-    description: Kak, aku mau warna yang sering muncul di pasar malam. Kelihatannya besar, tapi dimakan sebentar langsung hilang. Mirip uang jajan.
+    description: Bestie, samain warnanya kayak makanan yang selembut awan, yang jadi jajanan favorit bocil ituloh.
     targetColor: {r: 1, g: 0.7372549, b: 0.8509804, a: 1}
     difficulty: 2
   - requestId: L3_PINK_06
-    requestName: Baju Senam
-    description: Mas, aku mau warna yang bikin orang terlihat siap olahraga. Walaupun baru lima menit, biasanya sudah sibuk cari alasan istirahat.
-    targetColor: {r: 1, g: 0.24313726, b: 0.6039216, a: 1}
-    difficulty: 2
-  - requestId: L3_PINK_07
     requestName: Bunga Sakura
-    description: Kak, aku mau warna yang sering muncul di foto orang liburan ke luar negeri. Padahal di rumah sendiri lihat pohon mangga saja jarang.
+    description: Kak, aku mau warna yang sering muncul di foto orang liburan ke luar negeri. Padahal di rumah sendiri lihat pohon mangga aja jarang.
     targetColor: {r: 1, g: 0.7176471, b: 0.77254903, a: 1}
     difficulty: 2
-  - requestId: L3_PINK_08
-    requestName: Es Krim
-    description: Mas, aku mau warna rasa yang biasanya dipilih orang karena tampilannya lucu. Tapi kalau meleleh, sudah tidak ada yang mau memotretnya.
-    targetColor: {r: 0.96862745, g: 0.65882355, b: 0.72156864, a: 1}
+  - requestId: L3_PINK_07
+    requestName: Pink 100.000
+    description: Bro, aku mau warna yang bikin seneng kalau ketemu di akhir bulan. Di depannya ada 2 pahlawan.
+    targetColor: {r: 0.8509804, g: 0.3137255, b: 0.41568628, a: 1}
     difficulty: 2
   - requestId: L3_PURPLE_01
-    requestName: Anggur
-    description: Mas, aku mau warna yang membuat buah ini terlihat seperti sudah siap masuk katalog parfum mahal. Bukan yang biasa dijadikan bekal anak sekolah.
-    targetColor: {r: 0.36862746, g: 0.16470589, b: 0.5176471, a: 1}
+    requestName: Ungu Janda
+    description: Mas, mau warna yang biasa identik sama para janda dong. Siapa bilang janda ndak boleh tampil CETARRR
+    targetColor: {r: 0.54509807, g: 0.24705882, b: 0.78039217, a: 1}
     difficulty: 2
   - requestId: L3_PURPLE_02
-    requestName: Terong
-    description: Kak, aku mau warna yang sering bikin orang salah fokus waktu belanja sayur. Bentuknya panjang, tapi jangan berpikiran macam-macam.
-    targetColor: {r: 0.29411766, g: 0.17254902, b: 0.36862746, a: 1}
+    requestName: Ungu Terong
+    description: Bro, gue mau warna sayur panjang yang emoji-nya paling sering disalahgunain itu. Jangan mikir yang aneh-aneh ya, gue cuma mau rambut yang mengkilap, hmph.
+    targetColor: {r: 0.3529412, g: 0.16470589, b: 0.3882353, a: 1}
     difficulty: 2
   - requestId: L3_PURPLE_03
-    requestName: Ubi
-    description: Mas, aku mau warna yang baru kelihatan setelah kulitnya dibuka. Dari luar kelihatan biasa saja, ternyata dalamnya punya kejutan.
-    targetColor: {r: 0.49019608, g: 0.23529412, b: 0.59607846, a: 1}
+    requestName: Ungu Kismis
+    description: Breyy, aku mau warna buah anggur yang dikeringin itu, kurus kerempeng kayak dompet ku akhir bulan.
+    targetColor: {r: 0.35686275, g: 0.19607843, b: 0.3372549, a: 1}
     difficulty: 2
   - requestId: L3_PURPLE_04
-    requestName: Baju Wisuda
-    description: Kak, aku mau warna yang sering muncul di acara kelulusan. Dipakai sebentar untuk foto, tapi perjuangan mendapatkannya bertahun-tahun.
-    targetColor: {r: 0.29411766, g: 0.18039216, b: 0.5137255, a: 1}
+    requestName: Ungu Talas Keju
+    description: Sob, mau warna kue talas keju, tapi pake lapis yang atas aja ya, aku mau se-ikonik warna kue itu.
+    targetColor: {r: 0.65882355, g: 0.54509807, b: 0.78039217, a: 1}
     difficulty: 2
   - requestId: L3_PURPLE_05
-    requestName: Lampu Diskotik
-    description: Mas, aku mau warna yang bikin suasana tempat karaoke terasa lebih dramatis. Padahal yang nyanyi masih fals dari tadi.
-    targetColor: {r: 0.60784316, g: 0.1882353, b: 1, a: 1}
+    requestName: Discord
+    description: Min, mau dong kayak warna logo aplikasi tempat orang ngobrol sambil main game. Biasanya masuk voice channel niatnya sebentar tapi tau-tau udah subuh.
+    targetColor: {r: 0.34509805, g: 0.39607844, b: 0.9490196, a: 1}
     difficulty: 2
   - requestId: L3_PURPLE_06
-    requestName: Bunga
-    description: Kak, aku mau warna yang sering dipilih orang untuk buket kalau ingin terlihat misterius dan sedikit mahal. Cocok untuk orang yang susah ditebak, termasuk isi dompetnya.
-    targetColor: {r: 0.41568628, g: 0.050980393, b: 0.6784314, a: 1}
+    requestName: Fanta Anggur
+    description: Best, samain kayak soda rasa buah yang kalau diminum bikin lidah ikutan sama warnanya hahaha. Rasa warnanya yang biasa disukai janda-janda ya best
+    targetColor: {r: 0.43137255, g: 0.17254902, b: 0.5568628, a: 1}
     difficulty: 2
   - requestId: L3_PURPLE_07
-    requestName: Ubur-Ubur
-    description: Mas, aku mau warna yang mungkin terlihat cantik saat berenang, tapi jangan sampai disentuh. Niatnya healing, malah pulang bawa cerita ke IG Story rumah sakit.
-    targetColor: {r: 0.7058824, g: 0.5568628, b: 0.85882354, a: 1}
+    requestName: Rambut Hyuga Hinata
+    description: Jamet-san, watashi mau kayak rambut istri Hokage ketujuh. Yang dulu pemalu banget, matanya kayak kunti itu
+    targetColor: {r: 0.2901961, g: 0.24705882, b: 0.41960785, a: 1}
+    difficulty: 2
+  - requestId: L3_PURPLE_08
+    requestName: Kulit Manggis
+    description: Bikinlah kayak kulit buah yang iklannya pernah terkenal banget gara-gara ekstraknya.
+    targetColor: {r: 0.29411766, g: 0.11764706, b: 0.18431373, a: 1}
+    difficulty: 2
+  - requestId: L3_PURPLE_09
+    requestName: Uang 10.000
+    description: Pak, mau kayak warna uang yang dulu sering dikasih buat jajan. Sekarang mah kayaknya cuma cukup buat parkir mobil di Jakarta. Pokoknya yang pahlawannya paling keliatan botak :)
+    targetColor: {r: 0.5411765, g: 0.3529412, b: 0.61960787, a: 1}
     difficulty: 2
   - requestId: L3_ORANGE_01
-    requestName: Wortel
-    description: Kak, aku mau warna sayuran yang katanya bikin mata sehat. Tapi kalau melihat saldo rekening tetap saja buram.
-    targetColor: {r: 0.92941177, g: 0.5686275, b: 0.12941177, a: 1}
+    requestName: Celana Dora the Explorer
+    description: Rek, mau kayak celana pendek anak kecil yang hobi berkelana ditemani monyet pakai sepatu. Bjir, kecil-kecil udah keliling hutan
+    targetColor: {r: 0.9607843, g: 0.5019608, b: 0.14509805, a: 1}
     difficulty: 2
   - requestId: L3_ORANGE_02
-    requestName: Jersey Sepak Bola
-    description: Mas, aku mau warna yang sering dipakai tim yang mainnya bikin penonton deg-degan. Bukan karena hebat, tapi karena kita tidak tahu bakal menang atau kalah.
-    targetColor: {r: 0.9529412, g: 0.42352942, b: 0.12941177, a: 1}
+    requestName: Firefox
+    description: Bro, samain kayak logo browser yang gambarnya rubah lagi muterin bola dunia. Emang masih ada yang pake browser itu ya sekarang?
+    targetColor: {r: 1, g: 0.44313726, b: 0.22352941, a: 1}
     difficulty: 2
   - requestId: L3_ORANGE_03
-    requestName: Senja
-    description: Kak, aku mau warna langit ketika matahari mulai pulang kerja. Momen paling romantis, kecuali kalau sedang terjebak macet.
-    targetColor: {r: 0.96862745, g: 0.5294118, b: 0.2901961, a: 1}
+    requestName: "Herm\xE8s"
+    description: Mas, kayak kotak belanja brand mahal asal Paris yang namanya ngambil dari nama dewa. Kalau dikasih ke orang langsung bikin mereka merasa jadi sultan.
+    targetColor: {r: 0.9529412, g: 0.4392157, b: 0.12941177, a: 1}
     difficulty: 2
   - requestId: L3_ORANGE_04
-    requestName: Kulit Jeruk
-    description: Mas, aku mau warna yang langsung mengingatkan orang pada buah yang kalau dikupas aromanya memenuhi satu ruangan. Jangan sampai salah pilih, nanti dikira sedang makan wortel.
-    targetColor: {r: 1, g: 0.62352943, b: 0, a: 1}
+    requestName: Nick Wilde
+    description: Bang, mau kayak rubah licik yang awalnya tukang tipu tapi akhirnya jadi polisi bareng kelinci. Zootopia, inget kan?
+    targetColor: {r: 0.8784314, g: 0.47843137, b: 0.24705882, a: 1}
     difficulty: 2
   - requestId: L3_ORANGE_05
-    requestName: Rompi Proyek
-    description: Kak, aku mau warna yang sering dipakai orang di lokasi pembangunan. Kelihatannya sibuk, walaupun kadang cuma berdiri sambil mengawasi.
-    targetColor: {r: 1, g: 0.40392157, b: 0, a: 1}
+    requestName: Oren Sinom
+    description: Mang, yang kayak jamu aja ya warnanya. jamu yang mana? yang dari kunyit sama daun asam jawa itu.
+    targetColor: {r: 0.9098039, g: 0.627451, b: 0.22745098, a: 1}
     difficulty: 2
   - requestId: L3_ORANGE_06
-    requestName: Api Kompor
-    description: Mas, aku mau warna yang muncul saat ibu sedang masak dan semua orang mendadak dilarang mendekat. Bahkan kucing pun tahu kapan harus minggir.
-    targetColor: {r: 1, g: 0.49411765, b: 0.12156863, a: 1}
-    difficulty: 2
-  - requestId: L3_ORANGE_07
-    requestName: Saus Keju
-    description: Kak, aku mau warna yang sering muncul di atas makanan cepat saji. Katanya cuma topping, tapi bisa bikin harga makanan naik dua kali lipat.
-    targetColor: {r: 0.9764706, g: 0.69803923, b: 0.2, a: 1}
-    difficulty: 2
-  - requestId: L3_ORANGE_08
-    requestName: Daun Musim Gugur
-    description: Mas, aku mau warna daun yang sudah capek jadi hijau. Saatnya pensiun dan jatuh dengan penuh gaya.
-    targetColor: {r: 0.78431374, g: 0.34117648, b: 0.105882354, a: 1}
+    requestName: Oren-nya Kucing Oren
+    description: Meow, mawu wawrna kucing pawling berwulah, Meong~~
+    targetColor: {r: 0.9098039, g: 0.6039216, b: 0.29803923, a: 1}
     difficulty: 2
   - requestId: L3_BROWN_01
-    requestName: Kopi Susu
-    description: Kak, aku mau warna minuman yang sering dibeli orang sebelum mulai bekerja. Katanya biar fokus, padahal yang dikerjakan tetap buka media sosial.
-    targetColor: {r: 0.6509804, g: 0.48235294, b: 0.35686275, a: 1}
+    requestName: Coklat Bungkus Tango
+    description: Bang tulung samakan dengan bungkus wafer yang kalau dibuka isinya lapis-lapis. Rasanya? pilih aje bang yang warnanya paling gelap biar macam muka temanku yang gosong
+    targetColor: {r: 0.2901961, g: 0.14509805, b: 0.06666667, a: 1}
     difficulty: 2
   - requestId: L3_BROWN_02
-    requestName: Tanah
-    description: Mas, aku mau warna yang selalu ada di bawah kaki kita. Sering diinjak, tapi kalau hilang semua orang langsung panik.
-    targetColor: {r: 0.47843137, g: 0.32156864, b: 0.2, a: 1}
+    requestName: Coklat Beras Kencur
+    description: Bro, mau warna jamu tradisional aja, yang dari beras itu. Badan udah jompo ya gini.
+    targetColor: {r: 0.84705883, g: 0.7647059, b: 0.627451, a: 1}
     difficulty: 2
   - requestId: L3_BROWN_03
-    requestName: Kardus Paket
-    description: Kak, aku mau warna benda yang paling sering datang ke rumah orang yang hobi belanja online. Isinya belum tentu penting, tapi membukanya selalu bikin bahagia.
-    targetColor: {r: 0.7647059, g: 0.6039216, b: 0.41960785, a: 1}
+    requestName: Coklat Tahu Bulat
+    description: "Mau kayak yang \u201Cdigoreng dadakan, 500-an\u201D."
+    targetColor: {r: 0.7882353, g: 0.5411765, b: 0.24313726, a: 1}
     difficulty: 2
   - requestId: L3_BROWN_04
-    requestName: Roti Panggang
-    description: Mas, aku mau warna bagian roti yang sudah terlalu lama dekat panas. Kalau sudah begini, jangan bilang gosong, bilang saja ekstra matang.
-    targetColor: {r: 0.6039216, g: 0.35686275, b: 0.16862746, a: 1}
+    requestName: Latte
+    description: Beby, aku mau hangout di cafe, jadi bikin warnanya kayak minuman cafe ya, tapi creamy soft, bukan yang bikin begadang.
+    targetColor: {r: 0.78431374, g: 0.63529414, b: 0.4862745, a: 1}
     difficulty: 2
   - requestId: L3_BROWN_05
-    requestName: Kayu
-    description: Kak, aku mau warna yang sering dipakai buat furnitur supaya rumah terlihat mahal. Padahal cicilannya masih berjalan.
-    targetColor: {r: 0.5882353, g: 0.43529412, b: 0.2, a: 1}
+    requestName: Kuah Rawon
+    description: Mas, mau kayak kuah makanan khas Jawa Timur yang warnanya gelap banget. Isinya daging. Kadang kalau versi pedes ada cabenya.
+    targetColor: {r: 0.16862746, g: 0.11372549, b: 0.078431375, a: 1}
     difficulty: 2
   - requestId: L3_BROWN_06
-    requestName: Gula Aren
-    description: Mas, aku mau warna pemanis yang sering bikin minuman terasa lebih tradisional. Kalau masuk menu kafe, harganya bisa langsung naik.
-    targetColor: {r: 0.49803922, g: 0.2901961, b: 0.13725491, a: 1}
+    requestName: Perut Bear
+    description: Cak, mau kayak warna perut beruang gede yang rumahnya sering didatengin bocah Rusia nggak ada akhlak itu.
+    targetColor: {r: 0.7529412, g: 0.5411765, b: 0.33333334, a: 1}
     difficulty: 2
   - requestId: L3_BROWN_07
-    requestName: Kulit Sawo
-    description: Kak, aku mau warna buah yang kalau sudah matang terlihat seperti habis kehujanan lumpur. Tapi jangan tertipu penampilan, rasanya tetap enak.
-    targetColor: {r: 0.5411765, g: 0.4, b: 0.25882354, a: 1}
+    requestName: Minecraft Dirt Block
+    description: Help, bikin rambut gue kayak blok tanah yang biasa dihancurin buat cari diamond. Game yg kotak-kotak itu kalau ente gatau.
+    targetColor: {r: 0.5254902, g: 0.3764706, b: 0.2627451, a: 1}
     difficulty: 2
   - requestId: L3_BROWN_08
     requestName: Seragam Pramuka
-    description: Mas, aku mau warna yang sering dipakai saat upacara sekolah. Begitu melihatnya, langsung teringat tali-temali, baris-berbaris, dan tugas yang tidak selesai.
+    description: Mas, aku mau warna baju yang sering dipakai saat upacara sekolah. Begitu melihatnya, langsung teringat tali-temali, baris-berbaris, dan tugas yang tidak selesai.
     targetColor: {r: 0.65882355, g: 0.54509807, b: 0.3529412, a: 1}
+    difficulty: 2
+  - requestId: L3_BROWN_09
+    requestName: Coklat Gudeg
+    description: "Mas tolong dibuat seperti makanan khas Jogja yang manis banget itu. Legi gitu, makannya sama nasi. Kalau dibilang kemanisan, jawabannya \u2018nggih\u2019."
+    targetColor: {r: 0.49019608, g: 0.24705882, b: 0.15294118, a: 1}
     difficulty: 2
