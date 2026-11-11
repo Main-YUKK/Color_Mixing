@@ -55,7 +55,7 @@ public class ColorMixingController : MonoBehaviour
         {
             // Sementara, sampai host mengirim pembagian yang asli.
             state.SetSlots(Enumerable.Range(0, PigmentAssignment.PlayerCount * 2).Select(i => i % palette.Count).ToArray());
-            RotationTimerLeft = rotationInterval;
+            RotationTimerLeft = PlaytestSettings.Rotation(rotationInterval);
         }
     }
 
@@ -92,7 +92,7 @@ public class ColorMixingController : MonoBehaviour
     private void AssignPigments()
     {
         state.SetSlots(PigmentAssignment.Shuffle(palette.Count));
-        RotationTimerLeft = rotationInterval;
+        RotationTimerLeft = PlaytestSettings.Rotation(rotationInterval);
         Debug.Log($"[MIX] Pembagian pigmen: P1 {Name(0, 0)}+{Name(0, 1)}, P2 {Name(1, 0)}+{Name(1, 1)}, P3 {Name(2, 0)}+{Name(2, 1)}");
         StateChanged?.Invoke();
     }

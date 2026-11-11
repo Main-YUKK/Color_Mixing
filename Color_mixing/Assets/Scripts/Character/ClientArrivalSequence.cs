@@ -11,6 +11,8 @@ public class ClientArrivalSequence : MonoBehaviour
     [SerializeField] private CharacterSpawner spawner;
     [SerializeField] private GameObject cardRoot;          // objek kartu request, disembunyikan sampai klien tiba
     [SerializeField] private bool flipOnArrival = true;
+    [Tooltip("Opsional. Kartu awal hari: klien baru menunggu kartunya selesai menghilang dulu. Kosong = dicari otomatis di scene.")]
+    [SerializeField] private StartOfDayCard dayCard;
 
     [Header("Next scene (opsional)")]
     [Tooltip("Kosong = tetap di scene ini, klien berikutnya muncul lewat Yes / No.")]
@@ -59,6 +61,17 @@ public class ClientArrivalSequence : MonoBehaviour
         if (routine != null) StopCoroutine(routine);
         if (cardRoot != null) cardRoot.SetActive(false);
         UnloadNextScene();
+
+        if (dayCard == null) dayCard = FindFirstObjectByType<StartOfDayCard>();
+        if (dayCard != null && dayCard.IsShowing) routine = StartCoroutine(SpawnAfterDayCard());
+        else spawner.SpawnNext();
+    }
+
+    // Kartu awal hari tampil dulu sampai hilang, baru klien masuk.
+    private IEnumerator SpawnAfterDayCard()
+    {
+        while (dayCard != null && dayCard.IsShowing) yield return null;
+        routine = null;
         spawner.SpawnNext();
     }
 

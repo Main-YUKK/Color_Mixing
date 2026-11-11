@@ -19,7 +19,7 @@ public class ClientRequestController : MonoBehaviour
         if (cycle == null || cycle.IsAuthority)
         {
             GameSession.EnsureBag(database);
-            var level = schedule.GetLevel(GameSession.Day, GameSession.ClientIndex);
+            var level = PlaytestSettings.Level(schedule.GetLevel(GameSession.Day, GameSession.ClientIndex));
             GameSession.CurrentRequest = GameSession.Bag.Next(level);
             Debug.Log($"[REQ] Hari {GameSession.Day} klien {GameSession.ClientIndex + 1}: {level} -> {GameSession.CurrentRequest.requestId}");
         }

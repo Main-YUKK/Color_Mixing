@@ -212,6 +212,7 @@ public class DayCycleManager : MonoBehaviour
             state = (int)State,
             clientIndex = GameSession.ClientIndex,
         };
+        PlaytestSettings.Write(s);
 
         if (kind == DaySnapshotKind.ClientRequested)
         {
@@ -235,6 +236,7 @@ public class DayCycleManager : MonoBehaviour
         if (newRun) { lastRunId = s.runId; lastAppliedSeq = 0; }
         if (s.seq <= lastAppliedSeq) return false;
         lastAppliedSeq = s.seq;
+        PlaytestSettings.Read(s);   // setelan playtest host dipakai sebelum event hari diputar ulang
         if (newRun) { History.Clear(); GameSession.StartRun(s.kind == (int)DaySnapshotKind.DayEnded ? s.day + 1 : s.day); }
 
         switch ((DaySnapshotKind)s.kind)

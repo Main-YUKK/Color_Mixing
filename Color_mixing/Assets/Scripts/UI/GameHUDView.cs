@@ -13,6 +13,22 @@ public class GameHUDView : MonoBehaviour
     [SerializeField] private TMP_Text happyClientText;
     [SerializeField] private Slider timerBar;
 
+    [Header("Timer bar bergaya (opsional, bisa dipakai tanpa Slider di atas)")]
+    [Tooltip("Image tipe Filled / Horizontal / Left. Anak dari Timer Track, ukurannya sama.")]
+    [SerializeField] private Image timerFill;
+    [Tooltip("Ikon maskot yang ikut bergerak di ujung fill. Anak dari Timer Track, Anchor Preset middle-left.")]
+    [SerializeField] private Image timerIcon;
+    [SerializeField] private Sprite greenFill;
+    [SerializeField] private Sprite yellowFill;
+    [SerializeField] private Sprite redFill;
+    [SerializeField] private Sprite greenIcon;
+    [SerializeField] private Sprite yellowIcon;
+    [SerializeField] private Sprite redIcon;
+    [Tooltip("Di bawah nilai ini bar jadi kuning.")]
+    [SerializeField, Range(0f, 1f)] private float yellowBelow = 0.6f;
+    [Tooltip("Di bawah nilai ini bar jadi merah.")]
+    [SerializeField, Range(0f, 1f)] private float redBelow = 0.3f;
+
     [Header("Hearts (opsional, bisa dipakai bersama / menggantikan Lives text)")]
     [SerializeField] private Image[] heartSlots;      // satu Image per nyawa, urut dari kiri
     [SerializeField] private Image[] cloudPops;       // satu Image per slot, di atas heart (nonaktif di awal)
@@ -24,6 +40,7 @@ public class GameHUDView : MonoBehaviour
     [Tooltip("Tunggu sebelum asap mulai. Naikkan kalau nyawa berubah saat layar mixing masih menutupi HUD ini.")]
     [SerializeField] private float popDelay = 0f;
 
+    private float iconHeight;
     private DayCycleManager cycle;
     private ClientTimer timer;
     private int shownLives = -1;                      // <= 0 = belum mulai / game over, jadi tanpa animasi
@@ -59,7 +76,37 @@ public class GameHUDView : MonoBehaviour
 
     private void Update()
     {
-        if (timer != null && timerBar != null) timerBar.value = timer.Normalized;
+        if (timer == null) return;
+        float v = Mathf.Clamp01(timer.Normalized);
+        if (timerBar != null) timerBar.value = v;
+        ShowTimerStyled(v);
+    }
+
+    // Fill dipotong dari kiri sesuai sisa waktu; ikon menempel di ujung fill; warna ganti per ambang.
+    private void ShowTimerStyled(float v)
+    {
+        bool red = v < redBelow, yellow = !red && v < yellowBelow;
+        if (timerFill != null)
+        {
+            timerFill.fillAmount = v;
+            Sprite fill = red ? redFill : yellow ? yellowFill : greenFill;
+            if (fill != null && timerFill.sprite != fill) timerFill.sprite = fill;
+        }
+        if (timerIcon != null)
+        {
+            Sprite icon = red ? redIcon : yellow ? yellowIcon : greenIcon;
+            var rt = timerIcon.rectTransform;
+            if (iconHeight <= 0f) iconHeight = rt.sizeDelta.y;     // tinggi dari yang diatur di prefab
+            if (icon != null && timerIcon.sprite != icon)
+            {
+                timerIcon.sprite = icon;
+                // Tinggi tetap, lebar mengikuti rasio sprite supaya tidak gepeng.
+                rt.sizeDelta = new Vector2(iconHeight * icon.rect.width / icon.rect.height, iconHeight);
+            }
+            rt.anchorMin = new Vector2(v, rt.anchorMin.y);
+            rt.anchorMax = new Vector2(v, rt.anchorMax.y);
+            rt.anchoredPosition = new Vector2(0f, rt.anchoredPosition.y);
+        }
     }
 
     private void ShowDay(int day) { if (dayText != null) dayText.text = $"Day {day}"; }
