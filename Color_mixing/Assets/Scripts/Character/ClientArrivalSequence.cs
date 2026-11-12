@@ -62,17 +62,10 @@ public class ClientArrivalSequence : MonoBehaviour
         if (cardRoot != null) cardRoot.SetActive(false);
         UnloadNextScene();
 
+        // Rupa klien dipilih sekarang (host mengirimnya ke client tepat setelah event ini); kalau kartu awal hari
+        // masih tampil, hanya gerakan klien yang menunggu kartunya hilang.
         if (dayCard == null) dayCard = FindFirstObjectByType<StartOfDayCard>();
-        if (dayCard != null && dayCard.IsShowing) routine = StartCoroutine(SpawnAfterDayCard());
-        else spawner.SpawnNext();
-    }
-
-    // Kartu awal hari tampil dulu sampai hilang, baru klien masuk.
-    private IEnumerator SpawnAfterDayCard()
-    {
-        while (dayCard != null && dayCard.IsShowing) yield return null;
-        routine = null;
-        spawner.SpawnNext();
+        spawner.SpawnNext(() => dayCard != null && dayCard.IsShowing);
     }
 
     // Tutup scene additive klien sebelumnya supaya klien baru mulai bersih (aman kalau belum dimuat).

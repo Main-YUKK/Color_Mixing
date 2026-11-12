@@ -57,7 +57,10 @@ public class CharacterSpawner : MonoBehaviour
 
     /// <summary>Current client walks away, then a new random one walks in (hook this to a button/event).</summary>
     [ContextMenu("Spawn Next")]
-    public void SpawnNext()
+    public void SpawnNext() => SpawnNext(null);
+
+    /// <summary>Rupa klien dipilih sekarang; gerakannya (klien lama pergi, klien baru masuk) menunggu selama hold() true.</summary>
+    public void SpawnNext(Func<bool> hold)
     {
         if (characterPrefabs == null || characterPrefabs.Length == 0) return;
         if (IsBusy) return;                     // ignore while someone is still walking
@@ -65,7 +68,8 @@ public class CharacterSpawner : MonoBehaviour
         // Dipilih SEKARANG (sebelum klien lama pergi), karena host mengirim pilihan ini ke client lewat GameSession.CurrentLook.
         var look = ChooseLook();
         GameSession.CurrentLook = look;
-        StartCoroutine(Swap(look));
+        IsBusy = true;
+        StartCoroutine(Swap(look, hold));
     }
 
     /// <summary>Host / satu device: acak prefab + rambut. Client: pakai pilihan host (GameSession.CurrentLook).</summary>
@@ -94,9 +98,11 @@ public class CharacterSpawner : MonoBehaviour
         return look;
     }
 
-    IEnumerator Swap(ClientLook look)
+    IEnumerator Swap(ClientLook look, Func<bool> hold)
     {
         IsBusy = true;
+        if (hold != null)
+            while (hold()) yield return null;
 
         // old client leaves. Only start the nested coroutine when there is something to walk:
         // yielding one always costs a frame, and the new client must appear in the same frame when nobody walks.

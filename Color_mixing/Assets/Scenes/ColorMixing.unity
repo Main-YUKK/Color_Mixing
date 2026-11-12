@@ -335,35 +335,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 509827900101438448, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 509827900101438448, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 509827900101438448, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 245
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 509827900101438448, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1395960872138088762, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1395960872138088762, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1395960872138088762, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 145
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1395960872138088762, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1538088649331286340, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_Pivot.x
@@ -449,6 +449,26 @@ PrefabInstance:
       propertyPath: m_text
       value: Warnai
       objectReference: {fileID: 0}
+    - target: {fileID: 2383166465387624579, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
+      propertyPath: m_fontSize
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383166465387624579, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 46d0445707ad44d438a3341ab2886519, type: 2}
+    - target: {fileID: 2383166465387624579, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383166465387624579, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -1617481104815554937, guid: 46d0445707ad44d438a3341ab2886519, type: 2}
+    - target: {fileID: 2383166465387624579, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4980262827575636397, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_Name
       value: ApplyButton
@@ -463,19 +483,19 @@ PrefabInstance:
       objectReference: {fileID: 1904900951}
     - target: {fileID: 5162968437612302403, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5162968437612302403, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5162968437612302403, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5162968437612302403, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -45
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1192,7 +1212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1113601734
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1230,7 +1250,7 @@ MonoBehaviour:
   panel: {fileID: 611279718}
   text: {fileID: 1809930181}
   mixButton: {fileID: 7306856031461463979}
-  message: Waktunya ganti warna
+  message: waktunya ganti warna
   dotCount: 3
   dotInterval: 0.3
   duration: 1.5
@@ -1455,7 +1475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1388269460
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1515,7 +1535,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -205}
-  m_SizeDelta: {x: 800, y: 120}
+  m_SizeDelta: {x: 1200, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1416589884
 MonoBehaviour:
@@ -1539,8 +1559,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Kamu punya (1) pilihan
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f0ea91919941e47fa84e2fb10c2488ae, type: 2}
+  m_sharedMaterial: {fileID: 3807302467466967565, guid: f0ea91919941e47fa84e2fb10c2488ae, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1564,8 +1584,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 45
+  m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2126,10 +2146,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 611279719}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 14}
-  m_SizeDelta: {x: -60, y: -20}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 15, y: 15}
+  m_SizeDelta: {x: 878, y: 191}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1809930181
 MonoBehaviour:
@@ -2151,10 +2171,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Waktunya ganti warna...
+  m_text: waktunya ganti warna...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 46d0445707ad44d438a3341ab2886519, type: 2}
+  m_sharedMaterial: {fileID: -1617481104815554937, guid: 46d0445707ad44d438a3341ab2886519, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2178,8 +2198,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 66
+  m_fontSizeBase: 66
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2897,35 +2917,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 509827900101438448, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 509827900101438448, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 509827900101438448, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 245
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 509827900101438448, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1395960872138088762, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1395960872138088762, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1395960872138088762, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 145
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1395960872138088762, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1538088649331286340, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_Pivot.x
@@ -3012,28 +3032,24 @@ PrefabInstance:
       value: RedoButton
       objectReference: {fileID: 0}
     - target: {fileID: 5159622315304963630, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
-      propertyPath: vote
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5159622315304963630, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: applyRedoVoteController
       value: 
       objectReference: {fileID: 1904900951}
     - target: {fileID: 5162968437612302403, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5162968437612302403, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5162968437612302403, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5162968437612302403, guid: 3a97d97c0ed0d4fb78b810c53e9250a0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -45
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3157,10 +3173,6 @@ PrefabInstance:
       propertyPath: colorMixingController
       value: 
       objectReference: {fileID: 1904900950}
-    - target: {fileID: 2482387585952214334, guid: 745cd1981330f4a30b9fc896fbab7e90, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 145
-      objectReference: {fileID: 0}
     - target: {fileID: 3541127004360227637, guid: 745cd1981330f4a30b9fc896fbab7e90, type: 3}
       propertyPath: colorMixingController
       value: 
