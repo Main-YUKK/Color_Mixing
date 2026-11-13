@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 55f7f6d2f92b747068bfd538c1a767aa
+guid: cc35b0c6a0ce44a0aa345c19b3a8e099
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -921086426717527885
-    second: DeleteButton_0
+      213: 4931539908587857367
+    second: gameTitle 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -99,19 +99,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -128,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DeleteButton_0
+      name: gameTitle 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 19
+        width: 1109
+        height: 477
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +130,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3b0611866c4a733f0800000000000000
-      internalID: -921086426717527885
+      spriteID: 7d5aa0f1b69507440800000000000000
+      internalID: 4931539908587857367
       vertices: []
       indices: 
       edges: []
@@ -163,7 +150,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      DeleteButton_0: -921086426717527885
+      gameTitle 1_0: 4931539908587857367
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -684,8 +684,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '*Perlu total (1/3) pemain untuk mulai*'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9d3bcef833fed4ce8ae48922c88f5b14, type: 2}
+  m_sharedMaterial: {fileID: 3807302467466967565, guid: 9d3bcef833fed4ce8ae48922c88f5b14, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -713,7 +713,7 @@ MonoBehaviour:
   m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 8
   m_fontSizeMax: 45
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -726,7 +726,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -773,6 +773,7 @@ GameObject:
   - component: {fileID: 525263412}
   - component: {fileID: 525263414}
   - component: {fileID: 525263413}
+  - component: {fileID: 525263415}
   m_Layer: 5
   m_Name: RoomCodeText
   m_TagString: Untagged
@@ -819,10 +820,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Room Code: 121005'
+  m_text: 'Kode Ruang: 121005'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5c1e7a90d3b24f6e8a41c07d9be2f351, type: 2}
+  m_sharedMaterial: {fileID: 3807302467466967565, guid: 5c1e7a90d3b24f6e8a41c07d9be2f351, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -891,6 +892,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &525263415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525263411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b7c4d19f6a4c38a0d5b7e31f8c2a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  innerWidth: 6
+  innerColor: {r: 1, g: 1, b: 1, a: 1}
+  outerWidth: 6
+  outerColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!222 &525263414
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1009,7 +1026,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_GlobalFontAsset: {fileID: 11400000, guid: 46d0445707ad44d438a3341ab2886519, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_KeepTextSelectionVisible: 0
@@ -1417,8 +1434,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 46d0445707ad44d438a3341ab2886519, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 376db80abb064c44851a0c30c9098aa9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1886,6 +1903,7 @@ GameObject:
   - component: {fileID: 1659306878}
   - component: {fileID: 1659306880}
   - component: {fileID: 1659306879}
+  - component: {fileID: 1659306881}
   m_Layer: 5
   m_Name: RoomNameText
   m_TagString: Untagged
@@ -1932,10 +1950,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ivone's Room
+  m_text: Ruang Ivone
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9a3f6d21c84e4b07b5d2e61f0c7a48d6, type: 2}
+  m_sharedMaterial: {fileID: -1617481104815554937, guid: 9a3f6d21c84e4b07b5d2e61f0c7a48d6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2004,6 +2022,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1659306881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659306877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b7c4d19f6a4c38a0d5b7e31f8c2a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  innerWidth: 12
+  innerColor: {r: 1, g: 1, b: 1, a: 1}
+  outerWidth: 6.5
+  outerColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!222 &1659306880
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2291,10 +2325,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: Ketik nama ruang...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 46d0445707ad44d438a3341ab2886519, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 376db80abb064c44851a0c30c9098aa9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

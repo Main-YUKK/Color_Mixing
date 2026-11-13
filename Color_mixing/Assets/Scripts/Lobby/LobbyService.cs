@@ -43,7 +43,7 @@ public class LobbyService : MonoBehaviour
 
     public LobbyMode Mode { get; private set; } = LobbyMode.None;
     public string RoomCode { get; private set; }
-    public string RoomName { get; private set; } = "";   // kosong = pakai default "<host>'s Room"
+    public string RoomName { get; private set; } = "";   // kosong = pakai default "Ruang <host>"
     public string LastMessage { get; private set; }
     public readonly List<LobbyPlayer> Players = new List<LobbyPlayer>();
 

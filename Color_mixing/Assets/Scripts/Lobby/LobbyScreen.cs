@@ -194,7 +194,7 @@ public class LobbyScreen : MonoBehaviour
         var others = service.GetOthersInSlotOrder();
 
         if (roomCodeText != null)
-            roomCodeText.text = $"Room Code: {service.RoomCode}";
+            roomCodeText.text = $"Kode Ruang: {service.RoomCode}";
 
         bool editing = roomNameInput != null && roomNameInput.gameObject.activeSelf;
 
@@ -203,11 +203,11 @@ public class LobbyScreen : MonoBehaviour
             roomNameText.gameObject.SetActive(!editing);
 
             if (host == null)
-                roomNameText.text = "Joining...";
+                roomNameText.text = "Bergabung...";
             else if (!string.IsNullOrEmpty(service.RoomName))
                 roomNameText.text = service.RoomName;
             else
-                roomNameText.text = $"{Shorten(host.name)}'s Room";
+                roomNameText.text = $"Ruang {Shorten(host.name)}";
         }
 
         if (editRoomNameButton != null)
@@ -225,15 +225,15 @@ public class LobbyScreen : MonoBehaviour
             if (players.Count < RequiredPlayers)
                 statusText.text = $"Perlu total ({players.Count}/{RequiredPlayers}) pemain untuk mulai";
             else if (!allReady)
-                statusText.text = "Waiting for all players to be ready";
+                statusText.text = "Menunggu semua pemain siap";
             else
-                statusText.text = isHost ? "Everyone is ready! Press Play to start." : "Waiting for the host to start the game...";
+                statusText.text = isHost ? "Semua sudah siap! Tekan Play untuk mulai." : "Menunggu host memulai game...";
         }
 
         // Slot: ReadyIcon / Kick diatur di PlayerSlotView.Show() berdasarkan LobbyPlayer.isReady.
         if (hostSlot != null) hostSlot.Show(host, isHost);
-        if (leftSlot != null) leftSlot.Show(others.Count > 0 ? others[0] : null, isHost);
-        if (rightSlot != null) rightSlot.Show(others.Count > 1 ? others[1] : null, isHost);
+        if (leftSlot != null) leftSlot.Show(others.Count > 0 ? others[0] : null, isHost, "Pemain 2");
+        if (rightSlot != null) rightSlot.Show(others.Count > 1 ? others[1] : null, isHost, "Pemain 3");
 
         // Client: ReadyButton (aktif setelah host terdengar). Setelah ditekan, gambarnya diganti pesan tunggu
         // dan tombol tidak bisa ditekan lagi. Host: PlayButton (aktif kalau semua siap).
@@ -269,7 +269,7 @@ public class LobbyScreen : MonoBehaviour
 
             if (readyButtonLabel != null)
             {
-                readyButtonLabel.text = "Ready";
+                readyButtonLabel.text = "Siap";
                 readyButtonLabel.gameObject.SetActive(!localReady);
             }
         }
@@ -296,7 +296,7 @@ public class LobbyScreen : MonoBehaviour
 
     private static string Shorten(string name, int maxLength = 14)
     {
-        if (string.IsNullOrEmpty(name)) return "Player";
+        if (string.IsNullOrEmpty(name)) return "Pemain";
         return name.Length <= maxLength ? name : name.Substring(0, maxLength) + "…";
     }
 
