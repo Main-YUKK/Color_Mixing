@@ -131,10 +131,10 @@ TextureImporter:
       name: Buaya Good_0
       rect:
         serializedVersion: 2
-        x: 83
-        y: 5
-        width: 970
-        height: 1125
+        x: 95
+        y: 3
+        width: 939
+        height: 1098
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

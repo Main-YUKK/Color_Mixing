@@ -131,10 +131,10 @@ TextureImporter:
       name: Bebek Bad_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 27
-        width: 1059
-        height: 1052
+        x: 37
+        y: 25
+        width: 1019
+        height: 1017
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

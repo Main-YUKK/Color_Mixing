@@ -131,10 +131,10 @@ TextureImporter:
       name: Katak Netral_0
       rect:
         serializedVersion: 2
-        x: 282
-        y: 44
-        width: 498
-        height: 920
+        x: 293
+        y: 66
+        width: 465
+        height: 896
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

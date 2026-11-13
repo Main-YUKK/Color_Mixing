@@ -131,10 +131,10 @@ TextureImporter:
       name: Ayam Good_0
       rect:
         serializedVersion: 2
-        x: 41
-        y: 164
-        width: 980
-        height: 734
+        x: 84
+        y: 158
+        width: 946
+        height: 706
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

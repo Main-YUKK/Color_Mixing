@@ -131,10 +131,10 @@ TextureImporter:
       name: Kambing Netral_0
       rect:
         serializedVersion: 2
-        x: 287
-        y: 15
-        width: 577
-        height: 1120
+        x: 286
+        y: 33
+        width: 534
+        height: 1073
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

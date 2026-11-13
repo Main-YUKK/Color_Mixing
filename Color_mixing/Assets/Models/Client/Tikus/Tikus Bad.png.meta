@@ -131,10 +131,10 @@ TextureImporter:
       name: Tikus Bad_0
       rect:
         serializedVersion: 2
-        x: 319
-        y: 128
-        width: 430
-        height: 756
+        x: 363
+        y: 43
+        width: 322
+        height: 586
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

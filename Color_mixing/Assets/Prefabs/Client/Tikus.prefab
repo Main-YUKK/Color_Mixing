@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2689903533373510479
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4157754871930893029}
-  m_Layer: 0
-  m_Name: PortraitFocus
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4157754871930893029
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2689903533373510479}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.56, y: 1.64, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6815619382047569224}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3030468146703404835
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 3030468146703404835}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.05, y: 0.64, z: 0}
-  m_LocalScale: {x: 2.12, y: 2.12, z: 2.12}
+  m_LocalPosition: {x: 0.9, y: 0.36, z: 0}
+  m_LocalScale: {x: 1.56, y: 1.56, z: 1.56}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6815619382047569224}
@@ -112,12 +81,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -7978985296679559071, guid: 95cb5840308134c86970b1d7b7f4220a, type: 3}
+  m_Sprite: {fileID: -7978985296679559071, guid: fd1a35c9bdf3741e6831a23cc754830e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.19, y: 2.63}
+  m_Size: {x: 2.32, y: 3.38}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -134,7 +103,7 @@ GameObject:
   - component: {fileID: 6815619382047569224}
   - component: {fileID: 5081010070686618568}
   - component: {fileID: 6529101638449018230}
-  - component: {fileID: 8800000000000000008}
+  - component: {fileID: 8800000000000000001}
   m_Layer: 0
   m_Name: Tikus
   m_TagString: Untagged
@@ -151,12 +120,11 @@ Transform:
   m_GameObject: {fileID: 7657919569857761082}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.91, y: -3.95, z: 0}
+  m_LocalPosition: {x: 4.91, y: -1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1295044173651274652}
-  - {fileID: 4157754871930893029}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5081010070686618568
@@ -213,7 +181,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 10.62, y: 11.35}
+  m_Size: {x: 8.54, y: 7.06}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -234,35 +202,35 @@ MonoBehaviour:
   bodyRenderer: {fileID: 5081010070686618568}
   hairRenderer: {fileID: 6570411911085312771}
   hairSprites:
-  - {fileID: -414228733843354519, guid: 34962b6a284274aa486be686fb8b0b2a, type: 3}
-  - {fileID: 9021790495452558172, guid: 60cd864d318424780bf6af693f969553, type: 3}
-  - {fileID: -7978985296679559071, guid: 95cb5840308134c86970b1d7b7f4220a, type: 3}
+  - {fileID: -414228733843354519, guid: 20df9f80d60bc47e19ebbcf1c4db73d7, type: 3}
+  - {fileID: 9021790495452558172, guid: 50b8d7dc4aff145ccb543716937c1eb0, type: 3}
+  - {fileID: -7978985296679559071, guid: fd1a35c9bdf3741e6831a23cc754830e, type: 3}
   hairStyles:
-  - sprite: {fileID: -414228733843354519, guid: 34962b6a284274aa486be686fb8b0b2a, type: 3}
-    position: {x: -0.24, y: 2.6}
-    scale: 1.22
+  - sprite: {fileID: -414228733843354519, guid: 20df9f80d60bc47e19ebbcf1c4db73d7, type: 3}
+    position: {x: -0.12, y: 2.02}
+    scale: 0.96
     layer: 0
-  - sprite: {fileID: 9021790495452558172, guid: 60cd864d318424780bf6af693f969553, type: 3}
-    position: {x: 0.66, y: 0.88}
-    scale: 1.22
+  - sprite: {fileID: 9021790495452558172, guid: 50b8d7dc4aff145ccb543716937c1eb0, type: 3}
+    position: {x: 0.26, y: 0.68}
+    scale: 0.82
     layer: 0
-  - sprite: {fileID: -7978985296679559071, guid: 95cb5840308134c86970b1d7b7f4220a, type: 3}
-    position: {x: 1.05, y: 0.64}
-    scale: 2.12
+  - sprite: {fileID: -7978985296679559071, guid: fd1a35c9bdf3741e6831a23cc754830e, type: 3}
+    position: {x: 0.9, y: 0.36}
+    scale: 1.56
     layer: 0
   colorVariants:
   - sprites:
-    - {fileID: -1871053142484301941, guid: 75ef1043e7c964a8bade956f31b2215d, type: 3}
-    - {fileID: -3405825000638962291, guid: 8ec89c9ab8f454c8fb12ae79f0572add, type: 3}
-    - {fileID: -286168948254165168, guid: bef02e3f1337348c08f6d3ae417790d7, type: 3}
+    - {fileID: 6600603416006638481, guid: 58802f82d6a2441709ddc921219e123c, type: 3}
+    - {fileID: -363061333998997734, guid: 4f015580f75d54d1e89f595bbb22a77c, type: 3}
+    - {fileID: -4551319375783527452, guid: 2fb73300a9181444f91dedeff93f85b7, type: 3}
   - sprites:
-    - {fileID: -7329754637988747763, guid: da6230f5d533c4476b9601073780bfbb, type: 3}
-    - {fileID: 2995705719966316516, guid: b2c9e912c54d240099e99314b5ef47e6, type: 3}
-    - {fileID: 4439641844811552971, guid: fbcb0ef90b91c4b6285494700bd8e8e7, type: 3}
+    - {fileID: -8966867030667613374, guid: 4e49fdebda5224136a85351190c0a51e, type: 3}
+    - {fileID: -2717333016941642217, guid: 38c7eb9191a4a4b0897af874cfcb52ea, type: 3}
+    - {fileID: 2919890667871589291, guid: 79525f0cb131940a1b80a8fdde092b0b, type: 3}
   - sprites:
-    - {fileID: 1341871417676700797, guid: 9d073fc05a9c449928e00501c7b1a74a, type: 3}
-    - {fileID: -2441035564996795298, guid: e36d63b189da6432b86e71b49af18771, type: 3}
-    - {fileID: -3068874566555300426, guid: 51d6e9ebe53804486b3e03a46a93c757, type: 3}
+    - {fileID: -3853549330862483575, guid: 74a2894b83f734f1cb7bcc816bf9b392, type: 3}
+    - {fileID: 25804261256832630, guid: 9e7f397cc9d1a42acad6e90ca2aa8555, type: 3}
+    - {fileID: 3736818924885085445, guid: 7e06d74dba5944fbd8f2ef9c59e3a5a6, type: 3}
   tintHair: 1
   hairColors:
     serializedVersion: 2
@@ -298,14 +266,18 @@ MonoBehaviour:
   hairSortingOffset: -1
   frontSortingOffset: 1
   hairOutline: 1
-  outlineWidth: 0.04
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 0.1
+  outlineColoredHair: 1
+  outlineColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
+  outerBorder: 1
+  borderWidth: 0.05
+  borderColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
   cycleHair: 0
   hairVisibleTime: {x: 2, y: 6}
   hairHiddenTime: {x: 1, y: 3}
   popDuration: 0.25
   previewIndex: 2
---- !u!114 &8800000000000000008
+--- !u!114 &8800000000000000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -318,5 +290,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::ClientExpression
   body: {fileID: 5081010070686618568}
-  good: {fileID: -4007748087519662221, guid: 1ff8522361769455cb33d45690157451, type: 3}
+  good: {fileID: 8952604778738596605, guid: 1ff8522361769455cb33d45690157451, type: 3}
   bad: {fileID: -5913611215596655581, guid: cfacccc9de00648da83a05a9133557af, type: 3}

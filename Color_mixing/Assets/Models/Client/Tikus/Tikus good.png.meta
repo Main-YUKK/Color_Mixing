@@ -3,8 +3,8 @@ guid: 1ff8522361769455cb33d45690157451
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4007748087519662221
-    second: Tikus good_0
+      213: 8952604778738596605
+    second: Tikus Good_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tikus good_0
+      name: Tikus Good_0
       rect:
         serializedVersion: 2
-        x: 310
-        y: 192
-        width: 487
-        height: 692
+        x: 356
+        y: 102
+        width: 360
+        height: 525
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 37fa32e295e9168c0800000000000000
-      internalID: -4007748087519662221
+      spriteID: dfabd230d9a0e3c70800000000000000
+      internalID: 8952604778738596605
       vertices: []
       indices: 
       edges: []
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Tikus good_0: -4007748087519662221
+      Tikus Good_0: 8952604778738596605
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

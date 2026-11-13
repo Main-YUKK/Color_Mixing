@@ -445,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7300100000000002000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7300100000000005000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
       propertyPath: m_SizeDelta.x
@@ -876,8 +876,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6058901212623130881, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -50.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 6058901212623130881, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -37.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6058901212623130881, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 8
+      value: 0.20999146
       objectReference: {fileID: 0}
     - target: {fileID: 6058901212623130881, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -889,7 +897,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8007817451162673847, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
       propertyPath: m_fontSize
-      value: 34.2
+      value: 41.7
       objectReference: {fileID: 0}
     - target: {fileID: 8007817451162673847, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
       propertyPath: m_margin.w
@@ -912,6 +920,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9d3bcef833fed4ce8ae48922c88f5b14, type: 2}
     - target: {fileID: 8007817451162673847, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 58.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007817451162673847, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007817451162673847, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
       propertyPath: m_fontSizeBase
       value: 34.2
       objectReference: {fileID: 0}
@@ -919,6 +935,10 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 3807302467466967565, guid: 9d3bcef833fed4ce8ae48922c88f5b14, type: 2}
+    - target: {fileID: 8007817451162673847, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8007817451162673847, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
       propertyPath: m_VerticalAlignment
       value: 512
@@ -1764,14 +1784,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpawner
   characterPrefabs:
   - {fileID: 7657919569857761082, guid: 61dedf884838648cbbaa9c036d6b63a7, type: 3}
-  - {fileID: 7657919569857761082, guid: 31d4f24ea5b1f4a3b88d0c20186f6aa0, type: 3}
-  - {fileID: 7657919569857761082, guid: b6ee0e59b47f342e992e5907e334be14, type: 3}
-  - {fileID: 7657919569857761082, guid: f3fcd654cfb474c329bd13396ceee81c, type: 3}
-  - {fileID: 7657919569857761082, guid: e5a0edfff1b394721907633ee8855138, type: 3}
-  - {fileID: 7657919569857761082, guid: 011c0150ad596472b884e73ace2b29cd, type: 3}
-  - {fileID: 7657919569857761082, guid: a254f59f5d4a54f1a851d2a77e3857f8, type: 3}
-  - {fileID: 7657919569857761082, guid: cfc75ef9e8b404edabccc16d6503f029, type: 3}
-  - {fileID: 7657919569857761082, guid: b5e9cbfc9dcbf4608a349d2bfca177d8, type: 3}
+  - {fileID: 7657919569857761082, guid: d501fb06549324c8984463395ce1be5f, type: 3}
+  - {fileID: 7657919569857761082, guid: 7ab1045e14d79414c9f8aace3329562b, type: 3}
+  - {fileID: 7657919569857761082, guid: 0193e9e460e8741b2a721e96762d81a3, type: 3}
+  - {fileID: 7657919569857761082, guid: 9981ea8334b5f4f499143d8f8d7de381, type: 3}
+  - {fileID: 7657919569857761082, guid: f384d74657c024e6194a1463f6a8124c, type: 3}
+  - {fileID: 7657919569857761082, guid: ef3cb55d6e5ab4d2693f9c73dae05723, type: 3}
+  - {fileID: 7657919569857761082, guid: 9c545c0995c3f496595a1808f861f39e, type: 3}
   spawnPoint: {fileID: 1250642246}
   spawnOnStart: 0
   walk: 1
@@ -1941,7 +1960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &892212390
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2365,7 +2384,7 @@ Transform:
   m_GameObject: {fileID: 1094018172}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.24, y: -1.8, z: 0}
+  m_LocalPosition: {x: 15.24, y: -2.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3317,7 +3336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901edf3c10dc24d53a77c4b10c558e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavigateButton
-  targetSceneName: HostLobby
+  targetSceneName: Lobby
   onBeforeNavigate:
     m_PersistentCalls:
       m_Calls: []
