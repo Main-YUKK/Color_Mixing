@@ -11,8 +11,8 @@ public class PlayerSlotView : MonoBehaviour
     [SerializeField] private GameObject silhouette;
     [SerializeField] private GameObject kickButton;
 
-    [Tooltip("Teks saat slot kosong, mis. [player 2]")]
-    [SerializeField] private string emptyLabel = "[player]";
+    [Tooltip("Teks saat slot kosong, mis. Pemain 2")]
+    [SerializeField] private string emptyLabel = "Pemain";
 
     // Dipicu saat host menekan tombol Kick di slot ini.
     public event Action<LobbyPlayer> OnKickClicked;
@@ -33,7 +33,8 @@ public class PlayerSlotView : MonoBehaviour
             Debug.LogWarning("[PlayerSlotView] Kick Button tidak punya komponen Button.", this);
     }
 
-    public void Show(LobbyPlayer player, bool viewerIsHost)
+    // emptyText: teks slot kosong khusus slot ini (mis. "Pemain 2"); null = pakai emptyLabel dari Inspector.
+    public void Show(LobbyPlayer player, bool viewerIsHost, string emptyText = null)
     {
         current = player;
         bool filled = player != null;
@@ -45,13 +46,13 @@ public class PlayerSlotView : MonoBehaviour
         SetActive(kickButton, filled && viewerIsHost && !player.isLocal);
 
         if (nameLabel != null)
-            nameLabel.text = filled ? BuildLabel(player) : emptyLabel;
+            nameLabel.text = filled ? BuildLabel(player) : (emptyText ?? emptyLabel);
     }
 
     private static string BuildLabel(LobbyPlayer p)
     {
         string name = p.name.Length > 12 ? p.name.Substring(0, 12) + "…" : p.name;
-        return p.isHost ? $"{name} (host)" : name;
+        return p.isHost ? $"{name}\n(host)" : name;
     }
 
     private static void SetActive(GameObject go, bool active)

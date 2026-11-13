@@ -383,6 +383,7 @@ GameObject:
   - component: {fileID: 2282136087418585371}
   - component: {fileID: 8196851116159170486}
   - component: {fileID: 1058722234636396823}
+  - component: {fileID: 7304158826419537021}
   m_Layer: 5
   m_Name: NameLabel
   m_TagString: Untagged
@@ -439,8 +440,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5c1e7a90d3b24f6e8a41c07d9be2f351, type: 2}
+  m_sharedMaterial: {fileID: 3807302467466967565, guid: 5c1e7a90d3b24f6e8a41c07d9be2f351, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -509,6 +510,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7304158826419537021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6553047170173829343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b7c4d19f6a4c38a0d5b7e31f8c2a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  innerWidth: 6
+  innerColor: {r: 1, g: 1, b: 1, a: 1}
+  outerWidth: 6
+  outerColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &7516973660586508068
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,4 +658,4 @@ MonoBehaviour:
   character: {fileID: 4080590463004525257}
   silhouette: {fileID: 7516973660586508068}
   kickButton: {fileID: 4092962384325161719}
-  emptyLabel: '[player]'
+  emptyLabel: Pemain
