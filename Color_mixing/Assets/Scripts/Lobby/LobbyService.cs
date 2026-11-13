@@ -140,6 +140,9 @@ public class LobbyService : MonoBehaviour
         }
     }
 
+    // Alasan OnRoomClosed saat host keluar dari lobby yang sudah terkumpul (dipakai LobbyScreen untuk menampilkan alert).
+    public const string HostLeftReason = "Host keluar dari room.";
+
     private void RaiseRoomClosed(string reason)
     {
         var evt = OnRoomClosed;
@@ -926,7 +929,7 @@ public class LobbyService : MonoBehaviour
 
         if (p.isHost && Mode == LobbyMode.Client)
         {
-            Fail("Host keluar dari room.");
+            Fail(HostLeftReason);
             return;
         }
 
