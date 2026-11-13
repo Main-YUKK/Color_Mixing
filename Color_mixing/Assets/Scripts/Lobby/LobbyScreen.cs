@@ -35,6 +35,8 @@ public class LobbyScreen : MonoBehaviour
 
     [SerializeField] private string mainMenuSceneName = "MainMenu";
 
+    private const string HostLeftAlertPrefab = "HostLeftLobby";   // Resources/Alerts/HostLeftLobby.prefab
+
     // Harus sama dengan LobbyService.RequiredPlayers (ubah ke 2 kalau tes dengan 2 device).
     private const int RequiredPlayers = 3;
 
@@ -124,6 +126,15 @@ public class LobbyScreen : MonoBehaviour
         if (leaving) return;
         leaving = true;
 
+        // Host keluar: tampilkan alert dan tetap di lobby. Pindah ke main menu hanya setelah tombol Oke ditekan
+        // (tanpa batas waktu: seconds = tak hingga).
+        if (reason == LobbyService.HostLeftReason)
+        {
+            AlertService.Show(HostLeftAlertPrefab, 1, () => SceneLoader.Load(mainMenuSceneName),
+                float.PositiveInfinity, fallbackText: "Host sudah pergi. Kamu bakal dipindah ke Home ya");
+            return;
+        }
+
         // TODO (tiket ML-6): tampilkan alert popup di main menu memakai alasan ini
         // (termasuk "Kamu dikeluarkan oleh host.").
         SceneLoader.Load(mainMenuSceneName);
@@ -212,7 +223,7 @@ public class LobbyScreen : MonoBehaviour
             bool allReady = players.TrueForAll(p => p.isHost || p.isReady);
 
             if (players.Count < RequiredPlayers)
-                statusText.text = $"Must have a total of {RequiredPlayers} players to start the game ({players.Count}/{RequiredPlayers})";
+                statusText.text = $"Perlu total ({players.Count}/{RequiredPlayers}) pemain untuk mulai";
             else if (!allReady)
                 statusText.text = "Waiting for all players to be ready";
             else
