@@ -125,6 +125,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1295044173651274652}
+  - {fileID: 4884431601678404611}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5081010070686618568
@@ -285,3 +286,34 @@ MonoBehaviour:
   body: {fileID: 5081010070686618568}
   good: {fileID: -3724124820519824452, guid: e8fe2160685e64be5b6577d43b070a0c, type: 3}
   bad: {fileID: 3202446429648807466, guid: 3b615a103ab614279b6bdaa011d3ac03, type: 3}
+--- !u!1 &5885681401038298105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4884431601678404611}
+  m_Layer: 0
+  m_Name: PortraitFocus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4884431601678404611
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5885681401038298105}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.47, y: 3.28, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6815619382047569224}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
