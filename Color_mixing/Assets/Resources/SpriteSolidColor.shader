@@ -30,7 +30,6 @@ Shader "Game/SpriteSolidColor"
         SAMPLER(sampler_MainTex);
 
         CBUFFER_START(UnityPerMaterial)
-            float4 _MainTex_ST;
             half4 _Color;
         CBUFFER_END
 
@@ -52,7 +51,7 @@ Shader "Game/SpriteSolidColor"
         {
             Varyings output;
             output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
-            output.uv = TRANSFORM_TEX(input.uv, _MainTex);
+            output.uv = input.uv;     // sprite tidak memakai tiling/offset, jadi tanpa _MainTex_ST (agar SRP Batcher 2D tetap aktif)
             output.color = input.color;
             return output;
         }
