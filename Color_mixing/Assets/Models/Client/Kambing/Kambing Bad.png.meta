@@ -131,10 +131,10 @@ TextureImporter:
       name: Kambing Bad_0
       rect:
         serializedVersion: 2
-        x: 217
+        x: 211
         y: 8
-        width: 608
-        height: 1127
+        width: 575
+        height: 1100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

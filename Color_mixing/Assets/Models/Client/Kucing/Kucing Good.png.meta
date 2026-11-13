@@ -131,10 +131,10 @@ TextureImporter:
       name: Kucing Good_0
       rect:
         serializedVersion: 2
-        x: 332
-        y: 4
-        width: 368
-        height: 1127
+        x: 372
+        y: 26
+        width: 336
+        height: 1099
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

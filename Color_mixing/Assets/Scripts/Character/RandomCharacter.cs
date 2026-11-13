@@ -40,11 +40,18 @@ public class RandomCharacter : MonoBehaviour
     public int frontSortingOffset = 1;          // sorting order offset used for "Front" hair
 
     [Header("Outline")]
-    [Tooltip("Garis tepi putih (gaya stiker) di sekeliling rambut, supaya rambut berwarna tetap jelas di atas latar.")]
+    [Tooltip("Garis tepi putih gaya cutout: satu garis di sekeliling badan + rambut gabungan, tanpa garis di antara keduanya.")]
     public bool hairOutline = true;
-    [Tooltip("Tebal garis dalam unit lokal rambut. Naikkan kalau terlalu tipis, turunkan kalau tepinya bergerigi.")]
+    [Tooltip("Tebal garis dalam unit dunia. Naikkan kalau terlalu tipis, turunkan kalau tepinya bergerigi.")]
     public float outlineWidth = 0.04f;
+    [Tooltip("Off: rambut sheet berwarna tidak ikut digaris (hanya rambut putih dasar / yang diwarnai dari sheet itu).")]
+    public bool outlineColoredHair = true;
     public Color outlineColor = Color.white;
+    [Tooltip("Garis luar kedua (hitam) di sekeliling garis putih, supaya makin terasa seperti cutout.")]
+    public bool outerBorder = true;
+    [Tooltip("Tebal garis luar, di luar garis putih (unit dunia).")]
+    public float borderWidth = 0.03f;
+    public Color borderColor = Color.black;
 
     [Header("Behaviour")]
     [Tooltip("Off: hair is chosen once when the character appears and stays. On: hair keeps coming and going on the timers below.")]
@@ -62,14 +69,26 @@ public class RandomCharacter : MonoBehaviour
     float currentScale = 1f;
     int currentIndex;
     bool lookApplied;
-    SpriteOutline outline;
+    SpriteOutline[] hairOutlines = new SpriteOutline[0];
 
     void Awake()
     {
         if (bodyRenderer == null) bodyRenderer = GetComponent<SpriteRenderer>();
         hairRenderer.sortingLayerID = bodyRenderer.sortingLayerID;
         hairRenderer.transform.localScale = Vector3.zero;
-        if (hairOutline) outline = SpriteOutline.Add(hairRenderer, outlineWidth, outlineColor);
+        if (hairOutline)
+        {
+            // Saling berpartner: garis keduanya digambar di bawah badan dan rambut, jadi satu tepi luar saja.
+            SpriteOutline.Add(bodyRenderer, outlineWidth, outlineColor, hairRenderer);
+            var white = SpriteOutline.Add(hairRenderer, outlineWidth, outlineColor, bodyRenderer);
+            if (outerBorder)
+            {
+                float w = outlineWidth + borderWidth;
+                SpriteOutline.Add(bodyRenderer, w, borderColor, hairRenderer, 1);
+                hairOutlines = new[] { white, SpriteOutline.Add(hairRenderer, w, borderColor, bodyRenderer, 1) };
+            }
+            else hairOutlines = new[] { white };
+        }
     }
 
     void Start()
@@ -123,8 +142,8 @@ public class RandomCharacter : MonoBehaviour
         currentIndex = look.style;
         var s = hairStyles[look.style];
         hairRenderer.sprite = SpriteFor(look.style, look.variant);
-        // Garis tepi hanya untuk sheet dasar (putih, diwarnai lewat tint); sheet berwarna tidak diberi garis.
-        if (outline != null) outline.Shown = hairRenderer.sprite == s.sprite;
+        // Sheet berwarna hanya digaris kalau outlineColoredHair menyala.
+        ShowHairOutline(outlineColoredHair || hairRenderer.sprite == s.sprite);
         currentScale = s.scale;
         hairRenderer.sortingOrder = bodyRenderer.sortingOrder + (look.front ? frontSortingOffset : hairSortingOffset);
         hairRenderer.transform.localPosition = new Vector3(s.position.x + look.jitterX, s.position.y + look.jitterY, 0f);
@@ -150,7 +169,12 @@ public class RandomCharacter : MonoBehaviour
     {
         hairRenderer.sprite = hairStyles[currentIndex].sprite;   // base (white) sheet, so the tint gives the exact color
         hairRenderer.color = c;
-        if (outline != null) outline.Shown = true;               // sheet dasar yang diwarnai: garis tepi muncul
+        ShowHairOutline(true);             // sheet dasar yang diwarnai: garis tepi muncul
+    }
+
+    void ShowHairOutline(bool shown)
+    {
+        foreach (var o in hairOutlines) if (o != null) o.Shown = shown;
     }
 
     IEnumerator HairLoop()

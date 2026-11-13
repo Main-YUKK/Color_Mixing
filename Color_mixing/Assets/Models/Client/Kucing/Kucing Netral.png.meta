@@ -131,10 +131,10 @@ TextureImporter:
       name: Kucing Netral_0
       rect:
         serializedVersion: 2
-        x: 281
-        y: 4
-        width: 460
-        height: 1127
+        x: 317
+        y: 26
+        width: 427
+        height: 1099
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
