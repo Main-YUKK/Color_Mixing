@@ -53,6 +53,7 @@ public class LobbyScreen : MonoBehaviour
         MatchStarter.EndGame();   // masuk lobby dari jalur mana pun = game sebelumnya selesai
         AutoWireMissingReferences();
         CheckReferences();
+        SyncStatusFrameSize();
 
         service = LobbyService.Instance;
         if (service == null)
@@ -254,7 +255,7 @@ public class LobbyScreen : MonoBehaviour
                     target = service.AllClientsReady ? waitingHostSprite : waitingSprite;
 
                 if (target != null) img.sprite = target;
-                img.preserveAspect = localReady;
+                img.preserveAspect = true;   // rasio gambar selalu terkunci (ukuran ReadyButton = ukuran asli sprite)
 
                 // Kedua pesan tunggu memakai ukuran waitingMessage (ukuran sprite x waitingScale) supaya sama persis;
                 // sprite waitingHostMessage aslinya lebih kecil. Ukuran ReadyButton biasa dikembalikan ke nilai awal.
@@ -292,6 +293,22 @@ public class LobbyScreen : MonoBehaviour
 
         // Belum ada sesi jaringan (device sebelum transport Game Center terpasang): mulai sendiri seperti sebelumnya.
         if (GameNet.Instance == null) SceneLoader.Load(gameSceneName);
+    }
+
+    // Frame status host ("Perlu total ... pemain") dibuat seukuran pesan tunggu client (sprite waitingMessage x waitingScale),
+    // supaya kedua alert sama besar. Jarak teks ke tepi frame ikut diskalakan dengan proporsi yang sama.
+    private void SyncStatusFrameSize()
+    {
+        if (statusFrame == null || waitingSprite == null) return;
+
+        var frameRect = statusFrame.transform as RectTransform;
+        if (frameRect == null || frameRect.sizeDelta.x <= 0f) return;
+
+        Vector2 target = waitingSprite.rect.size * waitingScale;
+        float factor = target.x / frameRect.sizeDelta.x;
+        frameRect.sizeDelta = target;
+
+        if (statusText != null) statusText.rectTransform.sizeDelta *= factor;
     }
 
     private static string Shorten(string name, int maxLength = 14)
