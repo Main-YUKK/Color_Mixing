@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-// Mengatur screen tutorial: hanya satu panel yang aktif, berpindah lewat tombol Back dan Next.
-// Back di screen pertama dan Next di screen terakhir keluar dari tutorial ke scene asal (lihat TutorialEntry).
+// Mengatur screen tutorial: hanya satu panel yang aktif. Maju ke screen berikutnya dengan tap di mana saja,
+// mundur lewat tombol Back (screen 2 dst). Screen pertama memakai tombol Exit, bukan Back.
+// Exit di screen pertama dan tap di screen terakhir keluar dari tutorial ke scene asal (lihat TutorialEntry).
 [ExecuteAlways]
 public class TutorialController : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class TutorialController : MonoBehaviour
     [Tooltip("Index screen pertama (mulai 0) yang memakai background salon. Screen 5 = index 4.")]
     [SerializeField] private int salonBackgroundFromPage = 4;
     [SerializeField] private Button backButton;
+    [Tooltip("Tombol Exit, hanya tampil di screen pertama (menggantikan Back).")]
+    [SerializeField] private Button exitButton;
+    [Tooltip("Tombol transparan seukuran layar untuk 'tap di mana saja' = Next. Harus berada di bawah Back/Exit.")]
     [SerializeField] private Button nextButton;
 
     private int currentIndex;
@@ -23,6 +27,7 @@ public class TutorialController : MonoBehaviour
             return;
 
         backButton.onClick.AddListener(ShowPrevious);
+        exitButton.onClick.AddListener(TutorialEntry.Exit);
         nextButton.onClick.AddListener(ShowNext);
         ShowPage(0);
     }
@@ -43,13 +48,8 @@ public class TutorialController : MonoBehaviour
 
     private void ShowPrevious()
     {
-        if (currentIndex == 0)
-        {
-            TutorialEntry.Exit();
-            return;
-        }
-
-        ShowPage(currentIndex - 1);
+        if (currentIndex > 0)
+            ShowPage(currentIndex - 1);
     }
 
     private void ShowNext()
@@ -72,5 +72,9 @@ public class TutorialController : MonoBehaviour
 
         if (salonBackground != null)
             salonBackground.SetActive(currentIndex >= salonBackgroundFromPage);
+
+        bool firstPage = currentIndex == 0;
+        exitButton.gameObject.SetActive(firstPage);
+        backButton.gameObject.SetActive(!firstPage);
     }
 }
