@@ -212,7 +212,11 @@ public class LobbyScreen : MonoBehaviour
         }
 
         if (editRoomNameButton != null)
-            editRoomNameButton.gameObject.SetActive(isHost && !editing && roomNameInput != null);
+        {
+            bool showPencil = isHost && !editing && roomNameInput != null;
+            editRoomNameButton.gameObject.SetActive(showPencil);
+            CenterRoomTitle(showPencil);
+        }
 
         // Frame status hanya di host, dan disembunyikan saat Play sudah bisa ditekan (posisinya sama dengan PlayButton).
         bool showStatus = isHost && !service.CanStart;
@@ -370,5 +374,28 @@ public class LobbyScreen : MonoBehaviour
         // Opsional: tanpa ini fitur ganti nama room saja yang tidak aktif (ikon pensil disembunyikan).
         if (editRoomNameButton == null || roomNameInput == null)
             Debug.LogWarning("[LobbyScreen] Fitur edit nama room nonaktif: Edit Room Name Button / Room Name Input belum ada.", this);
+    }
+
+    // Judul tetap di tengah layar: saat pensil tampil, padding kiri sebesar (spacing + lebar pensil) mengimbangi pensil di kanan.
+    // Tanpa pensil (client / mode edit) padding 0, supaya judul tidak bergeser.
+    private void CenterRoomTitle(bool pencilVisible)
+    {
+        var group = editRoomNameButton.transform.parent != null
+            ? editRoomNameButton.transform.parent.GetComponent<HorizontalLayoutGroup>()
+            : null;
+        if (group == null) return;
+
+        int left = 0;
+        if (pencilVisible)
+        {
+            var le = editRoomNameButton.GetComponent<LayoutElement>();
+            float width = le != null && le.preferredWidth > 0f
+                ? le.preferredWidth
+                : ((RectTransform)editRoomNameButton.transform).rect.width;
+            left = Mathf.RoundToInt(group.spacing + width);
+        }
+
+        if (group.padding.left == left) return;
+        group.padding = new RectOffset(left, group.padding.right, group.padding.top, group.padding.bottom);
     }
 }
