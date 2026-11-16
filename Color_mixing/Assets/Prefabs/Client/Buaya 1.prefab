@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 2678ab5f8d57242a59810486cd01229a, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -89,7 +89,7 @@ SpriteRenderer:
   m_Size: {x: 24.377506, y: 27.89}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!1 &5013398966549922216
@@ -216,7 +216,7 @@ SpriteRenderer:
   m_Size: {x: 10.62, y: 11.35}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!114 &6529101638449018230
@@ -287,7 +287,11 @@ MonoBehaviour:
   frontSortingOffset: 1
   hairOutline: 1
   outlineWidth: 0.04
+  outlineColoredHair: 1
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outerBorder: 1
+  borderWidth: 0.03
+  borderColor: {r: 0, g: 0, b: 0, a: 1}
   cycleHair: 0
   hairVisibleTime: {x: 2, y: 6}
   hairHiddenTime: {x: 1, y: 3}

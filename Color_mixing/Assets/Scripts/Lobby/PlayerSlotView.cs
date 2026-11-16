@@ -52,7 +52,7 @@ public class PlayerSlotView : MonoBehaviour
     private static string BuildLabel(LobbyPlayer p)
     {
         string name = p.name.Length > 12 ? p.name.Substring(0, 12) + "…" : p.name;
-        return p.isHost ? $"{name}\n(host)" : name;
+        return p.isHost ? $"{name}\n(Host)" : name;
     }
 
     private static void SetActive(GameObject go, bool active)
