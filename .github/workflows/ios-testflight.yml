@@ -1,4 +1,5 @@
-name: iOS Build & TestFlight
+
+name: iOS Build & TestFlight Internal
 
 on:
   push:
@@ -6,33 +7,40 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ios-${{ github.ref }}
-  cancel-in-progress: true
+  group: ios-testflight-upload
+  cancel-in-progress: false
+  queue: max
 
 env:
-  # Folder project Unity di dalam repo (huruf besar/kecil harus persis)
+  # Folder project Unity di dalam repo
   PROJECT_DIR: Color_mixing
 
 jobs:
   build-and-deploy:
-    name: Build Unity, sign & upload ke TestFlight
-    # Harus macOS: post-build plugin Apple (Core/GameKit) hanya jalan di
-    # UNITY_EDITOR_OSX. Kalau build di Linux, framework native-nya tidak masuk
-    # ke project Xcode dan link gagal (undefined symbol _NSError_GetCode, dll).
+    name: Build Unity, sign & upload to Internal TestFlight
+
+    # macOS diperlukan untuk post-build plugin Apple
     runs-on: macos-latest
+
     steps:
-      - uses: actions/checkout@v4
+      # 1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           lfs: true
 
-      - uses: actions/cache@v4
+      # 2. Cache Unity Library
+      - name: Cache Unity Library
+        uses: actions/cache@v4
         with:
           path: ${{ env.PROJECT_DIR }}/Library
           key: Library-iOS-macOS-${{ hashFiles('Color_mixing/Assets/**', 'Color_mixing/Packages/**', 'Color_mixing/ProjectSettings/**') }}
           restore-keys: |
             Library-iOS-macOS-
 
-      - uses: game-ci/unity-builder@v4
+      # 3. Build Unity iOS
+      - name: Build Unity iOS
+        uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
@@ -42,17 +50,22 @@ jobs:
           targetPlatform: iOS
           unityVersion: auto
 
-      # Tampilkan lokasi hasil build (membantu kalau path perlu disesuaikan)
+      # 4. Check Xcode build output
       - name: List build output
-        run: find . -maxdepth 4 -name "*.xcodeproj" -not -path "./.git/*" || true
+        run: |
+          find . -maxdepth 4 -name "*.xcodeproj" \
+            -not -path "./.git/*" || true
 
-      - uses: ruby/setup-ruby@v1
+      # 5. Setup Ruby & Bundler
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
           bundler-cache: true
           working-directory: ${{ env.PROJECT_DIR }}
 
-      - name: Fastlane beta
+      # 6. Fastlane Internal Beta
+      - name: Fastlane Internal Beta
         working-directory: ${{ env.PROJECT_DIR }}
         run: bundle exec fastlane ios beta
         env:
