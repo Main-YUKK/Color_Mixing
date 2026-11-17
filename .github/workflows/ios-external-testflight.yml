@@ -7,23 +7,28 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ios-external-${{ github.ref }}
-  cancel-in-progress: true
+  group: ios-testflight-upload
+  cancel-in-progress: false
+  queue: max
 
 env:
+  # Folder project Unity di dalam repo
   PROJECT_DIR: Color_mixing
 
 jobs:
   build-and-deploy:
     name: Build Unity, sign & upload to External TestFlight
+
     runs-on: macos-latest
 
     steps:
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           lfs: true
 
+      # 2. Cache Unity Library
       - name: Cache Unity Library
         uses: actions/cache@v4
         with:
@@ -32,6 +37,7 @@ jobs:
           restore-keys: |
             Library-iOS-macOS-
 
+      # 3. Build Unity iOS
       - name: Build Unity iOS
         uses: game-ci/unity-builder@v4
         env:
@@ -43,11 +49,13 @@ jobs:
           targetPlatform: iOS
           unityVersion: auto
 
+      # 4. Check Xcode build output
       - name: List build output
         run: |
           find . -maxdepth 4 -name "*.xcodeproj" \
             -not -path "./.git/*" || true
 
+      # 5. Setup Ruby & Bundler
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -55,6 +63,7 @@ jobs:
           bundler-cache: true
           working-directory: ${{ env.PROJECT_DIR }}
 
+      # 6. Fastlane External Beta
       - name: Fastlane External Beta
         working-directory: ${{ env.PROJECT_DIR }}
         run: bundle exec fastlane ios beta_external
