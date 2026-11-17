@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 7503890295467027312}
   - component: {fileID: 454580523055476994}
   - component: {fileID: 6045339640966476945}
+  - component: {fileID: 6457637805146634489}
   m_Layer: 5
   m_Name: PaintBlobs
   m_TagString: Untagged
@@ -134,12 +135,19 @@ MonoBehaviour:
       m_Calls: []
   colorMixingController: {fileID: 0}
   outlineWidth: 8
-  spawnPoints:
-  - {x: 260, y: 100}
-  - {x: 250, y: -120}
-  - {x: -100, y: -150}
-  - {x: -220, y: 170}
-  - {x: 0, y: 280}
+  highlightOffset: 27
+  highlightOpacity: 0.25
+  shadowOffset: 33
+  shadowOpacity: 0.2
+  shadeBlur: 6
+  wobbleRatio: 0.03
+  wobbleSpeed: 0
+  player: 0
+  leftPour: {x: -300, y: 160}
+  rightPour: {x: 320, y: 120}
+  friendPour: {x: 150, y: 320}
+  swirlSpeed: 7
+  revealDuration: 1.8
 --- !u!222 &6045339640966476945
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -148,6 +156,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757146146950120138}
   m_CullTransparentMesh: 1
+--- !u!223 &6457637805146634489
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757146146950120138}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!1 &2683038057462096478
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,6 +622,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4244191551732481589}
+  - component: {fileID: 9045233467819527274}
   m_Layer: 5
   m_Name: Slices
   m_TagString: Untagged
@@ -621,3 +654,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 730, y: 730}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &9045233467819527274
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8858224761438116369}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
