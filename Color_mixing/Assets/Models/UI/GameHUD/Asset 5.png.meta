@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: db102a669bb1042d7be5dac94849a236
+guid: f8c047ebafcc846829ab1e8ca36b4d52
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1411210044425447677
-    second: yellowtimer_0
+      213: 5826410909707381162
+    second: Asset 5_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,11 +46,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
-  spriteExtrude: 1
+  spriteMode: 1
+  spriteExtrude: 0
   spriteMeshType: 0
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 9
+  spritePivot: {x: 0.489, y: 0.436}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: yellowtimer_0
+      name: Asset 5_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 822
-        height: 74
+        y: 1
+        width: 87
+        height: 101
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 307de8601ff5a6ce0800000000000000
-      internalID: -1411210044425447677
+      spriteID: aa9a19c4ad19bd050800000000000000
+      internalID: 5826410909707381162
       vertices: []
       indices: 
       edges: []
@@ -153,7 +153,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      yellowtimer_0: -1411210044425447677
+      Asset 5_0: 5826410909707381162
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 99b1feab2642a4997b2dcdbc1f605af8
+guid: 993abab9b5f6a409ea9cd020044bf38c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3151267739174208523
-    second: greentimer_0
+      213: 5120940934649208145
+    second: Asset 6_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,11 +46,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 0
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 9
+  spritePivot: {x: 0.443, y: 0.427}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: greentimer_0
+      name: Asset 6_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
-        width: 765
-        height: 68
+        y: 0
+        width: 96
+        height: 102
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b0480a9005d8bbb20800000000000000
-      internalID: 3151267739174208523
+      spriteID: 15dd58de5ac311740800000000000000
+      internalID: 5120940934649208145
       vertices: []
       indices: 
       edges: []
@@ -153,7 +153,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      greentimer_0: 3151267739174208523
+      Asset 6_0: 5120940934649208145
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

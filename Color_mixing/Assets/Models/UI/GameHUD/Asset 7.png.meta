@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: df7f01efbd66448bb9db286a8eab6d1b
+guid: 9beb0105173414aa3a185ebcb7ee1496
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8861592548853156695
-    second: yellowtimericon_0
+      213: -6379982804546595101
+    second: Asset 7_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,8 +49,8 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 0
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 9
+  spritePivot: {x: 0.478, y: 0.52}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: yellowtimericon_0
+      name: Asset 7_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 155
-        height: 180
+        x: 1
+        y: 1
+        width: 113
+        height: 97
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 75b04a2f873bafa70800000000000000
-      internalID: 8861592548853156695
+      spriteID: 3e656ed117fb577a0800000000000000
+      internalID: -6379982804546595101
       vertices: []
       indices: 
       edges: []
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      yellowtimericon_0: 8861592548853156695
+      Asset 7_0: -6379982804546595101
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

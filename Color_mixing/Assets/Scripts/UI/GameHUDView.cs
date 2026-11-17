@@ -12,6 +12,9 @@ public class GameHUDView : MonoBehaviour
     [SerializeField] private TMP_Text livesText;
     [SerializeField] private TMP_Text happyClientText;
     [SerializeField] private Slider timerBar;
+    [Tooltip("Yang disembunyikan sebelum kartu request muncul. Kosong = objek Timer Bar (atau induk Timer Fill).")]
+    [SerializeField] private GameObject timerRoot;
+    [SerializeField] private float timerFadeSeconds = 0.12f;
 
     [Header("Timer bar bergaya (opsional, bisa dipakai tanpa Slider di atas)")]
     [Tooltip("Image tipe Filled / Horizontal / Left. Anak dari Timer Track, ukurannya sama.")]
@@ -40,9 +43,10 @@ public class GameHUDView : MonoBehaviour
     [Tooltip("Tunggu sebelum asap mulai. Naikkan kalau nyawa berubah saat layar mixing masih menutupi HUD ini.")]
     [SerializeField] private float popDelay = 0f;
 
-    private float iconHeight;
+    private float iconScale;   // piksel sprite -> unit UI, sama untuk semua ikon timer
     private DayCycleManager cycle;
     private ClientTimer timer;
+    private CanvasGroup timerGroup;
     private int shownLives = -1;                      // <= 0 = belum mulai / game over, jadi tanpa animasi
     private Coroutine[] pops;
 
@@ -50,6 +54,8 @@ public class GameHUDView : MonoBehaviour
     {
         cycle = DayCycleManager.Instance;
         timer = FindAnyObjectByType<ClientTimer>();
+        AttachTimerJuice();
+        SetupTimerGroup();
         if (cycle == null)
         {
             Debug.Log("[HUD] DayCycleManager tidak ada (scene di-Play sendirian), HUD dikosongkan");
@@ -77,9 +83,41 @@ public class GameHUDView : MonoBehaviour
     private void Update()
     {
         if (timer == null) return;
-        float v = Mathf.Clamp01(timer.Normalized);
+        UpdateTimerVisibility();
+        float v = Mathf.Clamp01(timer.DisplayNormalized);
         if (timerBar != null) timerBar.value = v;
         ShowTimerStyled(v);
+    }
+
+    // Timer disembunyikan sampai kartu request muncul (ClientTimer.IsShown), lewat CanvasGroup supaya objeknya tetap aktif.
+    private void SetupTimerGroup()
+    {
+        if (timer == null) return;
+        if (timerRoot == null)
+            timerRoot = timerBar != null ? timerBar.gameObject : timerFill != null ? timerFill.transform.parent.gameObject : null;
+        if (timerRoot == null) return;
+        if (!timerRoot.TryGetComponent(out timerGroup)) timerGroup = timerRoot.AddComponent<CanvasGroup>();
+        timerGroup.alpha = timer.IsShown ? 1f : 0f;
+    }
+
+    private void UpdateTimerVisibility()
+    {
+        if (timerGroup == null) return;
+        float target = timer.IsShown ? 1f : 0f;
+        timerGroup.alpha = timerFadeSeconds > 0f
+            ? Mathf.MoveTowards(timerGroup.alpha, target, Time.deltaTime / timerFadeSeconds)
+            : target;
+        timerGroup.blocksRaycasts = timerGroup.interactable = target > 0f;
+    }
+
+    // Efek timer bar (intro bounce, detak, getar, kedip, vignette). Dipasang otomatis di TimerTrack
+    // kalau belum ada; tambahkan TimerBarJuice sendiri di prefab kalau mau mengatur nilainya.
+    private void AttachTimerJuice()
+    {
+        if (timer == null || timerFill == null) return;
+        Transform track = timerFill.transform.parent;
+        if (track == null || track.GetComponent<TimerBarJuice>() != null) return;
+        track.gameObject.AddComponent<TimerBarJuice>().Setup(timerFill, timerIcon);
     }
 
     // Fill dipotong dari kiri sesuai sisa waktu; ikon menempel di ujung fill; warna ganti per ambang.
@@ -96,12 +134,20 @@ public class GameHUDView : MonoBehaviour
         {
             Sprite icon = red ? redIcon : yellow ? yellowIcon : greenIcon;
             var rt = timerIcon.rectTransform;
-            if (iconHeight <= 0f) iconHeight = rt.sizeDelta.y;     // tinggi dari yang diatur di prefab
-            if (icon != null && timerIcon.sprite != icon)
+            bool first = iconScale <= 0f;
+            if (first)
+            {
+                // Skala piksel dari ukuran di prefab dibagi ukuran sprite awalnya. Semua ikon pakai skala yang sama,
+                // jadi wajahnya (sama-sama 67 px) tampil sama besar walau hiasannya (hati, keringat, marah) beda ukuran.
+                Sprite start = timerIcon.sprite != null ? timerIcon.sprite : icon;
+                iconScale = start != null ? rt.sizeDelta.y / start.rect.height : 1f;
+            }
+            if (icon != null && (first || timerIcon.sprite != icon))
             {
                 timerIcon.sprite = icon;
-                // Tinggi tetap, lebar mengikuti rasio sprite supaya tidak gepeng.
-                rt.sizeDelta = new Vector2(iconHeight * icon.rect.width / icon.rect.height, iconHeight);
+                rt.sizeDelta = icon.rect.size * iconScale;
+                // Pivot sprite = tengah wajah (diatur di Import Settings, Pivot Custom), jadi wajah tetap di titik yang sama.
+                rt.pivot = new Vector2(icon.pivot.x / icon.rect.width, icon.pivot.y / icon.rect.height);
             }
             rt.anchorMin = new Vector2(v, rt.anchorMin.y);
             rt.anchorMax = new Vector2(v, rt.anchorMax.y);
