@@ -35,7 +35,7 @@ public class ClientPortrait : MonoBehaviour
         if (copy == null) return;
         focus = copy.transform.Find(FocusName);
 
-        texture = new RenderTexture(textureSize, textureSize, 0, RenderTextureFormat.ARGB32) { name = "ClientPortrait" };
+        texture = new RenderTexture(textureSize, textureSize, 24, RenderTextureFormat.ARGB32) { name = "ClientPortrait" };
         cam = new GameObject("ClientPortraitCamera").AddComponent<Camera>();
         cam.orthographic = true;
         cam.clearFlags = CameraClearFlags.SolidColor;
