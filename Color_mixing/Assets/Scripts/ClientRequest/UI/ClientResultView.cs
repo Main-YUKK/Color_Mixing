@@ -45,8 +45,11 @@ public class ClientResultView : MonoBehaviour
 
         targetColor.color = target;
         mixColor.color = applied;
-        percentText.text = $"{Mathf.RoundToInt((float)score)}%";
         comparison.SetActive(true);
+        // angka naik dari 0 lalu "dicap" (lihat PercentCountUp)
+        if (!percentText.TryGetComponent(out PercentCountUp countUp))
+            countUp = percentText.gameObject.AddComponent<PercentCountUp>();
+        countUp.Play(Mathf.RoundToInt((float)score));
 
         ReactClient(success, applied);
         Debug.Log($"[REQ] Hasil klien: skor {score:0.0}% -> {(success ? "Yes" : "No")}");
