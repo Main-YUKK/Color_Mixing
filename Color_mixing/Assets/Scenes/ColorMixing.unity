@@ -2198,7 +2198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::SlideUpOnEnable
   distance: 1200
   duration: 0.5
-  delay: 0.5
+  delay: 1.2
 --- !u!1 &926693207
 GameObject:
   m_ObjectHideFlags: 0
