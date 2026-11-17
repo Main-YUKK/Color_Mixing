@@ -3,7 +3,8 @@ using UnityEngine.UI;
 
 // Mengatur screen tutorial: hanya satu panel yang aktif. Maju ke screen berikutnya dengan tap di mana saja,
 // mundur lewat tombol Back (screen 2 dst). Screen pertama memakai tombol Exit, bukan Back.
-// Exit di screen pertama dan tap di screen terakhir keluar dari tutorial ke scene asal (lihat TutorialEntry).
+// Screen terakhir tidak memakai tap di mana saja: pemain keluar lewat tombol Done.
+// Exit di screen pertama dan Done di screen terakhir keluar dari tutorial ke scene asal (lihat TutorialEntry).
 [ExecuteAlways]
 public class TutorialController : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class TutorialController : MonoBehaviour
     [SerializeField] private Button exitButton;
     [Tooltip("Tombol transparan seukuran layar untuk 'tap di mana saja' = Next. Harus berada di bawah Back/Exit.")]
     [SerializeField] private Button nextButton;
+    [Tooltip("Tombol Done di screen terakhir: keluar dari tutorial ke scene asal (MainMenu/Lobby).")]
+    [SerializeField] private Button doneButton;
+
+    private const string DoneButtonName = "DoneButton";
 
     private int currentIndex;
 
@@ -29,6 +34,13 @@ public class TutorialController : MonoBehaviour
         backButton.onClick.AddListener(ShowPrevious);
         exitButton.onClick.AddListener(TutorialEntry.Exit);
         nextButton.onClick.AddListener(ShowNext);
+        if (doneButton == null)
+            doneButton = FindDoneButton();
+
+        if (doneButton != null)
+            doneButton.onClick.AddListener(TutorialEntry.Exit);
+        else
+            Debug.LogWarning($"TutorialController: Done Button tidak ditemukan. Isi di Inspector atau beri nama tombolnya '{DoneButtonName}' di page terakhir.", this);
         ShowPage(0);
     }
 
@@ -46,6 +58,21 @@ public class TutorialController : MonoBehaviour
             salonBackground.SetActive(needed);
     }
 
+    // Cadangan kalau field Done Button kosong: cari tombol bernama DoneButton di page terakhir (termasuk yang nonaktif).
+    private Button FindDoneButton()
+    {
+        if (pages == null || pages.Length == 0 || pages[pages.Length - 1] == null)
+            return null;
+
+        foreach (Button button in pages[pages.Length - 1].GetComponentsInChildren<Button>(true))
+        {
+            if (button.name == DoneButtonName)
+                return button;
+        }
+
+        return null;
+    }
+
     private void ShowPrevious()
     {
         if (currentIndex > 0)
@@ -54,11 +81,9 @@ public class TutorialController : MonoBehaviour
 
     private void ShowNext()
     {
+        // Screen terakhir hanya bisa ditutup lewat tombol Done.
         if (currentIndex >= pages.Length - 1)
-        {
-            TutorialEntry.Exit();
             return;
-        }
 
         ShowPage(currentIndex + 1);
     }
@@ -76,5 +101,8 @@ public class TutorialController : MonoBehaviour
         bool firstPage = currentIndex == 0;
         exitButton.gameObject.SetActive(firstPage);
         backButton.gameObject.SetActive(!firstPage);
+
+        // Tap di mana saja dimatikan di screen terakhir supaya tidak menghalangi tombol Done.
+        nextButton.gameObject.SetActive(currentIndex < pages.Length - 1);
     }
 }
