@@ -6,6 +6,9 @@ on:
     branches: [dev]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
   group: ios-testflight-upload
   cancel-in-progress: false
@@ -21,6 +24,7 @@ jobs:
 
     # macOS diperlukan untuk post-build plugin Apple
     runs-on: macos-latest
+    timeout-minutes: 90
 
     steps:
       # 1. Checkout repository

@@ -129,7 +129,7 @@ platform :ios do
     config = configure_testflight
 
     # Nama harus sama persis dengan External Testing Group
-    external_group = "Color Mixing - External Beta"
+    external_group = "External Group Test"
 
     # Upload dan distribusi ke External Testing
     upload_to_testflight(
@@ -141,7 +141,7 @@ platform :ios do
 
       changelog: "Please test the latest version of Color Mixing. Report any bugs, issues, or unexpected behavior.",
 
-      notify_external_testers: false,
+      notify_external_testers: true,
 
       # Tunggu build selesai diproses sebelum distribusi
       skip_waiting_for_build_processing: false

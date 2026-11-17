@@ -6,6 +6,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
   group: ios-testflight-upload
   cancel-in-progress: false
@@ -20,6 +23,7 @@ jobs:
     name: Build Unity, sign & upload to External TestFlight
 
     runs-on: macos-latest
+    timeout-minutes: 90
 
     steps:
       # 1. Checkout repository
