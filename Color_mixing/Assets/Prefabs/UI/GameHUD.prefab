@@ -204,7 +204,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3151267739174208523, guid: 99b1feab2642a4997b2dcdbc1f605af8, type: 3}
+  m_Sprite: {fileID: 5882755204990467658, guid: bc078609783ac4065afe4897502ccf6c, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1102,6 +1102,7 @@ GameObject:
   - component: {fileID: 6602539779005639946}
   - component: {fileID: 5579979175231992932}
   - component: {fileID: 3300016820756174686}
+  - component: {fileID: 6896267820744462576}
   m_Layer: 5
   m_Name: TimerTrack
   m_TagString: Untagged
@@ -1158,7 +1159,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2335617919138690676, guid: ce14d51b709074ee09c0aa95b8a6e4c0, type: 3}
+  m_Sprite: {fileID: -8072328646922969899, guid: 4fa2e7ae3af3c43e789100ee21daac1e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1168,6 +1169,51 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6896267820744462576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705987204580847491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9717002b10b34426aa8e57cdda7aa825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::TimerBarJuice
+  bar: {fileID: 6602539779005639946}
+  blinkTargets: []
+  rattleIcon: {fileID: 152134194101591144}
+  popStrength: 0.18
+  popDamping: 7
+  popFrequency: 18
+  pulseBelow: 0.3
+  pulseBpmStart: 70
+  pulseBpmEnd: 190
+  pulseScaleStart: 0.04
+  pulseScaleEnd: 0.1
+  shakeBelow: 0.15
+  shakeMax: 7
+  blinkSeconds: 5
+  flashColor: {r: 1, g: 1, b: 1, a: 0.25}
+  blinkHzStart: 3
+  blinkHzEnd: 9
+  twitch: 1
+  twitchAngleGreen: 4
+  twitchAngleYellow: 7
+  twitchGapGreen: {x: 1.5, y: 3}
+  twitchGapYellow: {x: 0.6, y: 1.4}
+  twitchYellowBelow: 0.6
+  twitchDuration: 0.3
+  panicSeconds: 5
+  vignette: {fileID: 2397554844096413122}
+  createVignette: 1
+  vignetteColor: {r: 0.9, g: 0.05, b: 0.05, a: 1}
+  vignetteAlphaStart: 0.2
+  vignetteAlphaEnd: 0.6
+  rattleAngleStart: 6
+  rattleAngleEnd: 18
+  rattleHz: 14
 --- !u!1 &6088752571627913153
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,8 +1315,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -8072328646922969899, guid: 4fa2e7ae3af3c43e789100ee21daac1e, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1313,6 +1359,7 @@ RectTransform:
   - {fileID: 4720734081526375256}
   - {fileID: 309955002838317460}
   - {fileID: 2079088309170428535}
+  - {fileID: 5554224335850760032}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1336,14 +1383,16 @@ MonoBehaviour:
   livesText: {fileID: 4455245038825238020}
   happyClientText: {fileID: 6688490257926647349}
   timerBar: {fileID: 7065127984947250730}
+  timerRoot: {fileID: 0}
+  timerFadeSeconds: 0.12
   timerFill: {fileID: 1686442347370812573}
   timerIcon: {fileID: 5444125219319627983}
-  greenFill: {fileID: 3151267739174208523, guid: 99b1feab2642a4997b2dcdbc1f605af8, type: 3}
-  yellowFill: {fileID: -1411210044425447677, guid: db102a669bb1042d7be5dac94849a236, type: 3}
-  redFill: {fileID: 7971541976474781627, guid: 9c92035fb012e4c8fb1eff3d21c53f81, type: 3}
-  greenIcon: {fileID: 21300000, guid: 5dbe85311c9034aaaaed0f22753240b7, type: 3}
-  yellowIcon: {fileID: 21300000, guid: df7f01efbd66448bb9db286a8eab6d1b, type: 3}
-  redIcon: {fileID: 21300000, guid: edf590ea9b9d046b281e48631f8a9b26, type: 3}
+  greenFill: {fileID: 5882755204990467658, guid: bc078609783ac4065afe4897502ccf6c, type: 3}
+  yellowFill: {fileID: -8758894779816559312, guid: 3baed6ba176c14fd39d4d9cffd92b80f, type: 3}
+  redFill: {fileID: 2905658789745470189, guid: 5d49b918dacc04e3c804058938144a57, type: 3}
+  greenIcon: {fileID: 21300000, guid: 9beb0105173414aa3a185ebcb7ee1496, type: 3}
+  yellowIcon: {fileID: 21300000, guid: f8c047ebafcc846829ab1e8ca36b4d52, type: 3}
+  redIcon: {fileID: 21300000, guid: 993abab9b5f6a409ea9cd020044bf38c, type: 3}
   yellowBelow: 0.6
   redBelow: 0.3
   heartSlots:
@@ -1612,7 +1661,82 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5dbe85311c9034aaaaed0f22753240b7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9beb0105173414aa3a185ebcb7ee1496, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &7647203307542299648
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5554224335850760032}
+  - component: {fileID: 8496358800712010665}
+  - component: {fileID: 2397554844096413122}
+  m_Layer: 5
+  m_Name: Panic Vignette
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &5554224335850760032
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7647203307542299648}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6573790617986317433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 2646, y: 1239.0205}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8496358800712010665
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7647203307542299648}
+  m_CullTransparentMesh: 1
+--- !u!114 &2397554844096413122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7647203307542299648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 534b0cec796c74b44b95d248a164eb47, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

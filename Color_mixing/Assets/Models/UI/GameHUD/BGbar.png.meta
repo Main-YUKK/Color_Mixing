@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: edf590ea9b9d046b281e48631f8a9b26
+guid: 4fa2e7ae3af3c43e789100ee21daac1e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6993629574097442103
-    second: redtimericon_0
+      213: -8072328646922969899
+    second: BGbar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,9 +46,9 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: redtimericon_0
+      name: BGbar_0
       rect:
         serializedVersion: 2
         x: 0
         y: 1
-        width: 171
-        height: 182
+        width: 449
+        height: 53
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7359eb63b0d5e0160800000000000000
-      internalID: 6993629574097442103
+      spriteID: 5dc52f95dd359ff80800000000000000
+      internalID: -8072328646922969899
       vertices: []
       indices: 
       edges: []
@@ -153,7 +153,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      redtimericon_0: 6993629574097442103
+      BGbar_0: -8072328646922969899
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
