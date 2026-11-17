@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 4096053724854655392}
   - component: {fileID: 2090397380830605259}
   - component: {fileID: 6028605538641790599}
+  - component: {fileID: 7400000000000000011}
   m_Layer: 5
   m_Name: RoomName
   m_TagString: Untagged
@@ -205,8 +206,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Ruang Player 1'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9a3f6d21c84e4b07b5d2e61f0c7a48d6, type: 2}
+  m_sharedMaterial: {fileID: -1617481104815554937, guid: 9a3f6d21c84e4b07b5d2e61f0c7a48d6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -526,6 +527,7 @@ GameObject:
   - component: {fileID: 6741597707078272545}
   - component: {fileID: 7660781402286291310}
   - component: {fileID: 7146802432539776184}
+  - component: {fileID: 7400000000000000012}
   m_Layer: 5
   m_Name: RoomHost
   m_TagString: Untagged
@@ -582,8 +584,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Host: Player 1'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5c1e7a90d3b24f6e8a41c07d9be2f351, type: 2}
+  m_sharedMaterial: {fileID: 3807302467466967565, guid: 5c1e7a90d3b24f6e8a41c07d9be2f351, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -613,7 +615,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -663,6 +665,7 @@ GameObject:
   - component: {fileID: 1067452448638551340}
   - component: {fileID: 4571861329753171912}
   - component: {fileID: 8203722578253341159}
+  - component: {fileID: 7400000000000000013}
   m_Layer: 5
   m_Name: RoomDay
   m_TagString: Untagged
@@ -719,8 +722,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Day: 12'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5c1e7a90d3b24f6e8a41c07d9be2f351, type: 2}
+  m_sharedMaterial: {fileID: 3807302467466967565, guid: 5c1e7a90d3b24f6e8a41c07d9be2f351, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -750,7 +753,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1436,3 +1439,51 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7400000000000000011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4499702874087572977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b7c4d19f6a4c38a0d5b7e31f8c2a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::TextStrokeLayers
+  innerWidth: 9.6
+  innerColor: {r: 1, g: 1, b: 1, a: 1}
+  outerWidth: 5.2
+  outerColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &7400000000000000012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8119921542696203802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b7c4d19f6a4c38a0d5b7e31f8c2a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::TextStrokeLayers
+  innerWidth: 5
+  innerColor: {r: 1, g: 1, b: 1, a: 1}
+  outerWidth: 5
+  outerColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &7400000000000000013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3035042627455733177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b7c4d19f6a4c38a0d5b7e31f8c2a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::TextStrokeLayers
+  innerWidth: 5
+  innerColor: {r: 1, g: 1, b: 1, a: 1}
+  outerWidth: 5
+  outerColor: {r: 0, g: 0, b: 0, a: 1}
