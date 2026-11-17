@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 387021322403268473}
   - component: {fileID: 7371801050277558091}
   - component: {fileID: 2181971244565726583}
+  - component: {fileID: 7300000000000000001}
   m_Layer: 5
   m_Name: SFXButton
   m_TagString: Untagged
@@ -170,6 +171,7 @@ GameObject:
   - component: {fileID: 5248668790147121142}
   - component: {fileID: 4002339902534410554}
   - component: {fileID: 5830795888634821203}
+  - component: {fileID: 7300000000000000002}
   m_Layer: 5
   m_Name: BGMButton
   m_TagString: Untagged
@@ -411,3 +413,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e1d8b3a7c2f4960a4b8e0d1c3f6a972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::TutorialHelpButton
+--- !u!114 &7300000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3265229106151501491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0760148e7967e424b83098936064649d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::SoundToggleButton
+  kind: 1
+  offMarker: {fileID: 0}
+  label: {fileID: 0}
+  offSprite: {fileID: 4750079474800288401, guid: 0d33b138c18984127826c6b75b706bd9, type: 3}
+  dimWhenOff: 1
+--- !u!114 &7300000000000000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3434385823291135020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0760148e7967e424b83098936064649d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::SoundToggleButton
+  kind: 0
+  offMarker: {fileID: 0}
+  label: {fileID: 0}
+  offSprite: {fileID: -2541683575930598240, guid: 35a2980339ee34b0d827f8182ed59ad8, type: 3}
+  dimWhenOff: 1

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 //
 // - Dibuat otomatis sebelum scene pertama dari prefab Resources/AudioManager (isi klip di prefab itu),
 //   lalu hidup terus lintas scene (DontDestroyOnLoad), jadi BGM tidak putus / mulai ulang saat pindah scene.
-// - BGM menyala di scene menu (MainMenu, Lobby, Tutorial). Begitu scene lain dimuat (gameplay) BGM di-fade lalu berhenti.
+// - BGM menyala di scene menu (MainMenu, Lobby, Tutorial, SaveFiles). Begitu scene lain dimuat (gameplay) BGM di-fade lalu berhenti.
 //   Kembali ke menu / lobby setelah game: BGM mulai lagi dari awal.
 // - Suara tombol: setiap sentuhan / klik yang jatuh tepat di Button yang bisa ditekan, di scene menu.
 //   Tombol yang dibuat belakangan (popup, alert, slot pemain) otomatis ikut, tanpa dipasangi komponen.
@@ -20,7 +20,7 @@ public class AudioManager : MonoBehaviour
     private const float BgmFadeOutSeconds = 0.5f;
 
     // Scene tempat BGM berbunyi dan tombol bersuara. Scene lain (Init, ClientArrival, ColorMixing) hening.
-    private static readonly string[] MenuScenes = { "MainMenu", "Lobby", "Tutorial" };
+    private static readonly string[] MenuScenes = { "MainMenu", "Lobby", "Tutorial", "SaveFiles" };
 
     public static AudioManager Instance { get; private set; }
 

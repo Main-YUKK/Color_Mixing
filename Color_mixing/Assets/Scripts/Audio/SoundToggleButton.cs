@@ -14,11 +14,15 @@ public class SoundToggleButton : MonoBehaviour
     [SerializeField] private GameObject offMarker;
     [Tooltip("Opsional: teks yang diisi 'BGM: On' / 'BGM: Off'.")]
     [SerializeField] private TMP_Text label;
-    [Tooltip("Tanpa Off Marker dan tanpa label: gambar tombol diredupkan saat mati.")]
+    [Tooltip("Opsional: gambar tombol saat suara MATI. Saat nyala dipakai gambar awal tombol.")]
+    [SerializeField] private Sprite offSprite;
+    [Tooltip("Tanpa Off Marker, label, dan Off Sprite: gambar tombol diredupkan saat mati.")]
     [SerializeField] private bool dimWhenOff = true;
 
     private Graphic graphic;
     private Color graphicColor;
+    private Image image;
+    private Sprite onSprite;
 
     public bool IsOn => kind == Kind.Bgm ? SoundSettings.BgmOn : SoundSettings.SfxOn;
 
@@ -26,6 +30,8 @@ public class SoundToggleButton : MonoBehaviour
     {
         graphic = GetComponent<Graphic>();
         if (graphic != null) graphicColor = graphic.color;
+        image = graphic as Image;
+        if (image != null) onSprite = image.sprite;
         GetComponent<Button>().onClick.AddListener(Toggle);
     }
 
@@ -57,7 +63,9 @@ public class SoundToggleButton : MonoBehaviour
         if (offMarker != null) offMarker.SetActive(!on);
         if (label != null) label.text = $"{(kind == Kind.Bgm ? "BGM" : "SFX")}: {(on ? "On" : "Off")}";
 
-        if (dimWhenOff && offMarker == null && label == null && graphic != null)
+        if (image != null && offSprite != null) image.sprite = on ? onSprite : offSprite;
+
+        if (dimWhenOff && offMarker == null && label == null && offSprite == null && graphic != null)
         {
             Color c = graphicColor;
             c.a = graphicColor.a * (on ? 1f : 0.45f);
