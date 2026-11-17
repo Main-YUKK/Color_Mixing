@@ -5,6 +5,7 @@ public class AudioManagerTests
     [TestCase("MainMenu")]
     [TestCase("Lobby")]
     [TestCase("Tutorial")]
+    [TestCase("SaveFiles")]
     public void MenuScenes_PlayBgmAndButtonSound(string sceneName)
     {
         Assert.IsTrue(AudioManager.IsMenuScene(sceneName));
