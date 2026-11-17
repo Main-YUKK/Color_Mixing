@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9c92035fb012e4c8fb1eff3d21c53f81
+guid: 5d49b918dacc04e3c804058938144a57
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7971541976474781627
-    second: redtimer_0
+      213: 2905658789745470189
+    second: redbar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: redtimer_0
+      name: redbar_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 0
-        width: 274
-        height: 25
+        width: 449
+        height: 51
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bb705eb413b90ae60800000000000000
-      internalID: 7971541976474781627
+      spriteID: dea25414649f25820800000000000000
+      internalID: 2905658789745470189
       vertices: []
       indices: 
       edges: []
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      redtimer_0: 7971541976474781627
+      redbar_0: 2905658789745470189
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
