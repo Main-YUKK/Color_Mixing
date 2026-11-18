@@ -233,6 +233,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::RandomCharacter
   bodyRenderer: {fileID: 5081010070686618568}
   hairRenderer: {fileID: 6570411911085312771}
+  bodyVariants:
+  - name: Original
+    neutral:
+      sprite: {fileID: -1118474727265513895, guid: 6f2ab40fc117349e683b6f42de761031, type: 3}
+      flipped: {fileID: 0}
+    good:
+      sprite: {fileID: 4686129997264731881, guid: 9f81d40eda6fb4564af837ef44346d1a, type: 3}
+      flipped: {fileID: 0}
+    bad:
+      sprite: {fileID: -8855679117234286214, guid: e2a1365f5ff3c493491f156036b60d61, type: 3}
+      flipped: {fileID: 0}
+  - name: Original
+    neutral:
+      sprite: {fileID: -1724049974249088855, guid: a29c5e15eebc549f5b46caf7cfaa51a2, type: 3}
+      flipped: {fileID: 0}
+    good:
+      sprite: {fileID: 4950666820965802567, guid: f21a868de9a6f4d43baa851f65721ad8, type: 3}
+      flipped: {fileID: 0}
+    bad:
+      sprite: {fileID: -6089103120411507662, guid: dc7728b86bd8f477083f6e2783b6adfd, type: 3}
+      flipped: {fileID: 0}
   hairSprites:
   - {fileID: -414228733843354519, guid: 20df9f80d60bc47e19ebbcf1c4db73d7, type: 3}
   - {fileID: 9021790495452558172, guid: 50b8d7dc4aff145ccb543716937c1eb0, type: 3}

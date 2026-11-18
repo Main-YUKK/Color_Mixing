@@ -94,6 +94,7 @@ public class CharacterSpawner : MonoBehaviour
         {
             look.hair = hair.RollHair();
             look.hasHair = look.hair != null;
+            look.bodyVariant = hair.RollBodyVariant();
         }
         return look;
     }
@@ -116,7 +117,11 @@ public class CharacterSpawner : MonoBehaviour
         Transform t = spawnPoint != null ? spawnPoint : transform;
         Vector3 startPos = walk ? EntryPos : t.position;
         current = Instantiate(characterPrefabs[look.prefabIndex], startPos, t.rotation);
-        if (look.hasHair && current.TryGetComponent(out RandomCharacter hair)) hair.ApplyLook(look.hair);
+        if (current.TryGetComponent(out RandomCharacter hair))
+        {
+            if (look.hasHair) hair.ApplyLook(look.hair);
+            hair.ApplyBodyVariant(look.bodyVariant);
+        }
         nativeSign = Mathf.Sign(current.transform.localScale.x);
         entryDirX = t.position.x - startPos.x;
         if (walk) yield return Walk(current, t.position);

@@ -21,4 +21,5 @@ public class ClientLook
     public int prefabIndex;    // index di CharacterSpawner.characterPrefabs
     public bool hasHair;
     public HairLook hair;
+    public int bodyVariant = -1;   // index di RandomCharacter.bodyVariants, -1 = tidak ada varian
 }
