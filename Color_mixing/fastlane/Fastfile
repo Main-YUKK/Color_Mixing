@@ -58,6 +58,19 @@ platform :ios do
       value: build_number.to_s
     )
 
+    # Pastikan nama app di home screen pakai spasi
+    set_info_plist_value(
+      path: plist_path,
+      key: "CFBundleDisplayName",
+      value: "Trio Semir Kharisma"
+    )
+
+    set_info_plist_value(
+      path: plist_path,
+      key: "CFBundleName",
+      value: "Trio Semir Kharisma"
+    )
+
     set_info_plist_value(
       path: plist_path,
       key: "ITSAppUsesNonExemptEncryption",
