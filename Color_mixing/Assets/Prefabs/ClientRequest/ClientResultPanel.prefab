@@ -104,6 +104,15 @@ MonoBehaviour:
   timeoutMessage: Lelet kali kauu!!!
   showSeconds: 3
   passingScore: 70
+  poof:
+    sprite: {fileID: -6355845395473041871, guid: 11c96c7116a3d4c138721ba8715b6a70, type: 3}
+    coverScale: 1.5
+    growSeconds: 0.25
+    holdSeconds: 0.3
+    fadeSeconds: 0.35
+    extraPuffs: 3
+    sortingAbove: 20
+  afterPoofSeconds: 0.4
 --- !u!1 &7300100000000002000
 GameObject:
   m_ObjectHideFlags: 0
