@@ -50,7 +50,10 @@ Shader "Game/SpriteSolidColor"
         Varyings Vert(Attributes input)
         {
             Varyings output;
-            output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
+            // Flip X / Flip Y SpriteRenderer diterapkan di shader (unity_SpriteProps.xy = 1 atau -1), sama seperti
+            // shader sprite bawaan URP. Tanpa ini garis tepi tidak ikut terbalik saat badan memakai sprite 'flipped'.
+            float3 positionOS = float3(input.positionOS.xy * unity_SpriteProps.xy, input.positionOS.z);
+            output.positionCS = TransformObjectToHClip(positionOS);
             output.uv = input.uv;     // sprite tidak memakai tiling/offset, jadi tanpa _MainTex_ST (agar SRP Batcher 2D tetap aktif)
             output.color = input.color;
             return output;
