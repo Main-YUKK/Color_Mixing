@@ -968,6 +968,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8487321112247261971, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
+      propertyPath: showCurrentOnStart
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2049,7 +2053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &892212390
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3607,7 +3611,8 @@ MonoBehaviour:
   spawner: {fileID: 640845018}
   startManually: 1
   countdownOnCard: 1
-  secondsPerClient: 30
+  startDelay: 3
+  secondsPerClient: 60
   timerBar: {fileID: 0}
   timerText: {fileID: 0}
   introSeconds: 0.8
