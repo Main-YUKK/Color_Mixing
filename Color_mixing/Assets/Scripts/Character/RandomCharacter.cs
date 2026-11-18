@@ -1,0 +1,248 @@
+using System;
+using System.Collections;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
+public class RandomCharacter : MonoBehaviour
+{
+    [Serializable]
+    public class HairStyle
+    {
+        public Sprite sprite;
+        public Vector2 position;                // local position relative to the duck
+        public float scale = 1f;
+        public HairLayer layer;                 // Back is the default, so existing styles keep behaving the same
+    }
+
+    public enum HairLayer { Back, Front, Random }
+
+    [Serializable]
+    public class ColorVariant
+    {
+        public Sprite[] sprites;
+    }
+
+    [Header("References")]
+    public SpriteRenderer bodyRenderer;
+    public SpriteRenderer hairRenderer;
+
+    [Header("Hair options")]
+    [Tooltip("Drop all 8 sliced sprites here, then use the context menu 'Build Styles From Sprites'.")]
+    public Sprite[] hairSprites;
+    public HairStyle[] hairStyles;
+    [Tooltip("Optional: the other color sheets. Each one needs its sprites in the same order (_0 to _7) as Hair Sprites.")]
+    public ColorVariant[] colorVariants;
+    [Tooltip("Turn off when using color variants, so the gradient tint isn't multiplied on top of the sheet's own color.")]
+    public bool tintHair = true;
+    public Gradient hairColors;                // random color is sampled from this
+    public float positionJitter = 0.05f;        // small random wobble on top of each style's position
+    public int hairSortingOffset = -1;          // sorting order offset used for "Back" hair
+    public int frontSortingOffset = 1;          // sorting order offset used for "Front" hair
+
+    [Header("Outline")]
+    [Tooltip("Garis tepi putih gaya cutout: satu garis di sekeliling badan + rambut gabungan, tanpa garis di antara keduanya.")]
+    public bool hairOutline = true;
+    [Tooltip("Tebal garis dalam unit dunia. Naikkan kalau terlalu tipis, turunkan kalau tepinya bergerigi.")]
+    public float outlineWidth = 0.04f;
+    [Tooltip("Off: rambut sheet berwarna tidak ikut digaris (hanya rambut putih dasar / yang diwarnai dari sheet itu).")]
+    public bool outlineColoredHair = true;
+    public Color outlineColor = Color.white;
+    [Tooltip("Garis luar kedua (hitam) di sekeliling garis putih, supaya makin terasa seperti cutout.")]
+    public bool outerBorder = true;
+    [Tooltip("Tebal garis luar, di luar garis putih (unit dunia).")]
+    public float borderWidth = 0.03f;
+    public Color borderColor = Color.black;
+
+    [Header("Behaviour")]
+    [Tooltip("Off: hair is chosen once when the character appears and stays. On: hair keeps coming and going on the timers below.")]
+    public bool cycleHair = false;
+
+    [Header("Timing (seconds, only used when Cycle Hair is on)")]
+    public Vector2 hairVisibleTime = new Vector2(2f, 6f);
+    public Vector2 hairHiddenTime = new Vector2(1f, 3f);
+    public float popDuration = 0.25f;
+
+    [Header("Tuning (edit mode)")]
+    [Tooltip("Pick a style here to preview it on the duck, move/scale the Hair object, then use the context menu 'Save Hair Transform To Style'.")]
+    public int previewIndex;
+
+    float currentScale = 1f;
+    int currentIndex;
+    bool lookApplied;
+    SpriteOutline[] hairOutlines = new SpriteOutline[0];
+
+    void Awake()
+    {
+        if (bodyRenderer == null) bodyRenderer = GetComponent<SpriteRenderer>();
+        hairRenderer.sortingLayerID = bodyRenderer.sortingLayerID;
+        hairRenderer.transform.localScale = Vector3.zero;
+        if (hairOutline)
+        {
+            // Saling berpartner: garis keduanya digambar di bawah badan dan rambut, jadi satu tepi luar saja.
+            SpriteOutline.Add(bodyRenderer, outlineWidth, outlineColor, hairRenderer);
+            var white = SpriteOutline.Add(hairRenderer, outlineWidth, outlineColor, bodyRenderer);
+            if (outerBorder)
+            {
+                float w = outlineWidth + borderWidth;
+                SpriteOutline.Add(bodyRenderer, w, borderColor, hairRenderer, 1);
+                hairOutlines = new[] { white, SpriteOutline.Add(hairRenderer, w, borderColor, bodyRenderer, 1) };
+            }
+            else hairOutlines = new[] { white };
+        }
+    }
+
+    void Start()
+    {
+        if (cycleHair) StartCoroutine(HairLoop());
+        else if (!lookApplied) Randomize();   // sudah dipasang dari luar (ApplyLook) = jangan diacak lagi
+    }
+
+    /// <summary>Re-roll the whole character right now (also callable from a button/UnityEvent).</summary>
+    [ContextMenu("Randomize Now")]
+    public void Randomize()
+    {
+        RandomizeHair();
+        hairRenderer.transform.localScale = Vector3.one * currentScale;
+    }
+
+    // Sprite untuk style tertentu: variant 0 = sheet dasar, n = colorVariants[n - 1] (kalau kosong, jatuh ke sheet dasar).
+    Sprite SpriteFor(int index, int variant)
+    {
+        var s = hairStyles[index].sprite;
+        if (variant <= 0 || colorVariants == null || variant > colorVariants.Length) return s;
+        var v = colorVariants[variant - 1].sprites;
+        return v != null && index < v.Length && v[index] != null ? v[index] : s;
+    }
+
+    /// <summary>Acak rambut tanpa memasangnya (tidak menyentuh renderer), supaya hasilnya bisa dikirim ke device lain.</summary>
+    public HairLook RollHair()
+    {
+        if (hairStyles == null || hairStyles.Length == 0) return null;
+
+        int style = Random.Range(0, hairStyles.Length);
+        var s = hairStyles[style];
+        return new HairLook
+        {
+            style = style,
+            variant = Random.Range(0, (colorVariants?.Length ?? 0) + 1),
+            jitterX = Random.Range(-positionJitter, positionJitter),
+            jitterY = Random.Range(-positionJitter, positionJitter),
+            front = s.layer == HairLayer.Front || (s.layer == HairLayer.Random && Random.value > 0.5f),
+            color = !tintHair ? Color.white
+                : hairColors != null ? hairColors.Evaluate(Random.value)
+                : Random.ColorHSV(0f, 1f, 0.5f, 0.9f, 0.6f, 1f),
+        };
+    }
+
+    /// <summary>Pasang rambut dari hasil RollHair (di device ini atau kiriman host). Setelah ini Start tidak mengacak lagi.</summary>
+    public void ApplyLook(HairLook look)
+    {
+        if (look == null || hairStyles == null || look.style < 0 || look.style >= hairStyles.Length) return;
+
+        currentIndex = look.style;
+        var s = hairStyles[look.style];
+        hairRenderer.sprite = SpriteFor(look.style, look.variant);
+        // Sheet berwarna hanya digaris kalau outlineColoredHair menyala.
+        ShowHairOutline(outlineColoredHair || hairRenderer.sprite == s.sprite);
+        currentScale = s.scale;
+        hairRenderer.sortingOrder = bodyRenderer.sortingOrder + (look.front ? frontSortingOffset : hairSortingOffset);
+        hairRenderer.transform.localPosition = new Vector3(s.position.x + look.jitterX, s.position.y + look.jitterY, 0f);
+        hairRenderer.color = look.color;
+        lookApplied = true;
+        if (!cycleHair) hairRenderer.transform.localScale = Vector3.one * currentScale;
+    }
+
+    void RandomizeHair() => ApplyLook(RollHair());
+
+    /// <summary>Tint the hair with a hex string like "FF8800" or "#FF8800". Returns false if it isn't valid.</summary>
+    public bool SetHairColor(string hex)
+    {
+        hex = hex.Trim();
+        if (!hex.StartsWith("#")) hex = "#" + hex;
+        if (!ColorUtility.TryParseHtmlString(hex, out Color c)) return false;
+        SetHairColor(c);
+        return true;
+    }
+
+    /// <summary>Tint the hair with an exact color (e.g. the mixed color).</summary>
+    public void SetHairColor(Color c)
+    {
+        hairRenderer.sprite = hairStyles[currentIndex].sprite;   // base (white) sheet, so the tint gives the exact color
+        hairRenderer.color = c;
+        ShowHairOutline(true);             // sheet dasar yang diwarnai: garis tepi muncul
+    }
+
+    void ShowHairOutline(bool shown)
+    {
+        foreach (var o in hairOutlines) if (o != null) o.Shown = shown;
+    }
+
+    IEnumerator HairLoop()
+    {
+        while (true)
+        {
+            // hair comes
+            RandomizeHair();
+            yield return Scale(0f, 1f);
+            yield return new WaitForSeconds(Random.Range(hairVisibleTime.x, hairVisibleTime.y));
+
+            // hair goes
+            yield return Scale(1f, 0f);
+            yield return new WaitForSeconds(Random.Range(hairHiddenTime.x, hairHiddenTime.y));
+        }
+    }
+
+    IEnumerator Scale(float from, float to)
+    {
+        for (float t = 0; t < popDuration; t += Time.deltaTime)
+        {
+            hairRenderer.transform.localScale = Vector3.one * (currentScale * Mathf.SmoothStep(from, to, t / popDuration));
+            yield return null;
+        }
+        hairRenderer.transform.localScale = Vector3.one * (currentScale * to);
+    }
+
+#if UNITY_EDITOR
+    // Show the selected style on the duck while editing (not playing).
+    void OnValidate()
+    {
+        if (Application.isPlaying || hairRenderer == null || hairStyles == null || hairStyles.Length == 0) return;
+        previewIndex = Mathf.Clamp(previewIndex, 0, hairStyles.Length - 1);
+        var s = hairStyles[previewIndex];
+        UnityEditor.EditorApplication.delayCall += () =>
+        {
+            if (hairRenderer == null) return;
+            hairRenderer.sprite = s.sprite;
+            hairRenderer.sortingOrder = bodyRenderer.sortingOrder + (s.layer == HairLayer.Front ? frontSortingOffset : hairSortingOffset);
+            hairRenderer.transform.localPosition = new Vector3(s.position.x, s.position.y, 0f);
+            hairRenderer.transform.localScale = Vector3.one * s.scale;
+        };
+    }
+
+    // Creates one HairStyle per sprite in hairSprites, keeping saved position/scale for sprites already listed.
+    [ContextMenu("Build Styles From Sprites")]
+    void BuildStyles()
+    {
+        UnityEditor.Undo.RecordObject(this, "Build hair styles");
+        var old = hairStyles ?? new HairStyle[0];
+        hairStyles = new HairStyle[hairSprites.Length];
+        for (int i = 0; i < hairSprites.Length; i++)
+        {
+            var existing = Array.Find(old, s => s.sprite == hairSprites[i]);
+            hairStyles[i] = existing ?? new HairStyle { sprite = hairSprites[i] };
+        }
+        UnityEditor.EditorUtility.SetDirty(this);
+    }
+
+    // Move/scale the Hair object in the Scene view, then run this to store it in the previewed style.
+    [ContextMenu("Save Hair Transform To Style")]
+    void SaveHairTransform()
+    {
+        UnityEditor.Undo.RecordObject(this, "Save hair transform");
+        var s = hairStyles[previewIndex];
+        s.position = hairRenderer.transform.localPosition;
+        s.scale = hairRenderer.transform.localScale.x;
+        UnityEditor.EditorUtility.SetDirty(this);
+    }
+#endif
+}
