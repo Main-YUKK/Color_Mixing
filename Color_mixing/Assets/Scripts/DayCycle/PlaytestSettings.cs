@@ -10,7 +10,7 @@ using UnityEngine;
 // Matikan fitur ini di build rilis: Enabled = false (panel tidak dibuat sama sekali).
 public static class PlaytestSettings
 {
-    public const bool Enabled = true;
+    public const bool Enabled = false;
 
     public static readonly int[] ClientSecondsOptions = { 30, 60, 90 };
     public static readonly int[] PassingScoreOptions = { 70, 80, 85, 90 };
