@@ -16,6 +16,11 @@ public class PauseMenu : MonoBehaviour
     public static bool IsOpen => Instance != null && Instance.root != null && Instance.root.activeSelf;
 
     private GameObject root;
+    // Teks penjelasan di prefab: satu untuk hari 1, satu untuk hari 2 dst. ("progress tersimpan di hari sebelumnya").
+    private GameObject dayOneText;
+    private GameObject laterDayText;
+    private const string DayOneTextName = "TextBackgroundday1";
+    private const string LaterDayTextName = "TextBackground";
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ClearOnPlay() => Instance = null;
@@ -32,6 +37,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (Instance == null) return;
         Instance.EnsureBuilt();
+        Instance.ShowDayText();
         Instance.root.SetActive(true);
     }
 
@@ -90,6 +96,12 @@ public class PauseMenu : MonoBehaviour
 
     private void WirePrefab(GameObject card)
     {
+        foreach (Transform t in card.GetComponentsInChildren<Transform>(true))
+        {
+            if (t.name == DayOneTextName) dayOneText = t.gameObject;
+            else if (t.name == LaterDayTextName) laterDayText = t.gameObject;
+        }
+
         foreach (var button in card.GetComponentsInChildren<Button>(true))
         {
             switch (button.gameObject.name)
@@ -100,6 +112,14 @@ public class PauseMenu : MonoBehaviour
                 case "SfxButton": EnsureToggle(button.gameObject, SoundToggleButton.Kind.Sfx); break;
             }
         }
+    }
+
+    // Hari 1: tidak ada progress yang tersimpan, jadi tampilkan teks hari 1. Hari 2 dst: teks dengan catatan progress.
+    private void ShowDayText()
+    {
+        bool dayOne = GameSession.Day <= 1;
+        if (dayOneText != null) dayOneText.SetActive(dayOne);
+        if (laterDayText != null) laterDayText.SetActive(!dayOne);
     }
 
     private static void EnsureToggle(GameObject buttonObject, SoundToggleButton.Kind kind)

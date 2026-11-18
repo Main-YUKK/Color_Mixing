@@ -969,6 +969,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8487321112247261971, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
+      propertyPath: punctuationPause
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487321112247261971, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
       propertyPath: showCurrentOnStart
       value: 0
       objectReference: {fileID: 0}
@@ -2053,7 +2057,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &892212390
 RectTransform:
   m_ObjectHideFlags: 0
