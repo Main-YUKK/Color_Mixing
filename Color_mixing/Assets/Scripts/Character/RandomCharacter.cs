@@ -16,6 +16,26 @@ public class RandomCharacter : MonoBehaviour
 
     public enum HairLayer { Back, Front, Random }
 
+    public enum Mood { Neutral, Good, Bad }
+
+    [Serializable]
+    public class FacingSprite
+    {
+        [Tooltip("Gambar asli: menghadap arah klien datang (kiri).")]
+        public Sprite sprite;
+        [Tooltip("Opsional: versi hadap sebaliknya yang digambar sendiri (mis. 'Netral kanan', 'Good pergi').\nKosong = gambar asli dibalik (mirror).")]
+        public Sprite flipped;
+    }
+
+    [Serializable]
+    public class BodyVariant
+    {
+        public string name;
+        public FacingSprite neutral;
+        public FacingSprite good;
+        public FacingSprite bad;
+    }
+
     [Serializable]
     public class ColorVariant
     {
@@ -25,6 +45,12 @@ public class RandomCharacter : MonoBehaviour
     [Header("References")]
     public SpriteRenderer bodyRenderer;
     public SpriteRenderer hairRenderer;
+
+    [Header("Body variants")]
+    [Tooltip("Varian badan klien (mis. warna baju lain), ukuran gambar harus sama. Satu dipilih acak per klien.\n" +
+             "Masukkan juga versi aslinya (klik kanan komponen > 'Fill First Variant From Current Sprites').\n" +
+             "Kosong = sprite badan prefab + Good/Bad di ClientExpression seperti biasa.")]
+    public BodyVariant[] bodyVariants;
 
     [Header("Hair options")]
     [Tooltip("Drop all 8 sliced sprites here, then use the context menu 'Build Styles From Sprites'.")]
@@ -70,10 +96,19 @@ public class RandomCharacter : MonoBehaviour
     int currentIndex;
     bool lookApplied;
     SpriteOutline[] hairOutlines = new SpriteOutline[0];
+    int bodyVariant = -1;
+    bool bodyApplied;
+    Mood mood;
+    float nativeSign = 1f;     // arah scale.x prefab (menghadap arah datang); kebalikannya = sedang dibalik
+    bool lastMirrored;
+
+    public bool HasBodyVariants => bodyVariants != null && bodyVariants.Length > 0;
+    public int BodyVariantIndex => bodyVariant;
 
     void Awake()
     {
         if (bodyRenderer == null) bodyRenderer = GetComponent<SpriteRenderer>();
+        nativeSign = Mathf.Sign(transform.localScale.x);
         hairRenderer.sortingLayerID = bodyRenderer.sortingLayerID;
         hairRenderer.transform.localScale = Vector3.zero;
         if (hairOutline)
@@ -93,8 +128,54 @@ public class RandomCharacter : MonoBehaviour
 
     void Start()
     {
+        if (!bodyApplied && HasBodyVariants) ApplyBodyVariant(RollBodyVariant());   // tidak dipasang dari luar: acak sendiri
         if (cycleHair) StartCoroutine(HairLoop());
         else if (!lookApplied) Randomize();   // sudah dipasang dari luar (ApplyLook) = jangan diacak lagi
+    }
+
+    // MARK: - Body variant + mood + facing
+
+    /// <summary>Acak varian badan tanpa memasangnya (host mengirim hasilnya ke client). -1 = tidak ada varian.</summary>
+    public int RollBodyVariant() => HasBodyVariants ? Random.Range(0, bodyVariants.Length) : -1;
+
+    /// <summary>Pasang varian badan (dari RollBodyVariant, di device ini atau kiriman host).</summary>
+    public void ApplyBodyVariant(int index)
+    {
+        if (!HasBodyVariants || index < 0) return;
+        bodyVariant = Mathf.Clamp(index, 0, bodyVariants.Length - 1);
+        bodyApplied = true;
+        RefreshBody();
+    }
+
+    /// <summary>Ekspresi netral / senang / kesal, pakai sprite varian aktif (dipanggil ClientExpression).</summary>
+    public void SetMood(Mood value)
+    {
+        mood = value;
+        RefreshBody();
+    }
+
+    // Arah hadap diatur dari luar lewat scale.x (spawner, ClientArrivalSequence, foto). Kalau sedang dibalik dan
+    // ada versi 'flipped' yang digambar sendiri, pakai itu (dengan flipX supaya tidak ikut ter-mirror).
+    void LateUpdate()
+    {
+        if (bodyVariant < 0) return;
+        if (Mirrored != lastMirrored) RefreshBody();
+    }
+
+    bool Mirrored => Mathf.Sign(transform.localScale.x) != nativeSign;
+
+    void RefreshBody()
+    {
+        lastMirrored = Mirrored;
+        if (bodyVariant < 0 || bodyRenderer == null) return;
+        var v = bodyVariants[bodyVariant];
+        var fs = mood == Mood.Good ? v.good : mood == Mood.Bad ? v.bad : v.neutral;
+        if (fs == null || fs.sprite == null) fs = v.neutral;     // ekspresi belum diisi: tetap netral
+        if (fs == null || fs.sprite == null) return;
+
+        bool useFlipped = lastMirrored && fs.flipped != null;
+        bodyRenderer.sprite = useFlipped ? fs.flipped : fs.sprite;
+        bodyRenderer.flipX = useFlipped;
     }
 
     /// <summary>Re-roll the whole character right now (also callable from a button/UnityEvent).</summary>
@@ -231,6 +312,24 @@ public class RandomCharacter : MonoBehaviour
             var existing = Array.Find(old, s => s.sprite == hairSprites[i]);
             hairStyles[i] = existing ?? new HairStyle { sprite = hairSprites[i] };
         }
+        UnityEditor.EditorUtility.SetDirty(this);
+    }
+
+    // Isi varian pertama dari sprite badan prefab + Good/Bad di ClientExpression, lalu tinggal tambah 'ver 2' dst.
+    [ContextMenu("Fill First Variant From Current Sprites")]
+    void FillFirstVariant()
+    {
+        UnityEditor.Undo.RecordObject(this, "Fill first body variant");
+        var expr = GetComponent<ClientExpression>();
+        var first = new BodyVariant
+        {
+            name = "Original",
+            neutral = new FacingSprite { sprite = (bodyRenderer != null ? bodyRenderer : GetComponent<SpriteRenderer>()).sprite },
+            good = new FacingSprite { sprite = expr != null ? expr.Good : null },
+            bad = new FacingSprite { sprite = expr != null ? expr.Bad : null },
+        };
+        if (bodyVariants == null || bodyVariants.Length == 0) bodyVariants = new[] { first };
+        else bodyVariants[0] = first;
         UnityEditor.EditorUtility.SetDirty(this);
     }
 
