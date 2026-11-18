@@ -23,6 +23,10 @@ public class ClientResultView : MonoBehaviour
     [SerializeField] private string timeoutMessage = "Lelet kali kauu!!!";
     [SerializeField] private float showSeconds = 3f;
     [SerializeField, Range(0f, 100f)] private float passingScore = 80f;   // skor minimal agar klien puas (%)
+    [Tooltip("Asap di rambut klien sebelum warnanya berubah. Kosongkan Sprite untuk langsung ganti tanpa animasi.")]
+    [SerializeField] private HairPoof.Settings poof = new HairPoof.Settings();
+    [Tooltip("Jeda setelah asap hilang sebelum panel hasil muncul, supaya rambut baru sempat terlihat.")]
+    [SerializeField] private float afterPoofSeconds = 0.4f;
 
     private void OnEnable()
     {
@@ -46,13 +50,26 @@ public class ClientResultView : MonoBehaviour
         targetColor.color = target;
         mixColor.color = applied;
         comparison.SetActive(true);
-        // angka naik dari 0 lalu "dicap" (lihat PercentCountUp)
+        // angka naik dari 0 lalu "dicap" (lihat PercentCountUp); mulai jalan saat panel tampil
         if (!percentText.TryGetComponent(out PercentCountUp countUp))
             countUp = percentText.gameObject.AddComponent<PercentCountUp>();
         countUp.Play(Mathf.RoundToInt((float)score));
 
-        ReactClient(success, applied);
         Debug.Log($"[REQ] Hasil klien: skor {score:0.0}% -> {(success ? "Yes" : "No")}");
+        StartCoroutine(RevealRoutine(success, applied));
+    }
+
+    // Layar mixing ditutup supaya klien terlihat -> asap di rambut -> (tertutup asap) warna + ekspresi berubah
+    // -> asap hilang -> panel hasil (ucapan, perbandingan, persen) seperti biasa.
+    private IEnumerator RevealRoutine(bool success, Color applied)
+    {
+        sequence.UnloadNextScene();   // Canvas ColorMixing menutupi klien
+        requestCard.SetActive(false);
+        yield return null;            // scene mixing selesai ditutup dulu
+
+        yield return HairPoof.Play(this, sequence.Spawner.Current, poof, () => ReactClient(success, applied));
+        if (afterPoofSeconds > 0f) yield return new WaitForSeconds(afterPoofSeconds);
+
         Open(success ? successMessage : failMessage, () => cycle.OnFeedbackRevealed(success));
     }
 
