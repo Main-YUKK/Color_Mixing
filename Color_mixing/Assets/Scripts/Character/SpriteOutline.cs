@@ -8,6 +8,7 @@ using UnityEngine;
 // Dengan partner (mis. badan <-> rambut), garis keduanya digambar di bawah SEMUA sprite yang dipartnerkan,
 // jadi hanya tepi luar gabungan yang terlihat (gaya cutout) dan tidak ada garis di antara badan dan rambut.
 [RequireComponent(typeof(SpriteRenderer))]
+[DefaultExecutionOrder(100)]   // LateUpdate setelah RandomCharacter mengganti sprite badan (versi flipped), jadi tidak telat 1 frame
 public class SpriteOutline : MonoBehaviour
 {
     private const int Copies = 12;      // makin banyak makin halus di sudut tajam
