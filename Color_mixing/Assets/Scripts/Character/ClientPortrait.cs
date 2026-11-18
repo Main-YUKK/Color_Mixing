@@ -72,7 +72,11 @@ public class ClientPortrait : MonoBehaviour
 
         var go = Instantiate(prefab, Stage, Quaternion.identity);
         go.name = prefab.name + " (Portrait)";
-        if (look.hasHair && go.TryGetComponent(out RandomCharacter hair)) hair.ApplyLook(look.hair);
+        if (go.TryGetComponent(out RandomCharacter hair))
+        {
+            if (look.hasHair) hair.ApplyLook(look.hair);
+            hair.ApplyBodyVariant(look.bodyVariant);   // -1 (tes tanpa spawner) = RandomCharacter mengacak sendiri
+        }
 
         // Prefab menghadap arah datang (kiri); di ClientArrival dibalik saat tiba.
         if (faceRight)
