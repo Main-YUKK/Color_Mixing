@@ -12,6 +12,8 @@ public class ClientTimer : MonoBehaviour
     [SerializeField] private bool startManually;
     [Tooltip("Hanya untuk Start Manually + Spawner.\nNyala: timer muncul dan langsung berjalan saat kartu request muncul (klien tiba).\nMati: timer muncul dan terisi saat klien tiba, lalu diam penuh menunggu StartTimer() (mis. tombol ke layar mixing).")]
     [SerializeField] private bool countdownOnCard = true;
+    [Tooltip("Jeda (detik) setelah klien tiba / kartu request muncul sebelum timer tampil dan mulai. 0 = langsung.")]
+    [SerializeField] private float startDelay = 3f;
     [SerializeField] private float secondsPerClient = 30f;
     [SerializeField] private Slider timerBar;
     [SerializeField] private TMP_Text timerText;
@@ -24,6 +26,9 @@ public class ClientTimer : MonoBehaviour
     private bool running;
     private bool holding;     // intro sudah diputar saat klien datang, bar penuh menunggu StartTimer()
     private float introLeft;
+    private float delayLeft = -1f;     // > 0 = menunggu Start Delay sebelum timer tampil
+    private bool delayedHold;          // setelah jeda: PlayIntro (diam penuh) bukan StartTimer
+    private bool startRequested;       // StartTimer() dipanggil selama jeda: langsung berjalan setelah jeda
 
     // Timer yang sedang aktif di scene, dan kabar "waktu habis" dari timer host (dikirim MixNet ke client).
     public static ClientTimer Current { get; private set; }
@@ -76,14 +81,13 @@ public class ClientTimer : MonoBehaviour
             // Kartu request muncul tepat saat klien tiba: timer tampil di situ.
             if (spawner != null)
             {
-                if (countdownOnCard) spawner.OnClientArrived += StartTimer;
-                else spawner.OnClientArrived += PlayIntro;
+                spawner.OnClientArrived += OnArrived;
             }
         }
         else if (spawner != null)
         {
             cycle.OnClientRequested += Hide;
-            spawner.OnClientArrived += StartTimer;
+            spawner.OnClientArrived += OnArrived;
         }
         else cycle.OnClientRequested += StartTimer;
         cycle.OnGameOver += Hide;
@@ -97,11 +101,20 @@ public class ClientTimer : MonoBehaviour
         cycle.OnClientRequested -= StartTimer;
         if (spawner != null)
         {
-            spawner.OnClientArrived -= StartTimer;
-            spawner.OnClientArrived -= PlayIntro;
+            spawner.OnClientArrived -= OnArrived;
         }
         cycle.OnGameOver -= Hide;
         cycle.OnDayEnded -= OnDayEnded;
+    }
+
+    // Klien tiba (kartu request muncul): tunggu Start Delay, lalu timer tampil.
+    private void OnArrived()
+    {
+        delayedHold = startManually && !countdownOnCard;
+        startRequested = false;
+        if (startDelay > 0f) { delayLeft = startDelay; return; }
+        delayLeft = -1f;
+        if (delayedHold) PlayIntro(); else StartTimer();
     }
 
     // Klien datang: bar terisi dengan pantulan lalu diam penuh. Waktu belum berkurang sampai StartTimer().
@@ -118,6 +131,11 @@ public class ClientTimer : MonoBehaviour
 
     public void StartTimer()
     {
+        if (delayLeft > 0f)
+        {
+            startRequested = true;   // masih jeda: mulai berjalan begitu jeda selesai
+            return;
+        }
         if (holding)
         {
             // Intro sudah diputar saat klien datang: tinggal mulai berkurang (setelah intro selesai kalau masih jalan).
@@ -139,6 +157,8 @@ public class ClientTimer : MonoBehaviour
         running = false;
         holding = false;
         introLeft = 0f;
+        delayLeft = -1f;
+        startRequested = false;
     }
 
     // Klien baru diminta / hari selesai: timer berhenti dan disembunyikan sampai kartu berikutnya muncul.
@@ -154,6 +174,7 @@ public class ClientTimer : MonoBehaviour
         running = false;
         holding = false;
         introLeft = 0f;
+        delayLeft = -1f;
         remaining = 0f;
         if (timerBar != null) timerBar.value = 0f;
         if (timerText != null) timerText.text = "0";
@@ -164,6 +185,14 @@ public class ClientTimer : MonoBehaviour
 
     private void Update()
     {
+        if (delayLeft > 0f)
+        {
+            delayLeft -= Time.deltaTime;
+            if (delayLeft > 0f) return;
+            delayLeft = -1f;
+            if (delayedHold && !startRequested) PlayIntro(); else StartTimer();
+            startRequested = false;
+        }
         if (!running && !holding) return;
 
         // Intro: bar terisi dulu, waktu belum berkurang.
