@@ -17,7 +17,8 @@ public class ClientArrivalSequence : MonoBehaviour
     [Header("Next scene (opsional)")]
     [Tooltip("Kosong = tetap di scene ini, klien berikutnya muncul lewat Yes / No.")]
     [SerializeField] private string nextSceneName;
-    [SerializeField] private float cardSeconds = 3f;       // lama kartu dibaca sebelum pindah scene
+    [Tooltip("Lama kartu dibaca sebelum pindah scene. Tidak dipakai kalau kartu memakai typewriter (pemain tap untuk lanjut).")]
+    [SerializeField] private float cardSeconds = 3f;
 
     private Coroutine routine;
     private bool flowStopped;   // hari selesai / game over: klien yang masih berjalan masuk tidak boleh memunculkan kartu lagi
@@ -96,7 +97,18 @@ public class ClientArrivalSequence : MonoBehaviour
         if (cardRoot != null) cardRoot.SetActive(true);
 
         if (string.IsNullOrEmpty(nextSceneName)) yield break;
-        yield return new WaitForSeconds(cardSeconds);
+
+        // Kartu typewriter: tunggu pemain tap (tampilkan semua, lalu tap lagi untuk lanjut). Kalau tidak, tunggu beberapa detik.
+        var card = cardRoot != null ? cardRoot.GetComponent<ClientRequestCardView>() : null;
+        if (card != null && card.UsesTapToContinue)
+        {
+            bool go = false;
+            void OnContinue() => go = true;
+            card.ContinueRequested += OnContinue;
+            try { yield return new WaitUntil(() => go); }
+            finally { card.ContinueRequested -= OnContinue; }
+        }
+        else yield return new WaitForSeconds(cardSeconds);
 
         if (!Application.CanStreamedLevelBeLoaded(nextSceneName))
         {
