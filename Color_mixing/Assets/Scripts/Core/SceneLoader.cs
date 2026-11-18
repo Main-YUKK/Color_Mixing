@@ -28,6 +28,7 @@ public class SceneLoader : MonoBehaviour
     private readonly LoadGate gate = new LoadGate();
     private CanvasGroup group;
     private TMP_Text label;
+    private string labelBase = "Loading";   // teks di depan titik-titik: diambil dari teks di prefab LoadingScreen
     private bool loading;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -145,7 +146,7 @@ public class SceneLoader : MonoBehaviour
         // Titik-titik berjalan supaya terlihat tidak macet.
         if (!loading || label == null) return;
         int dots = (int)(Time.unscaledTime * DotsPerSecond) % 4;
-        label.text = "Loading" + new string('.', dots);
+        label.text = labelBase + new string('.', dots);
     }
 
     // ---------- Tampilan ----------
@@ -162,6 +163,8 @@ public class SceneLoader : MonoBehaviour
             group = instance.GetComponent<CanvasGroup>();
             if (group == null) group = instance.AddComponent<CanvasGroup>();
             label = instance.GetComponentInChildren<TMP_Text>(true);
+            // Ganti teks loading cukup di prefab (mis. "Sabar ya"); titik di ujungnya dibuang, animasinya tetap.
+            if (label != null && !string.IsNullOrWhiteSpace(label.text)) labelBase = label.text.TrimEnd('.', ' ', '\u2026');
         }
         else
         {
