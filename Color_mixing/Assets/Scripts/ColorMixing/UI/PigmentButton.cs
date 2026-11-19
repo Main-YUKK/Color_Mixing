@@ -13,6 +13,7 @@ public class PigmentButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     [SerializeField, Range(0, 1)] private int slot;
     [SerializeField] private float holdInterval = 0.2f;  // jeda antar unit saat ditahan
     [SerializeField] private Image icon;                 // splat warna pigmen (gambarnya diganti PigmentSlotView)
+    [SerializeField] private AudioClip pourClip;         // SFX tiap 1 unit cat masuk (AddColor)
 
     private Button button;
     private bool holding;
@@ -65,6 +66,7 @@ public class PigmentButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     private void Pour()
     {
         colorMixingController.AddPigment(Player, slot);
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySfx(pourClip);
         Poured?.Invoke();
     }
 

@@ -141,6 +141,7 @@ MonoBehaviour:
   slot: 0
   holdInterval: 0.2
   icon: {fileID: 3432155186588164117}
+  pourClip: {fileID: 8300000, guid: 5c64199a036544a769871c915b952b84, type: 3}
 --- !u!1 &5510773795172544545
 GameObject:
   m_ObjectHideFlags: 0

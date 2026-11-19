@@ -148,6 +148,7 @@ MonoBehaviour:
   friendPour: {x: 150, y: 320}
   swirlSpeed: 7
   revealDuration: 1.8
+  mixClip: {fileID: 8300000, guid: f7a21e73691444bf9a913cf23750248e, type: 3}
 --- !u!222 &6045339640966476945
 CanvasRenderer:
   m_ObjectHideFlags: 0

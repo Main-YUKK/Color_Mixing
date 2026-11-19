@@ -29,6 +29,7 @@ public class PaintBlobGraphic : MaskableGraphic
     private SoftBlobSim sim;
     [SerializeField] private float swirlSpeed = 7f;        // kecepatan pusaran saat reveal (radian per detik)
     [SerializeField] private float revealDuration = 1.8f;  // lama pusaran dan perubahan warna saat reveal (detik)
+    [SerializeField] private AudioClip mixClip;            // SFX saat pusaran campur dimulai (MixingSound)
 
     private bool revealing;     // fase reveal: semua blob dilebur jadi satu blob berwarna hasil campuran
     private Color revealColor;
@@ -97,6 +98,7 @@ public class PaintBlobGraphic : MaskableGraphic
     {
         revealing = true;
         revealTime = 0f;
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySfx(mixClip);
         revealColor = ColorMixer.Blend(colorMixingController.Palette, bowl.PigmentUnits);
 
         int keeper = 0;

@@ -13,6 +13,7 @@ public class FriendPourView : MonoBehaviour
     [SerializeField] private float peekDistance = 250f; // seberapa jauh botol turun ke dalam layar
     [SerializeField] private float stayTime = 0.6f;     // tetap terlihat selama ini setelah tuangan terakhir
     [SerializeField] private float moveSpeed = 2500f;
+    [SerializeField] private AudioClip pourClip;         // SFX saat teman menuang (AddColor)
 
     private RectTransform rect;
     private Vector2 hiddenPosition;
@@ -40,6 +41,7 @@ public class FriendPourView : MonoBehaviour
     private void OnPoured(int pigment, int pourer)
     {
         if (pourer < 0 || pourer / 2 == LocalPlayer.Index(player)) return;   // tuangan sendiri sudah digambar tangan
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySfx(pourClip);   // suara sendiri ada di PigmentButton
 
         Pigment p = colorMixingController.Palette.GetPigment(pigment);
         if (p.bottlePressed != null)

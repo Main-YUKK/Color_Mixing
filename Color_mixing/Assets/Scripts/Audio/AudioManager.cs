@@ -276,6 +276,7 @@ public class AudioManager : MonoBehaviour
         if (hits.Count == 0) return false;
 
         var button = hits[0].gameObject.GetComponentInParent<Button>();
-        return button != null && button.IsActive() && button.IsInteractable();
+        return button != null && button.IsActive() && button.IsInteractable()
+            && button.GetComponent<PigmentButton>() == null;   // tombol pigmen punya suara sendiri (AddColor)
     }
 }
