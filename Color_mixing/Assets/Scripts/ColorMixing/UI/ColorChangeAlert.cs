@@ -15,6 +15,7 @@ public class ColorChangeAlert : MonoBehaviour
     [SerializeField] private int dotCount = 3;
     [SerializeField] private float dotInterval = 0.3f;   // jeda antar titik muncul
     [SerializeField] private float duration = 1.5f;      // samakan dengan lama animasi rotasi di PigmentSlot
+    [SerializeField] private AudioClip changeClip;        // SFX saat pigmen dirotasi (ChangeColor)
 
     private float timeLeft;
 
@@ -32,6 +33,9 @@ public class ColorChangeAlert : MonoBehaviour
 
     private void OnRotated()
     {
+        // Sebelum cek IsReady: pemain yang sudah Campur tidak melihat alert, tapi botolnya tetap berganti.
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySfx(changeClip);
+
         if (colorMixingController.IsReady(Player)) return;
         timeLeft = duration;
         SetShown(true);
