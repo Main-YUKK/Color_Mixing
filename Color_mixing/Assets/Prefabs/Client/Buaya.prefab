@@ -249,7 +249,7 @@ MonoBehaviour:
       sprite: {fileID: 2739518020325168969, guid: bc0b63ca45de948ddae2cbd076a51d6a, type: 3}
       flipped: {fileID: 0}
     good:
-      sprite: {fileID: -1286438447521244941, guid: d91fc4fb4095f4c3992889d9f294243c, type: 3}
+      sprite: {fileID: 8905928499439382789, guid: 76405ec18af39469d876e4103505a9d3, type: 3}
       flipped: {fileID: 0}
     bad:
       sprite: {fileID: -494424321383196420, guid: 291cb12ce54a74b52b4d021f541ac955, type: 3}

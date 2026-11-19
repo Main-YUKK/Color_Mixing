@@ -23,6 +23,12 @@ public class ClientArrivalSequence : MonoBehaviour
     private Coroutine routine;
     private bool flowStopped;   // hari selesai / game over: klien yang masih berjalan masuk tidak boleh memunculkan kartu lagi
 
+    /// <summary>Kartu request tampil (klien mulai mengucapkan request).</summary>
+    public event System.Action CardShown;
+
+    /// <summary>Pemain lanjut dari kartu: scene berikutnya (ColorMixing) mulai dimuat.</summary>
+    public event System.Action NextSceneLoading;
+
     public CharacterSpawner Spawner => spawner;   // dipakai layar hasil untuk bereaksi pada klien yang sedang berdiri
 
     private void OnEnable()
@@ -95,6 +101,7 @@ public class ClientArrivalSequence : MonoBehaviour
         }
 
         if (cardRoot != null) cardRoot.SetActive(true);
+        CardShown?.Invoke();
 
         if (string.IsNullOrEmpty(nextSceneName)) yield break;
 
@@ -116,6 +123,7 @@ public class ClientArrivalSequence : MonoBehaviour
             yield break;
         }
 
+        NextSceneLoading?.Invoke();
         SceneManager.LoadScene(nextSceneName, LoadSceneMode.Additive);
     }
 }

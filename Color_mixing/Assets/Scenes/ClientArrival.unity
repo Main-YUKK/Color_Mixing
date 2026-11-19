@@ -355,6 +355,122 @@ PrefabInstance:
       propertyPath: requestCard
       value: 
       objectReference: {fileID: 603652666}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: failMessages.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'failMessages.Array.data[0]'
+      value: Warna najis ini mah tuh !!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'failMessages.Array.data[1]'
+      value: WARNA APAAN INI!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'failMessages.Array.data[2]'
+      value: Buset, kamu buta warna ya!???
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'failMessages.Array.data[3]'
+      value: Ini bukan warna yang kumaksud...
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'failMessages.Array.data[4]'
+      value: Kalau nyampur warna itu pake mata, bukan pake dengkul.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'failMessages.Array.data[5]'
+      value: JELEK BANGET, AKU VIRALIN YA KAMU!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'failMessages.Array.data[6]'
+      value: APAAN INI? 8@JI$%AN!!!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'failMessages.Array.data[7]'
+      value: Aku GAK AKAN balik sini lagi!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: successMessages.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: timeoutMessages.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'successMessages.Array.data[0]'
+      value: Suka Banget sama warnanya, sayangku, kew kew <3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'successMessages.Array.data[1]'
+      value: CANTIK BANGET, BESTIEE!!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'successMessages.Array.data[2]'
+      value: Tengks ya, bro!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'successMessages.Array.data[3]'
+      value: Mantap! Top Markotop!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'successMessages.Array.data[4]'
+      value: OMAIGAD BEB! CANTIK BANGET! Kamu ngerti aku banget deh <3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'successMessages.Array.data[5]'
+      value: Kalau aku tidak menikah, sudah kujadikan pasangan hidup kamu <3<3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'successMessages.Array.data[6]'
+      value: Hmmm...not bad, baby (dengan suara rendah alpha wolf)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'successMessages.Array.data[7]'
+      value: Emang boleh se-ahli ini???
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'successMessages.Array.data[8]'
+      value: Sekarang aku berani tampil seksi!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'successMessages.Array.data[9]'
+      value: Thank you bangetttttt!, kurekomendasiin kamu ke 10.000 followersku ya!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'timeoutMessages.Array.data[0]'
+      value: Lelet kali kauu!!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'timeoutMessages.Array.data[1]'
+      value: IH LAMA BANGET KAMU!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'timeoutMessages.Array.data[2]'
+      value: Lu pikir gue nganggur hah!?
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'timeoutMessages.Array.data[3]'
+      value: Woi!! Kerja yang cepet, BJIR LAH!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'timeoutMessages.Array.data[4]'
+      value: Mending cari tempat lain, BYE!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'timeoutMessages.Array.data[5]'
+      value: Ngapain aja sih kok lama banget??
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'timeoutMessages.Array.data[6]'
+      value: Nyampur warna atau masak rendang si kau? LELET!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: 'successMessages.Array.data[10]'
+      value: WOW, AMAZING~~ Bagus, Bang!!!
+      objectReference: {fileID: 0}
     - target: {fileID: 7300100000000000000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
       propertyPath: m_Name
       value: ClientResultPanel
@@ -468,21 +584,45 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5568958386993563193, guid: f381e91afdeba492cb651140110cce98, type: 3}
     - target: {fileID: 7300100000000009000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 605.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300100000000009000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 223.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300100000000009000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -0.86
       objectReference: {fileID: 0}
     - target: {fileID: 7300100000000009000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 56
+      value: 61.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300100000000011000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: m_fontSize
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 7300100000000011000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: 9d3bcef833fed4ce8ae48922c88f5b14, type: 2}
     - target: {fileID: 7300100000000011000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: m_lineSpacing
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300100000000011000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300100000000011000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 3807302467466967565, guid: 9d3bcef833fed4ce8ae48922c88f5b14, type: 2}
+    - target: {fileID: 7300100000000011000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+      propertyPath: m_characterSpacing
+      value: -6
+      objectReference: {fileID: 0}
     - target: {fileID: 7300100000000011000, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
@@ -1656,6 +1796,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3354428195508635037, guid: 31e1b0ace7dfa48048a7175e2ed513a9, type: 3}
   m_PrefabInstance: {fileID: 530500186}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &561706615 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6445029313736756621, guid: fa84b08b465976e0ea544068ec00c3a0, type: 3}
+  m_PrefabInstance: {fileID: 160782849}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d7ccbc6037e94be99866797f247fb8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::ClientResultView
 --- !u!1 &603652666 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 219958599879573470, guid: d4f1d2d3222e34145a53ce28db734f9c, type: 3}
@@ -2456,6 +2607,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1045415117}
   m_CullTransparentMesh: 1
+--- !u!1 &1055059883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1055059885}
+  - component: {fileID: 1055059884}
+  m_Layer: 0
+  m_Name: ClientArrivalAudio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1055059884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055059883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0d9df95204784abc9a89d3a8f51ff82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::ClientArrivalAudio
+  cycle: {fileID: 1858323252}
+  spawner: {fileID: 640845018}
+  resultView: {fileID: 561706615}
+  timer: {fileID: 0}
+  report: {fileID: 1152016212}
+  sequence: {fileID: 0}
+  clientEnter: {fileID: 8300000, guid: a209c4b424afa4473a4762473eaeac9b, type: 3}
+  clientLeave: {fileID: 8300000, guid: ba2ea40c872f542a8886fcc237ea62ce, type: 3}
+  customerSounds:
+  - {fileID: 8300000, guid: b702ee582b40b4289ac3a1000a17d4a7, type: 3}
+  - {fileID: 8300000, guid: f8a10b7a8530e4a5c9bd3043f5a56b2e, type: 3}
+  - {fileID: 8300000, guid: 54011df8e4a994d288e6b6fc5a13f874, type: 3}
+  - {fileID: 8300000, guid: 31738c7782a6f487b9482fe057bca345, type: 3}
+  - {fileID: 8300000, guid: 83b0b9f071bb34f809507c89dfc02271, type: 3}
+  - {fileID: 8300000, guid: b9fd6794b8e8c4ede9350472005b794c, type: 3}
+  - {fileID: 8300000, guid: ef640dfed468b4143a77cd6c2aa78051, type: 3}
+  - {fileID: 8300000, guid: 64005fae9fd0e4dbebcf20cc3ea9b424, type: 3}
+  feedbackGood: {fileID: 8300000, guid: 3e4fbf4ccfc644ce98f293d024250d3c, type: 3}
+  feedbackBad: {fileID: 8300000, guid: df91ebbabc6944becbbc5a8b2b24b422, type: 3}
+  timerUp: {fileID: 8300000, guid: ccaf3394dabaf447d9550e6319d0f331, type: 3}
+  lostHeart: {fileID: 8300000, guid: 1e7ede6a784944cea8131e424c30a03a, type: 3}
+  lifeRegenerate: {fileID: 8300000, guid: f0e3b7fc1cf3d41bcb24f287dfc860e3, type: 3}
+  changingDay: {fileID: 8300000, guid: 5aea502d5004040248c872306b464417, type: 3}
+  successReport: {fileID: 8300000, guid: 25828acdf969a4782a29b5169eac6f00, type: 3}
+  gameOver: {fileID: 8300000, guid: b823c9feab77047f294cc0cf69108c2d, type: 3}
+--- !u!4 &1055059885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055059883}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1468.959, y: 468.3348, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1094018172
 GameObject:
   m_ObjectHideFlags: 0
@@ -2498,6 +2718,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd253448bfd844f9b63a7abeb802712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClientRequestCardView
+--- !u!114 &1152016212 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8101122334455667788, guid: 31e1b0ace7dfa48048a7175e2ed513a9, type: 3}
+  m_PrefabInstance: {fileID: 530500186}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f80ceb8c350d945808edf091483c5c69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::EndOfDayReport
 --- !u!1 &1180166744
 GameObject:
   m_ObjectHideFlags: 0
@@ -3917,3 +4148,4 @@ SceneRoots:
   - {fileID: 1250642246}
   - {fileID: 1094018173}
   - {fileID: 908344860}
+  - {fileID: 1055059885}
