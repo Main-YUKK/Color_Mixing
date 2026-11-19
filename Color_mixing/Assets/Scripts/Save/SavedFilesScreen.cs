@@ -9,6 +9,7 @@ public class SavedFilesScreen : MonoBehaviour
     [SerializeField] private SaveCardView cardPrefab;
     [SerializeField] private Transform container;            // Content dari ScrollView (pakai Grid Layout Group)
     [SerializeField] private GameObject emptyText;           // opsional: "Belum ada file tersimpan"
+    [SerializeField] private GameObject[] emptyOnlyObjects;  // opsional: aset yang hanya tampil saat belum ada save (mis. Jamet)
 
     [Header("Konfirmasi hapus (opsional, kosong = langsung hapus)")]
     [SerializeField] private GameObject deletePanel;
@@ -39,7 +40,11 @@ public class SavedFilesScreen : MonoBehaviour
         saves.InsertRange(0, dummySaves);   // save palsu (tombol tes) tampil paling atas
 #endif
         Debug.Log($"[SavedFiles] {saves.Count} save(s) di {SaveService.Dir}");
-        if (emptyText != null) emptyText.SetActive(saves.Count == 0);
+        bool isEmpty = saves.Count == 0;
+        if (emptyText != null) emptyText.SetActive(isEmpty);
+        if (emptyOnlyObjects != null)
+            foreach (var obj in emptyOnlyObjects)
+                if (obj != null) obj.SetActive(isEmpty);
 
         foreach (var save in saves)
         {

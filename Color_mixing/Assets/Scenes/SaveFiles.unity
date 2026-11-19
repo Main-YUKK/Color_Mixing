@@ -577,7 +577,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 1053, y: 591}
-  m_Spacing: {x: 63, y: 91}
+  m_Spacing: {x: 80, y: 60}
   m_Constraint: 1
   m_ConstraintCount: 2
 --- !u!222 &477298120
@@ -1487,6 +1487,8 @@ MonoBehaviour:
   cardPrefab: {fileID: 2287374186208660124, guid: 4f13b9d17e82f4543bfc9819e824273a, type: 3}
   container: {fileID: 444779182}
   emptyText: {fileID: 573115088}
+  emptyOnlyObjects:
+  - {fileID: 121816941}
   deletePanel: {fileID: 693527780}
   deleteLabel: {fileID: 0}
   lobbySceneName: Lobby
