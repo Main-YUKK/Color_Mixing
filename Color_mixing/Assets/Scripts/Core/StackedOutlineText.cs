@@ -176,7 +176,14 @@ public class StackedOutlineText : MonoBehaviour
         _verts.Clear(); _indices.Clear(); _quads.Clear();
 
         Mesh source = _front.mesh;
-        if (source != null && source.vertexCount >= 4)
+
+        // Teks kosong: TMP tidak membersihkan mesh-nya, glyph lama masih ada di sana. Jangan dipakai.
+        var info = _front.textInfo;
+        int used = string.IsNullOrEmpty(_front.text) || info == null || info.characterCount == 0 || info.meshInfo.Length == 0
+            ? 0
+            : info.meshInfo[0].vertexCount;
+
+        if (source != null && used >= 4)
         {
             source.GetVertices(_sv);
             source.GetNormals(_sn);
@@ -185,7 +192,8 @@ public class StackedOutlineText : MonoBehaviour
             source.GetUVs(1, _suv1);
 
             // TMP keeps spare, zeroed quads in its mesh: only keep the real ones
-            for (int i = 0; i + 3 < _sv.Count; i += 4)
+            // hanya quad milik teks sekarang, bukan sisa teks sebelumnya yang lebih panjang
+            for (int i = 0; i + 3 < used && i + 3 < _sv.Count; i += 4)
                 if ((_sv[i] - _sv[i + 2]).sqrMagnitude > 1e-8f) _quads.Add(i);
         }
 
