@@ -178,93 +178,15 @@ public class LobbyScreen : MonoBehaviour
             var host = service.Players.Find(p => p.isHost);
             current = host != null ? $"Ruang {host.name}" : "";
         }
-        roomNameInput.text = current.Length > LobbyService.MaxRoomNameLength
-            ? current.Substring(0, LobbyService.MaxRoomNameLength)
-            : current;
         Refresh();
-        Canvas.ForceUpdateCanvases();   // layout pill sudah final sebelum keyboard muncul
-        roomNameInput.ActivateInputField();
-        StartCoroutine(MoveCaretToEndNextFrame());
+        PillInputStyle.BeginEdit(this, roomNameInput, current, LobbyService.MaxRoomNameLength);
     }
 
-    // TMP memasang caret/seleksi di frame setelah aktivasi; geser ke akhir teks seperti text field biasa.
-    private System.Collections.IEnumerator MoveCaretToEndNextFrame()
-    {
-        yield return null;
-        if (roomNameInput != null && roomNameInput.isFocused) roomNameInput.MoveTextEnd(false);
-    }
-
-    // Tampilan mode edit nama room: kartu putih (pill) bergaris hitam di posisi judul, teks hitam font
-    // Mister Licky Chops di tengah, caret terlihat, dan ketikan langsung tampil di kartu
-    // (input bawaan iOS di atas keyboard disembunyikan).
+    // Tampilan mode edit nama room: kartu putih (pill) di posisi judul, teks di tengah. Lihat PillInputStyle.
     private void StyleRoomNameInput()
     {
-        var input = roomNameInput;
-
-        // Kartu putih
-        if (input.targetGraphic is Image bg)
-        {
-            bg.color = Color.white;
-            if (bg.GetComponent<PillBackground>() == null) bg.gameObject.AddComponent<PillBackground>();
-        }
-
-        // Ukuran tetap di dalam RoomTitleGroup (HorizontalLayoutGroup), supaya kartu tidak melar mengikuti ketikan.
-        var le = input.GetComponent<LayoutElement>();
-        if (le == null) le = input.gameObject.AddComponent<LayoutElement>();
-        le.minWidth = le.preferredWidth = roomNameInputSize.x;
-        le.minHeight = le.preferredHeight = roomNameInputSize.y;
-        le.flexibleWidth = le.flexibleHeight = -1f;
-
-        // Area teks: jarak dari tepi pill (kiri/kanan cukup lebar supaya tidak menabrak lengkungan).
-        if (input.textViewport != null)
-        {
-            float padX = roomNameInputSize.y * 0.45f;
-            float padY = roomNameInputSize.y * 0.05f;
-            input.textViewport.anchorMin = Vector2.zero;
-            input.textViewport.anchorMax = Vector2.one;
-            input.textViewport.offsetMin = new Vector2(padX, padY);
-            input.textViewport.offsetMax = new Vector2(-padX, -padY);
-            var mask = input.textViewport.GetComponent<RectMask2D>();
-            if (mask != null) mask.padding = Vector4.zero;
-        }
-
-        TMP_FontAsset font = roomNameFont != null ? roomNameFont
-                           : input.textComponent != null ? input.textComponent.font : null;
-
-        StyleRoomNameLabel(input.textComponent, font, Color.black, FontStyles.Bold);
-        StyleRoomNameLabel(input.placeholder as TMP_Text, font, new Color(0f, 0f, 0f, 0.35f), FontStyles.Bold);
-        if (input.placeholder is TMP_Text ph) ph.text = "Ketik nama ruang...";
-
-        input.lineType = TMP_InputField.LineType.SingleLine;
-        input.richText = false;                 // "<b>" yang diketik tampil apa adanya
-        input.shouldHideMobileInput = true;     // ketikan tampil langsung di kartu, bukan di kotak iOS
-        input.onFocusSelectAll = false;         // caret di akhir teks, bukan blok seleksi semua
-        input.customCaretColor = true;
-        input.caretColor = Color.black;
-        input.caretWidth = 5;
-        input.caretBlinkRate = 0.85f;
-        input.selectionColor = new Color(0.66f, 0.81f, 1f, 0.75f);
-        input.restoreOriginalTextOnEscape = true;
-    }
-
-    private void StyleRoomNameLabel(TMP_Text label, TMP_FontAsset font, Color color, FontStyles style)
-    {
-        if (label == null) return;
-
-        if (font != null)
-        {
-            label.font = font;
-            label.fontSharedMaterial = font.material;   // material polos (tanpa outline putih)
-        }
-        label.color = color;
-        label.fontStyle = style;
-        label.enableAutoSizing = false;
-        label.fontSize = roomNameFontSize;
-        label.alignment = TextAlignmentOptions.Center;
-        label.textWrappingMode = TextWrappingModes.NoWrap;
-        label.overflowMode = TextOverflowModes.Overflow;
-        label.richText = false;
-        label.raycastTarget = false;
+        PillInputStyle.Apply(roomNameInput, roomNameFont, roomNameInputSize, roomNameFontSize,
+            TextAlignmentOptions.Center);
     }
 
     // Keyboard ditutup / fokus hilang: simpan nama (kosong = kembali ke default), lalu sembunyikan input.
