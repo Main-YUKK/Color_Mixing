@@ -26,11 +26,30 @@ public class CharacterSpawner : MonoBehaviour
     [Tooltip("Hops per second.")]
     public float bobSpeed = 4f;
 
+    [Header("Gap between clients")]
+    [Tooltip("Random pause (min, max seconds) after the old client has left, before the next one walks in. 0,0 = no pause. Not used for the first client.")]
+    public Vector2 spawnDelay = new Vector2(0.5f, 2f);
+
     [Header("Auto next customer (0 = only when SpawnNext() is called)")]
     public Vector2 stayTime = new Vector2(0f, 0f);
 
     /// <summary>Fired when the new client has reached the spot and can be judged (the timer starts here).</summary>
     public event Action OnClientArrived;
+
+    /// <summary>Fired when the new client appears and starts walking in (before OnClientArrived).</summary>
+    public event Action OnClientEntering;
+
+    /// <summary>Fired when a client starts walking out (replaced by a new one, or end of day).</summary>
+    public event Action OnClientLeaving;
+
+    /// <summary>Fired when a leaving client reaches the door (right before they are removed).</summary>
+    public event Action OnClientExited;
+
+    /// <summary>Fired when a leaving client is Exit Sound Distance away from the door (the leave sound hooks here).</summary>
+    public event Action OnClientNearExit;
+
+    [Tooltip("Leave sound: fires when the leaving client is this many units from the exit point. 0 = at the exit point.")]
+    public float exitSoundDistance = 2f;
 
     GameObject current;
     public GameObject Current => current;
@@ -111,6 +130,10 @@ public class CharacterSpawner : MonoBehaviour
         {
             if (walk) yield return SendOff();
             else { Destroy(current); current = null; }
+
+            // Short pause with the door empty before the next client appears.
+            float gap = Random.Range(Mathf.Min(spawnDelay.x, spawnDelay.y), Mathf.Max(spawnDelay.x, spawnDelay.y));
+            if (gap > 0f) yield return new WaitForSeconds(gap);
         }
 
         // new client arrives
@@ -123,6 +146,7 @@ public class CharacterSpawner : MonoBehaviour
             hair.ApplyBodyVariant(look.bodyVariant);
         }
         nativeSign = Mathf.Sign(current.transform.localScale.x);
+        OnClientEntering?.Invoke();
         entryDirX = t.position.x - startPos.x;
         if (walk) yield return Walk(current, t.position);
 
@@ -154,11 +178,14 @@ public class CharacterSpawner : MonoBehaviour
     {
         if (current == null) yield break;
 
+        OnClientLeaving?.Invoke();
         if (walk)
         {
             Face(current, ExitPos.x - StandPos.x);      // face the door so they don't walk backward
-            yield return Walk(current, ExitPos);
+            yield return Walk(current, ExitPos, exitSoundDistance, OnClientNearExit);
         }
+        else OnClientNearExit?.Invoke();
+        OnClientExited?.Invoke();
         if (current != null) Destroy(current);
         current = null;
     }
@@ -174,20 +201,24 @@ public class CharacterSpawner : MonoBehaviour
     }
 
     // Moves the character in a straight line at walkSpeed, hopping up and down on the way.
-    IEnumerator Walk(GameObject go, Vector3 target)
+    // onNear (optional) fires once when the character is within nearDistance of the target, or on arrival if never closer.
+    IEnumerator Walk(GameObject go, Vector3 target, float nearDistance = 0f, Action onNear = null)
     {
         Vector3 basePos = go.transform.position;
         float bobTime = 0f;
+        bool nearFired = onNear == null;
 
         while (go != null && (basePos - target).sqrMagnitude > 0.0001f)
         {
             basePos = Vector3.MoveTowards(basePos, target, walkSpeed * Time.deltaTime);
+            if (!nearFired && (basePos - target).magnitude <= nearDistance) { nearFired = true; onNear(); }
             bobTime += Time.deltaTime;
             float hop = Mathf.Abs(Mathf.Sin(bobTime * bobSpeed * Mathf.PI)) * bobHeight;
             go.transform.position = basePos + Vector3.up * hop;
             yield return null;
         }
 
+        if (!nearFired) onNear();
         if (go != null) go.transform.position = target;     // land exactly on the spot
     }
 }
