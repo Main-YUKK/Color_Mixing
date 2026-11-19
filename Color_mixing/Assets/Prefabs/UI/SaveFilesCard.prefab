@@ -63,6 +63,9 @@ MonoBehaviour:
   openButton: {fileID: 5835771622771136961}
   renameButton: {fileID: 610831791616935805}
   deleteButton: {fileID: 3353553190484878952}
+  nameFont: {fileID: 11400000, guid: 46d0445707ad44d438a3341ab2886519, type: 2}
+  nameInputSize: {x: 800, y: 100}
+  nameFontSize: 64
 --- !u!1 &3467086577451678265
 GameObject:
   m_ObjectHideFlags: 0
