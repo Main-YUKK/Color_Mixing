@@ -21,12 +21,44 @@ public class ClientResultView : MonoBehaviour
     [SerializeField] private string successMessage = "Suka Banget sama warnanya, sayangku. Kew Kew <3";
     [SerializeField] private string failMessage = "Warna Najis ini mah tuh !!";
     [SerializeField] private string timeoutMessage = "Lelet kali kauu!!!";
+    [Header("Ucapan acak (opsional)")]
+    [Tooltip("Isi beberapa kalimat: tiap kali dipilih satu secara acak (tidak sama dua kali berturut-turut). Kosong = pakai kalimat tunggal di atas.")]
+    [SerializeField, TextArea(1, 3)] private string[] successMessages;
+    [Tooltip("Klien marah karena warna tidak cocok.")]
+    [SerializeField, TextArea(1, 3)] private string[] failMessages;
+    [Tooltip("Klien marah karena waktu habis.")]
+    [SerializeField, TextArea(1, 3)] private string[] timeoutMessages;
+
+    [Header("Waktu tampil")]
     [SerializeField] private float showSeconds = 3f;
     [SerializeField, Range(0f, 100f)] private float passingScore = 80f;   // skor minimal agar klien puas (%)
     [Tooltip("Asap di rambut klien sebelum warnanya berubah. Kosongkan Sprite untuk langsung ganti tanpa animasi.")]
     [SerializeField] private HairPoof.Settings poof = new HairPoof.Settings();
     [Tooltip("Jeda setelah asap hilang sebelum panel hasil muncul, supaya rambut baru sempat terlihat.")]
     [SerializeField] private float afterPoofSeconds = 0.4f;
+
+    /// <summary>Panel hasil terbuka: true = klien puas, false = gagal atau waktu habis.</summary>
+    public event Action<bool> FeedbackShown;
+
+    private int lastSuccess = -1, lastFail = -1, lastTimeout = -1;
+
+    // Satu kalimat acak dari daftar (baris kosong dilewati, tidak sama dengan yang terakhir kalau ada pilihan lain).
+    // Daftar kosong = kalimat tunggal lama, jadi isian di scene yang sudah ada tetap dipakai.
+    private static string Pick(string[] options, string fallback, ref int last)
+    {
+        if (options == null) return fallback;
+
+        var valid = new System.Collections.Generic.List<int>();
+        for (int i = 0; i < options.Length; i++)
+            if (!string.IsNullOrWhiteSpace(options[i])) valid.Add(i);
+        if (valid.Count == 0) return fallback;
+
+        int pick = valid[UnityEngine.Random.Range(0, valid.Count)];
+        if (valid.Count > 1 && pick == last)
+            pick = valid[(valid.IndexOf(pick) + 1 + UnityEngine.Random.Range(0, valid.Count - 1)) % valid.Count];
+        last = pick;
+        return options[pick];
+    }
 
     private void OnEnable()
     {
@@ -70,7 +102,7 @@ public class ClientResultView : MonoBehaviour
         yield return HairPoof.Play(this, sequence.Spawner.Current, poof, () => ReactClient(success, applied));
         if (afterPoofSeconds > 0f) yield return new WaitForSeconds(afterPoofSeconds);
 
-        Open(success ? successMessage : failMessage, () => cycle.OnFeedbackRevealed(success));
+        Open(success, success ? Pick(successMessages, successMessage, ref lastSuccess) : Pick(failMessages, failMessage, ref lastFail), () => cycle.OnFeedbackRevealed(success));
     }
 
     private void ShowTimeout()
@@ -80,7 +112,7 @@ public class ClientResultView : MonoBehaviour
 
         ReactClient(false, null);   // timeout: klien kesal, rambut tidak diwarnai
         Debug.Log("[REQ] Timer habis");
-        Open(timeoutMessage, cycle.OnClientTimeout);
+        Open(false, Pick(timeoutMessages, timeoutMessage, ref lastTimeout), cycle.OnClientTimeout);
     }
 
     // Klien yang sedang berdiri: rambut jadi warna campuran (kalau ada), ekspresi senang / kesal sampai dia pergi.
@@ -95,8 +127,9 @@ public class ClientResultView : MonoBehaviour
             expression.Show(success);
     }
 
-    private void Open(string message, Action finish)
+    private void Open(bool good, string message, Action finish)
     {
+        FeedbackShown?.Invoke(good);
         speechText.text = message;
         requestCard.SetActive(false);
         content.SetActive(true);

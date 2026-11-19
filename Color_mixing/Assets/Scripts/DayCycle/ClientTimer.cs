@@ -41,6 +41,9 @@ public class ClientTimer : MonoBehaviour
         HostTimedOut = null;
     }
 
+    // Timer dihentikan sebelum habis (mis. pemain sudah Apply) atau disembunyikan karena klien berganti.
+    public event Action Stopped;
+
     public event Action TimedOut;   // kalau ada pendengar, dia yang memanggil OnClientTimeout setelah ucapan tampil
 
     // Sisa waktu klien 0-1 (1 = penuh, 0 = habis), untuk timer bar di scene lain (ColorMixing).
@@ -159,6 +162,7 @@ public class ClientTimer : MonoBehaviour
         introLeft = 0f;
         delayLeft = -1f;
         startRequested = false;
+        Stopped?.Invoke();
     }
 
     // Klien baru diminta / hari selesai: timer berhenti dan disembunyikan sampai kartu berikutnya muncul.

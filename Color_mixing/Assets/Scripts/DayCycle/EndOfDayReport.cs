@@ -45,6 +45,9 @@ public class EndOfDayReport : MonoBehaviour
     [SerializeField] private UnityEvent onStamped;
     [SerializeField] private UnityEvent onSaved;
 
+    // Cap SUKSES menghantam (untuk suara dari kode; UnityEvent di atas tetap bisa dipakai di Inspector).
+    public event System.Action Stamped;
+
     private Coroutine autoNext;
     private Coroutine pendingShow;
     private Coroutine sequence;
@@ -131,6 +134,7 @@ public class EndOfDayReport : MonoBehaviour
             yield return Wait(stampDelay);
             stamp.SetActive(true);
             onStamped?.Invoke();
+            Stamped?.Invoke();
             yield return Slam(stamp.transform, 2.2f, stampSeconds);
         }
 

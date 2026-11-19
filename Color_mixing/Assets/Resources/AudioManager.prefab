@@ -24,6 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7100000000000000001}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -45,5 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::AudioManager
   buttonClip: {fileID: 8300000, guid: 47581f504075e4950a1ce19761a6c353, type: 3}
   bgmClip: {fileID: 8300000, guid: f065cfc8758e5465b97d51d175fa3be8, type: 3}
+  clientArrivalBgmClip: {fileID: 8300000, guid: 3ca933533ba59485ea252166d6069a30, type: 3}
   sfxVolume: 1
   bgmVolume: 0.6
