@@ -7,6 +7,9 @@ public class FriendPourView : MonoBehaviour
 {
     [SerializeField] private ColorMixingController colorMixingController;
     [SerializeField, Range(0, 2)] private int player;   // cadangan nomor pemain saat tes tanpa jaringan
+    // Botol ini milik teman yang mana: 1 = pemain setelah kita (kanan atas), 2 = pemain setelahnya (kiri atas).
+    // Harus sama dengan arah blob di PaintBlobGraphic (friendPour / secondFriendPour).
+    [SerializeField, Range(1, 2)] private int friend = 1;
     [SerializeField] private Image bottle;
     [SerializeField] private RectTransform dropSpawn;   // mulut botol
     [SerializeField] private PaintDrops paintDrops;
@@ -37,10 +40,11 @@ public class FriendPourView : MonoBehaviour
         dropPending = false;
     }
 
-    // ponytail: satu botol untuk semua teman; kalau dua teman menuang bersamaan, botol menampilkan yang terakhir.
+    // Satu botol per teman. Tuangan sendiri sudah digambar tangan, tuangan teman lain ditangani botol satunya.
     private void OnPoured(int pigment, int pourer)
     {
-        if (pourer < 0 || pourer / 2 == LocalPlayer.Index(player)) return;   // tuangan sendiri sudah digambar tangan
+        int owner = (LocalPlayer.Index(player) + friend) % PigmentAssignment.PlayerCount;
+        if (pourer < 0 || pourer / 2 != owner) return;
         if (AudioManager.Instance != null) AudioManager.Instance.PlaySfx(pourClip);   // suara sendiri ada di PigmentButton
 
         Pigment p = colorMixingController.Palette.GetPigment(pigment);
