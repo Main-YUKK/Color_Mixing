@@ -53,6 +53,7 @@ jobs:
           projectPath: ${{ env.PROJECT_DIR }}
           targetPlatform: iOS
           unityVersion: auto
+          cliVersion: v0.1.77
 
       # 4. Check Xcode build output
       - name: List build output
