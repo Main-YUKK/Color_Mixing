@@ -22,7 +22,10 @@ jobs:
   build-and-deploy:
     name: Build Unity, sign & upload to External TestFlight
 
-    runs-on: macos-latest
+    # macOS diperlukan untuk post-build plugin Apple.
+    # Pakai image xcode-27: macos-latest masih default ke Xcode 26.x (iOS 26 SDK),
+    # sedangkan mulai April 2027 App Store Connect mewajibkan iOS 27 SDK (ITMS-90725).
+    runs-on: xcode-27
     timeout-minutes: 90
 
     steps:
@@ -62,7 +65,16 @@ jobs:
           find . -maxdepth 4 -name "*.xcodeproj" \
             -not -path "./.git/*" || true
 
-      # 5. Setup Ruby & Bundler
+      # 5. Pilih Xcode 27 (iOS 27 SDK) secara eksplisit agar tidak ikut default image
+      - name: Select Xcode 27
+        run: |
+          sudo xcode-select -s "/Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer"
+          xcodebuild -version
+          xcodebuild -showsdks | grep -i iphoneos
+        env:
+          XCODE_VERSION: '27.1'
+
+      # 6. Setup Ruby & Bundler
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -70,7 +82,7 @@ jobs:
           bundler-cache: true
           working-directory: ${{ env.PROJECT_DIR }}
 
-      # 6. Fastlane External Beta
+      # 7. Fastlane External Beta
       - name: Fastlane External Beta
         working-directory: ${{ env.PROJECT_DIR }}
         run: bundle exec fastlane ios beta_external
