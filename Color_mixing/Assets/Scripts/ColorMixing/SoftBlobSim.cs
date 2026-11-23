@@ -39,7 +39,9 @@ public sealed class SoftBlobSim
     private const float CreaseRange = 0.6f;     // penguatan bertahap, supaya titik tidak bergetar di ambang sudut
     private const float CreaseStrength = 0.8f;
     private const float SpawnRadiusRatio = 0.05f;
-    private const int SpawnTries = 25;          // posisi tepi yang dicoba saat mencari celah (25 x 15° = satu putaran)
+    // Posisi tepi yang dicoba saat mencari celah, terdekat dulu: 0, ±15, ±30, ... sampai satu putaran (25 x 15°).
+    // Jangan dibatasi lebih sempit: dua pigmen baru dari satu teman (dua tombol ditahan) bisa jatuh bertumpuk lagi.
+    private const int SpawnTries = 25;
     private const float SpawnStep = MathF.PI / 12f;
     private const float RemoveRadiusRatio = 0.06f; // blob tanpa unit dibuang saat sudah sekecil ini
 

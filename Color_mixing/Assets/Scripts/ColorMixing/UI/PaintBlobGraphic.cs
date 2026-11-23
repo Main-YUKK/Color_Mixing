@@ -22,7 +22,8 @@ public class PaintBlobGraphic : MaskableGraphic
     [SerializeField, Range(0, 2)] private int player;                    // cadangan nomor pemain saat tes tanpa jaringan
     [SerializeField] private Vector2 leftPour = new Vector2(-300f, 160f);  // tangan kiri (slot 0)
     [SerializeField] private Vector2 rightPour = new Vector2(320f, 120f);  // tangan kanan (slot 1)
-    [SerializeField] private Vector2 friendPour = new Vector2(150f, 320f); // pemain lain, dari atas
+    [SerializeField] private Vector2 friendPour = new Vector2(150f, 320f); // teman pertama (pemain setelah kita), dari atas
+    [SerializeField] private Vector2 secondFriendPour = new Vector2(-150f, 320f); // teman kedua: arahnya beda supaya blob baru tidak lahir bertumpuk
 
     private readonly Vector2[] ring = new Vector2[RingCount];
     private readonly Vector2[] normals = new Vector2[RingCount];
@@ -111,12 +112,15 @@ public class PaintBlobGraphic : MaskableGraphic
     }
 
     // Host mencatat siapa yang terakhir menuang tiap pigmen. Tangan sendiri: kiri untuk slot 0, kanan untuk slot 1.
-    // Selain itu (pemain lain, atau belum diketahui) dianggap dituang dari atas.
+    // Teman dituang dari atas, masing-masing dari sisi sendiri. Belum diketahui -> dianggap teman pertama.
     private Vector2 PourSource(int pigment)
     {
         int pourer = colorMixingController.LastPourer(pigment);
-        if (pourer < 0 || pourer / 2 != LocalPlayer.Index(player)) return friendPour;
-        return pourer % 2 == 0 ? leftPour : rightPour;
+        if (pourer < 0) return friendPour;
+
+        int me = LocalPlayer.Index(player);
+        if (pourer / 2 == me) return pourer % 2 == 0 ? leftPour : rightPour;
+        return (pourer / 2 - me + PigmentAssignment.PlayerCount) % PigmentAssignment.PlayerCount == 1 ? friendPour : secondFriendPour;
     }
 
     private void Update()
