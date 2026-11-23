@@ -57,6 +57,21 @@ public class SoftBlobSimTests
             Assert.AreEqual(1, WindingCount(blob));
     }
 
+    // Regresi (bug 3 pemain): dua pigmen baru dari arah yang sama di frame yang sama lahir bertumpuk,
+    // satu tertelan di dalam yang lain selamanya -> blob luar bergerigi dan berhenti membesar.
+    [Test]
+    public void DuaBlobBaruDariArahSamaTidakSalingMenelan()
+    {
+        var sim = new SoftBlobSim(346f);
+        sim.SetUnits(3, 1, -300f, 160f);
+        sim.SetUnits(0, 4, -300f, 160f);
+        for (int i = 0; i < 180; i++) sim.Step(1f / 60f);
+
+        foreach (SoftBlobSim.Blob a in sim.Blobs)
+            foreach (SoftBlobSim.Blob b in sim.Blobs)
+                if (a != b) Assert.Less(PointsInside(a, b), SoftBlobSim.PointCount / 2, $"blob {a.Id} tertelan blob {b.Id}");
+    }
+
     [Test]
     public void BlobBaruMunculDariArahTuangan()
     {
@@ -90,6 +105,22 @@ public class SoftBlobSimTests
         Assert.AreEqual(1, sim.Blobs.Count);
         Assert.AreEqual(1, WindingCount(sim.Blobs[0]));
         Assert.AreEqual(1f, SoftBlobSim.Area(sim.Blobs[0]) / (0.95f * MathF.PI * radius * radius), 0.02f);
+    }
+
+    // Jumlah titik `a` yang berada di dalam `b` (point-in-polygon).
+    private static int PointsInside(SoftBlobSim.Blob a, SoftBlobSim.Blob b)
+    {
+        int n = SoftBlobSim.PointCount, count = 0;
+        for (int p = 0; p < n; p++)
+        {
+            bool inside = false;
+            for (int i = 0, j = n - 1; i < n; j = i++)
+                if ((b.Y[i] > a.Y[p]) != (b.Y[j] > a.Y[p]) &&
+                    a.X[p] < (b.X[j] - b.X[i]) * (a.Y[p] - b.Y[i]) / (b.Y[j] - b.Y[i]) + b.X[i])
+                    inside = !inside;
+            if (inside) count++;
+        }
+        return count;
     }
 
     private static int WindingCount(SoftBlobSim.Blob blob)
