@@ -46,7 +46,9 @@ jobs:
       - name: Build Unity iOS
         uses: game-ci/unity-builder@v6
         env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          # Jangan set UNITY_LICENSE (.ulf): di unity-builder v6 file .ulf diprioritaskan
+          # dan aktivasi manual sudah ditolak Unity untuk lisensi Personal
+          # ("TimeStamp validation failed"). Pakai aktivasi personal via email + password.
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
