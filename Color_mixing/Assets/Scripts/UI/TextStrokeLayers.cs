@@ -256,7 +256,19 @@ public class TextStrokeLayers : MonoBehaviour
     {
         if (target == null) return;
 
-        if (Application.isPlaying) Destroy(target);
-        else DestroyImmediate(target);
+        if (Application.isPlaying)
+        {
+            Destroy(target);
+            return;
+        }
+
+#if UNITY_EDITOR
+        // DestroyImmediate dilarang saat parent sedang aktif/nonaktif (mis. scene ditutup),
+        // jadi ditunda ke tick editor berikutnya.
+        UnityEditor.EditorApplication.delayCall += () =>
+        {
+            if (target != null) DestroyImmediate(target);
+        };
+#endif
     }
 }
