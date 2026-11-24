@@ -186,7 +186,7 @@ public class JoinPopup : MonoBehaviour
         string code = codeInput.text;
         if (code == null || code.Length != 5)
         {
-            errorText.text = "Masukkan 5 digit kode room.";
+            errorText.text = "Masukkan 5 digit kode ruang.";
             return;
         }
 
@@ -207,13 +207,13 @@ public class JoinPopup : MonoBehaviour
         // Jangan pindah scene dulu: tunggu host benar-benar ditemukan.
         codeInput.interactable = false;
         if (joinButton != null) joinButton.interactable = false;
-        errorText.text = "Mencari room...";
+        errorText.text = "Mencari ruang...";
     }
 
     private void HandleJoinConfirmed()
     {
         // Nama scene salah / belum masuk Build Settings: LoadScene diam-diam gagal dan popup
-        // tertahan di "Mencari room..." padahal di host pemain ini sudah masuk. Batalkan join-nya.
+        // tertahan di "Mencari ruang..." padahal di host pemain ini sudah masuk. Batalkan join-nya.
         if (!Application.CanStreamedLevelBeLoaded(lobbySceneName))
         {
             Debug.LogError($"[JoinPopup] Scene '{lobbySceneName}' tidak ada di Build Settings. Cek field 'Lobby Scene Name'.", this);

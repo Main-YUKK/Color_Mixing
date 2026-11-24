@@ -141,7 +141,7 @@ public class LobbyService : MonoBehaviour
     }
 
     // Alasan OnRoomClosed saat host keluar dari lobby yang sudah terkumpul (dipakai LobbyScreen untuk menampilkan alert).
-    public const string HostLeftReason = "Host keluar dari room.";
+    public const string HostLeftReason = "Host keluar dari ruang.";
 
     private void RaiseRoomClosed(string reason)
     {
@@ -488,7 +488,7 @@ public class LobbyService : MonoBehaviour
     {
         yield return new WaitForSeconds(EditorJoinTimeoutSeconds);
         if (mySession != session || Mode != LobbyMode.Client || joinConfirmed) yield break;
-        Fail("Room tidak ditemukan.");
+        Fail("Ruang tidak ditemukan.");
     }
 #else
     // useTimeout: false saat menyusun ulang (host masih hidup, jadi client boleh menunggu).
@@ -517,7 +517,7 @@ public class LobbyService : MonoBehaviour
                         if (mySession != session) return;
                         Log($"Timeout {JoinTimeoutSeconds}s mencari kode {RoomCode}");
                         try { GKMatchmaker.Shared.Cancel(); } catch { }
-                        Fail("Room tidak ditemukan atau sudah penuh.");
+                        Fail("Ruang tidak ditemukan atau sudah penuh.");
                     });
                     return;
                 }
@@ -533,7 +533,7 @@ public class LobbyService : MonoBehaviour
             {
                 if (mySession != session) return;
                 Log("Matchmaking gagal: " + error);
-                Fail("Gagal terhubung ke room.");
+                Fail("Gagal terhubung ke ruang.");
             });
         }
     }

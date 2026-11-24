@@ -294,7 +294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 688741530742420110, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 63
+      value: 88
       objectReference: {fileID: 0}
     - target: {fileID: 1592622727438657003, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -368,6 +368,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 800.84
       objectReference: {fileID: 0}
+    - target: {fileID: 4126742457392993816, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1083250322625955534, guid: f5e35535053be4baa8712ce70c8e2e1f, type: 3}
     - target: {fileID: 7558383148396806952, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
       propertyPath: m_Name
       value: PlayerSlot_P2
@@ -1680,7 +1684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 688741530742420110, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 63
+      value: 88
       objectReference: {fileID: 0}
     - target: {fileID: 1592622727438657003, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1758,6 +1762,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 800.84
       objectReference: {fileID: 0}
+    - target: {fileID: 4126742457392993816, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1083250322625955534, guid: f5e35535053be4baa8712ce70c8e2e1f, type: 3}
     - target: {fileID: 7558383148396806952, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
       propertyPath: m_Name
       value: PlayerSlot_P3
@@ -2951,7 +2959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 688741530742420110, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 63
+      value: 88
       objectReference: {fileID: 0}
     - target: {fileID: 1592622727438657003, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3025,6 +3033,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 800.84
       objectReference: {fileID: 0}
+    - target: {fileID: 4126742457392993816, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1083250322625955534, guid: f5e35535053be4baa8712ce70c8e2e1f, type: 3}
     - target: {fileID: 7558383148396806952, guid: 3c9de18d1305a44788091f67e67f7c9c, type: 3}
       propertyPath: m_Name
       value: PlayerSlot_Host
