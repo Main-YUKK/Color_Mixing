@@ -278,6 +278,15 @@ public class StackedOutlineText : MonoBehaviour
     static void Kill(Object o)
     {
         if (o == null) return;
-        if (Application.isPlaying) Destroy(o); else DestroyImmediate(o);
+        if (Application.isPlaying) { Destroy(o); return; }
+
+#if UNITY_EDITOR
+        // DestroyImmediate dilarang saat parent sedang aktif/nonaktif (mis. scene ditutup),
+        // jadi ditunda ke tick editor berikutnya.
+        UnityEditor.EditorApplication.delayCall += () =>
+        {
+            if (o != null) DestroyImmediate(o);
+        };
+#endif
     }
 }

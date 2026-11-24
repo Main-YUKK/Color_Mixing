@@ -39,6 +39,10 @@ public sealed class SoftBlobSim
     private const float CreaseRange = 0.6f;     // penguatan bertahap, supaya titik tidak bergetar di ambang sudut
     private const float CreaseStrength = 0.8f;
     private const float SpawnRadiusRatio = 0.05f;
+    // Posisi tepi yang dicoba saat mencari celah, terdekat dulu: 0, ±15, ±30, ... sampai satu putaran (25 x 15°).
+    // Jangan dibatasi lebih sempit: dua pigmen baru dari satu teman (dua tombol ditahan) bisa jatuh bertumpuk lagi.
+    private const int SpawnTries = 25;
+    private const float SpawnStep = MathF.PI / 12f;
     private const float RemoveRadiusRatio = 0.06f; // blob tanpa unit dibuang saat sudah sekecil ini
 
     private readonly float plateRadius;
@@ -164,10 +168,20 @@ public sealed class SoftBlobSim
     {
         var b = new Blob(id, PointCount);
         float r = plateRadius * SpawnRadiusRatio;
-        // Selalu muncul di tepi piring: blob baru yang lahir di dalam blob lain bisa melilit dua putaran.
-        float dist = MathF.Max(MathF.Sqrt(cx * cx + cy * cy), 1f);
-        cx *= (plateRadius - r) / dist;
-        cy *= (plateRadius - r) / dist;
+        // Selalu muncul di tepi piring, di celah kosong terdekat dari arah tuangan.
+        // Blob yang lahir di dalam blob lain tertelan: tidak bisa keluar, dan blob luarnya jadi bergerigi dan berhenti membesar.
+        // Contoh: dua pigmen baru dari arah yang sama di frame yang sama. Tepi penuh -> tetap di arah tuangan.
+        float rim = plateRadius - r;
+        float angle = MathF.Atan2(cy, cx);
+        for (int k = 0; k < SpawnTries; k++)
+        {
+            float offset = (k + 1) / 2 * SpawnStep * (k % 2 == 0 ? 1f : -1f);   // 0, -1, +1, -2, +2, ... langkah
+            if (!IsFree(rim * MathF.Cos(angle + offset), rim * MathF.Sin(angle + offset), r)) continue;
+            angle += offset;
+            break;
+        }
+        cx = rim * MathF.Cos(angle);
+        cy = rim * MathF.Sin(angle);
         for (int i = 0; i < PointCount; i++)
         {
             float t = i / (float)PointCount * 2f * MathF.PI;
@@ -177,6 +191,19 @@ public sealed class SoftBlobSim
         b.TargetArea = Area(b);
         blobs.Add(b);
         return b;
+    }
+
+    // Lingkaran spawn (pusat + 8 titik tepinya) tidak menyentuh blob mana pun.
+    private bool IsFree(float cx, float cy, float r)
+    {
+        for (int k = 0; k <= 8; k++)
+        {
+            float t = k / 8f * 2f * MathF.PI;
+            float x = k == 8 ? cx : cx + r * MathF.Cos(t);
+            float y = k == 8 ? cy : cy + r * MathF.Sin(t);
+            foreach (Blob other in blobs) if (Contains(other, x, y)) return false;
+        }
+        return true;
     }
 
     private void UpdateGoals()
