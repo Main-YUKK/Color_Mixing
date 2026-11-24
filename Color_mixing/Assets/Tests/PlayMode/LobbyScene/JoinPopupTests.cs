@@ -201,7 +201,7 @@ public class JoinPopupTests
 
         JoinWith(code);
 
-        Assert.AreEqual("Masukkan 5 digit kode room.", errorText.text);
+        Assert.AreEqual("Masukkan 5 digit kode ruang.", errorText.text);
         Assert.AreEqual(LobbyMode.None, service.Mode);
         Assert.IsTrue(codeInput.interactable, "form tidak terkunci");
     }
@@ -215,7 +215,7 @@ public class JoinPopupTests
 
         Assert.AreEqual(LobbyMode.Client, service.Mode);
         Assert.AreEqual("12345", service.RoomCode);
-        Assert.AreEqual("Mencari room...", errorText.text);
+        Assert.AreEqual("Mencari ruang...", errorText.text);
         Assert.IsFalse(codeInput.interactable);
         Assert.IsFalse(joinButton.interactable);
         Assert.IsTrue(popupGo.activeSelf, "popup tetap terbuka sampai host ditemukan");
