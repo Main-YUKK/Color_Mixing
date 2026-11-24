@@ -11,7 +11,7 @@ public class ClientPortrait : MonoBehaviour
     [SerializeField] private GameObject[] fallbackPrefabs;
     [Tooltip("Tes tanpa ClientArrival: index di Fallback Prefabs yang ditampilkan. -1 = acak.")]
     [SerializeField] private int testPrefabIndex = -1;
-    [SerializeField] private int textureSize = 512;
+    [SerializeField] private int textureSize = 1024;
 
     [Header("Framing (bisa diubah saat Play)")]
     [Tooltip("Makin kecil makin dekat (zoom in).")]
@@ -35,7 +35,16 @@ public class ClientPortrait : MonoBehaviour
         if (copy == null) return;
         focus = copy.transform.Find(FocusName);
 
-        texture = new RenderTexture(textureSize, textureSize, 24, RenderTextureFormat.ARGB32) { name = "ClientPortrait" };
+        // MSAA + mipmap: tanpa ini lineart bergerigi di layar Retina, terutama di tombol kecil (RT dikecilkan).
+        // Mipmap butuh ukuran pangkat dua, jadi Texture Size harus 256/512/1024/...
+        texture = new RenderTexture(textureSize, textureSize, 24, RenderTextureFormat.ARGB32)
+        {
+            name = "ClientPortrait",
+            antiAliasing = 4,
+            useMipMap = Mathf.IsPowerOfTwo(textureSize),
+            autoGenerateMips = true,
+            filterMode = FilterMode.Trilinear
+        };
         cam = new GameObject("ClientPortraitCamera").AddComponent<Camera>();
         cam.orthographic = true;
         cam.clearFlags = CameraClearFlags.SolidColor;
