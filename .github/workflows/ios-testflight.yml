@@ -22,8 +22,10 @@ jobs:
   build-and-deploy:
     name: Build Unity, sign & upload to Internal TestFlight
 
-    # macOS diperlukan untuk post-build plugin Apple
-    runs-on: macos-latest
+    # macOS diperlukan untuk post-build plugin Apple.
+    # Pakai image xcode-27: macos-latest masih default ke Xcode 26.x (iOS 26 SDK),
+    # sedangkan mulai April 2027 App Store Connect mewajibkan iOS 27 SDK (ITMS-90725).
+    runs-on: xcode-27
     timeout-minutes: 90
 
     steps:
@@ -44,15 +46,18 @@ jobs:
 
       # 3. Build Unity iOS
       - name: Build Unity iOS
-        uses: game-ci/unity-builder@v4
+        uses: game-ci/unity-builder@v6
         env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          # Jangan set UNITY_LICENSE (.ulf): di unity-builder v6 file .ulf diprioritaskan
+          # dan aktivasi manual sudah ditolak Unity untuk lisensi Personal
+          # ("TimeStamp validation failed"). Pakai aktivasi personal via email + password.
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           projectPath: ${{ env.PROJECT_DIR }}
           targetPlatform: iOS
           unityVersion: auto
+          cliVersion: v0.1.77
 
       # 4. Check Xcode build output
       - name: List build output
@@ -60,7 +65,16 @@ jobs:
           find . -maxdepth 4 -name "*.xcodeproj" \
             -not -path "./.git/*" || true
 
-      # 5. Setup Ruby & Bundler
+      # 5. Pilih Xcode 27 (iOS 27 SDK) secara eksplisit agar tidak ikut default image
+      - name: Select Xcode 27
+        run: |
+          sudo xcode-select -s "/Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer"
+          xcodebuild -version
+          xcodebuild -showsdks | grep -i iphoneos
+        env:
+          XCODE_VERSION: '27.1'
+
+      # 6. Setup Ruby & Bundler
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -68,7 +82,7 @@ jobs:
           bundler-cache: true
           working-directory: ${{ env.PROJECT_DIR }}
 
-      # 6. Fastlane Internal Beta
+      # 7. Fastlane Internal Beta
       - name: Fastlane Internal Beta
         working-directory: ${{ env.PROJECT_DIR }}
         run: bundle exec fastlane ios beta
