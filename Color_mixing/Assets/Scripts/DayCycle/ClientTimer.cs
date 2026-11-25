@@ -78,6 +78,7 @@ public class ClientTimer : MonoBehaviour
     private void OnEnable()
     {
         Current = this;
+        if (GetComponent<TimerHaptics>() == null) gameObject.AddComponent<TimerHaptics>();   // getar HP saat hampir habis
         if (startManually)
         {
             cycle.OnClientRequested += Hide;
