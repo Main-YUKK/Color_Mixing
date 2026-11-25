@@ -318,7 +318,11 @@ public class TimerBarJuice : MonoBehaviour
         rt.anchorMin = Vector2.zero;
         rt.anchorMax = Vector2.one;
         rt.offsetMin = rt.offsetMax = Vector2.zero;
-        rt.SetAsFirstSibling();   // di belakang HUD, jadi tidak menutupi bar
+        // Tepat di belakang layer HUD (child Canvas yang berisi timer ini), tapi di depan Background.
+        // SetAsFirstSibling dulu membuatnya tertutup Background layar penuh.
+        Transform hud = transform;
+        while (hud.parent != null && hud.parent != canvas.transform) hud = hud.parent;
+        rt.SetSiblingIndex(hud.GetSiblingIndex());
 
         vignette = go.GetComponent<Image>();
         vignette.sprite = MakeVignetteSprite();
