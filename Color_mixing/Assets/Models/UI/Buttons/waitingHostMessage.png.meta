@@ -118,10 +118,10 @@ TextureImporter:
       name: waitingHostMessage_0
       rect:
         serializedVersion: 2
-        x: 29
-        y: 23
-        width: 305
-        height: 76
+        x: 90
+        y: 72
+        width: 909
+        height: 221
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
