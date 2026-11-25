@@ -77,6 +77,13 @@ public class LobbyService : MonoBehaviour
     private const int HandshakeSeconds = 15;            // lama saling kirim HELLO
     private const float EditorJoinTimeoutSeconds = 15f;
     private const float ReformDelaySeconds = 1f;       // jeda setelah REFORM terkirim sebelum match lama diputus
+    // GKMatchmaker.Cancel() selesai secara asinkron. FindMatch yang langsung dipanggil sesudahnya bisa ikut batal
+    // atau ditolak "already matching", jadi beri jeda dulu.
+    private const float CancelSettleSeconds = 1f;
+    private const float MatchmakingRetrySeconds = 2f;  // jeda sebelum host mencoba FindMatch lagi setelah gagal
+    private const int ClientReformRetries = 3;         // client yang sedang menyusun ulang boleh mencoba lagi sekian kali
+    private const float ReconcileIntervalSeconds = 2f; // jeda pencocokan daftar lobby dengan pemain yang benar-benar ada di match
+    private const int ReconcileStrikes = 2;            // berapa kali berturut-turut tidak ada di match sebelum dianggap keluar
 
     // GameKit hanya mencocokkan pemain bila OR semua atribut == 0xFFFFFFFF.
     // Host + client = cocok. Client + client atau host + host = TIDAK cocok.
@@ -96,6 +103,13 @@ public class LobbyService : MonoBehaviour
     private readonly HashSet<string> heardFrom = new HashSet<string>();   // nama pemain yang pesannya sudah diterima
     private readonly HashSet<string> kickedNames = new HashSet<string>(); // host: sudah di-kick, belum terputus dari match
     private readonly List<string> slotOrder = new List<string>();         // client: urutan slot dari host
+    private readonly Dictionary<string, int> missingStrikes = new Dictionary<string, int>(); // lihat ReconcileLoop
+    private int matchmakingFailures;  // gagal FindMatch berturut-turut di session ini
+
+    // Room tertutup (Fail) saat tidak ada layar yang mendengarkan OnRoomClosed, mis. di tengah game.
+    // LobbyScreen memakainya supaya device ini tidak diam-diam membuat room baru saat kembali ke lobby.
+    public string ClosedWhileAway { get; private set; }
+    public void ClearClosedWhileAway() => ClosedWhileAway = null;
 
     private readonly ConcurrentQueue<Action> mainThreadQueue = new ConcurrentQueue<Action>();
 
@@ -146,7 +160,11 @@ public class LobbyService : MonoBehaviour
     private void RaiseRoomClosed(string reason)
     {
         var evt = OnRoomClosed;
-        if (evt == null) return;
+        if (evt == null)
+        {
+            ClosedWhileAway = reason;
+            return;
+        }
         foreach (Action<string> handler in evt.GetInvocationList())
         {
             try { handler(reason); }
@@ -206,6 +224,13 @@ public class LobbyService : MonoBehaviour
         if (value) return;
 
         foreach (var p in Players) p.isReady = false;
+
+        // Selama game, pesan lobby tidak dipakai dan event putus GameKit bisa terlewat / datang telat, jadi daftar
+        // lobby bisa basi (pemain yang sudah pergi masih tercatat, atau client kehilangan penanda host).
+        // Cocokkan lagi dengan isi match, lalu ulangi perkenalan HELLO supaya host kembali jadi sumber kebenaran.
+        ResyncAfterGame();
+        if (Mode == LobbyMode.None) return;   // host ternyata sudah tidak ada di match (Fail)
+
         NotifyPlayersChanged();
 
         if (Mode == LobbyMode.Host && (refillPending || Players.Count < RequiredPlayers))
@@ -312,6 +337,7 @@ public class LobbyService : MonoBehaviour
 
     public void LeaveRoom()
     {
+        ClosedWhileAway = null;
         ResetSession();
         Mode = LobbyMode.None;
         RoomCode = null;
@@ -470,7 +496,40 @@ public class LobbyService : MonoBehaviour
             match = null;
         }
 #endif
-        _ = RunMatchmaking(Mode == LobbyMode.Host, session, false);
+        // Jangan langsung FindMatch: Cancel() di atas belum tentu sudah selesai (lihat CancelSettleSeconds).
+        StartCoroutine(SearchAfter(session, Mode == LobbyMode.Host, false, CancelSettleSeconds));
+    }
+
+    private IEnumerator SearchAfter(int mySession, bool isHost, bool useTimeout, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (mySession != session || Mode == LobbyMode.None) yield break;
+        _ = RunMatchmaking(isHost, mySession, useTimeout);
+    }
+
+    // FindMatch gagal. Host TIDAK boleh ikut tertutup (room-nya harus tetap bisa dipakai), jadi host terus mencoba.
+    // Client yang sedang menyusun ulang (host masih hidup) boleh mencoba beberapa kali. Selain itu: gagal join.
+    private void OnMatchmakingFailed(int mySession, bool isHost, bool useTimeout, string error)
+    {
+        if (mySession != session || Mode == LobbyMode.None) return;
+        matchmakingFailures++;
+        Log($"Matchmaking gagal ({matchmakingFailures}x): {error}");
+
+        bool retry = isHost || (!useTimeout && matchmakingFailures <= ClientReformRetries);
+        if (!retry)
+        {
+            Fail("Gagal terhubung ke ruang.");
+            return;
+        }
+
+#if !UNITY_EDITOR
+        // Terus-terusan gagal (mis. "already matching"): bersihkan request yang masih menggantung.
+        if (matchmakingFailures % 3 == 0)
+        {
+            try { GKMatchmaker.Shared.Cancel(); } catch { }
+        }
+#endif
+        StartCoroutine(SearchAfter(mySession, isHost, useTimeout, MatchmakingRetrySeconds));
     }
 
     // ---------- Matchmaking ----------
@@ -529,12 +588,7 @@ public class LobbyService : MonoBehaviour
         catch (Exception e)
         {
             string error = e.Message;
-            RunOnMain(() =>
-            {
-                if (mySession != session) return;
-                Log("Matchmaking gagal: " + error);
-                Fail("Gagal terhubung ke ruang.");
-            });
+            RunOnMain(() => OnMatchmakingFailed(mySession, isHost, useTimeout, error));
         }
     }
 
@@ -549,6 +603,8 @@ public class LobbyService : MonoBehaviour
 
         match = found;
         reforming = false;
+        matchmakingFailures = 0;
+        missingStrikes.Clear();
 
         // Semua callback dipindah ke main thread dan dicek session-nya.
         match.Delegate.DataReceived += (data, from) =>
@@ -599,6 +655,7 @@ public class LobbyService : MonoBehaviour
         }
 
         StartCoroutine(HelloLoop(mySession, isHost));
+        StartCoroutine(ReconcileLoop(mySession, found));
 
         // Mode satu per satu: host membuka slot kosong lewat AddPlayers.
         if (isHost) StartFillingSlots();
@@ -710,7 +767,84 @@ public class LobbyService : MonoBehaviour
             yield return new WaitForSeconds(retryDelay);
         }
     }
+
+    // Jaring pengaman: event "Disconnected" GameKit kadang tidak datang (atau datang saat game, ketika lobby tidak
+    // mengurusnya). Tiap ReconcileIntervalSeconds, pemain di daftar lobby yang sudah tidak ada di match.Players
+    // ReconcileStrikes kali berturut-turut diperlakukan sama seperti event Disconnected.
+    private IEnumerator ReconcileLoop(int mySession, GKMatch targetMatch)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(ReconcileIntervalSeconds);
+            if (mySession != session || match != targetMatch || Mode == LobbyMode.None) yield break;
+            if (InGame || reforming) continue;   // selama game, putus koneksi diurus ConnectionWatch / LeaveCoordinator
+            ReconcileWithMatch(ReconcileStrikes);
+        }
+    }
+
+    // strikesNeeded = 1: langsung buang pemain yang tidak ada di match (dipakai sekali saat kembali dari game).
+    private void ReconcileWithMatch(int strikesNeeded)
+    {
+        if (match == null) return;
+
+        var inMatch = new HashSet<string>();
+        try
+        {
+            foreach (var gkPlayer in match.Players)
+            {
+                string name = SafeName(gkPlayer);
+                if (string.IsNullOrEmpty(name)) return;   // ada nama yang tidak terbaca: lewati putaran ini
+                inMatch.Add(name);
+            }
+        }
+        catch (Exception e)
+        {
+            Log("Reconcile: baca match.Players gagal: " + e.Message);
+            return;   // jangan membuang siapa pun kalau datanya tidak terbaca
+        }
+
+        var gone = new List<string>();
+        foreach (var p in Players)
+        {
+            if (p.isLocal) continue;
+            if (inMatch.Contains(p.name))
+            {
+                missingStrikes.Remove(p.name);
+                continue;
+            }
+            missingStrikes.TryGetValue(p.name, out int strikes);
+            strikes++;
+            missingStrikes[p.name] = strikes;
+            if (strikes >= strikesNeeded) gone.Add(p.name);
+        }
+
+        foreach (var name in gone)
+        {
+            missingStrikes.Remove(name);
+            Log($"Reconcile: {name} sudah tidak ada di match, dianggap keluar.");
+            OnPlayerConnectionChanged(name, "Disconnected");
+            if (Mode == LobbyMode.None) return;   // host yang hilang: room sudah ditutup
+        }
+    }
 #endif
+
+    // Kembali dari game ke lobby: buang pemain yang sudah tidak ada di match, lalu ulangi HELLO.
+    // heardFrom dikosongkan supaya HelloLoop tidak menganggap handshake sudah selesai dan host wajib terdengar lagi;
+    // balasan host memulihkan penanda host, nama room, dan urutan slot di client.
+    private void ResyncAfterGame()
+    {
+#if !UNITY_EDITOR
+        if (Mode == LobbyMode.None || match == null || reforming) return;
+
+        ReconcileWithMatch(1);
+        if (Mode == LobbyMode.None) return;
+
+        bool isHost = Mode == LobbyMode.Host;
+        heardFrom.Clear();
+        StartCoroutine(HelloLoop(session, isHost));
+        if (!isHost) StartCoroutine(HostReachWatchdog(session));
+#endif
+    }
 
     // Client: setelah match jadi, host harus terdengar dalam HostReachTimeoutSeconds.
     // Kalau tidak, gagal dengan pesan yang jelas (bukan menggantung sampai timeout lain).
@@ -1006,6 +1140,9 @@ public class LobbyService : MonoBehaviour
         heardFrom.Clear();
         slotOrder.Clear();
         kickedNames.Clear();
+        missingStrikes.Clear();
+        matchmakingFailures = 0;
+        ClosedWhileAway = null;
         fillingMatch = null;
         RoomName = "";
         roomNameVersion++;
