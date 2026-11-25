@@ -67,6 +67,17 @@ public class LobbyScreen : MonoBehaviour
             return;
         }
 
+        // Room device ini sudah ditutup saat layar lobby belum terbuka (mis. host hilang di tengah game).
+        // Tampilkan alasannya dan keluar. Tanpa ini, Mode None di bawah membuat device ini diam-diam jadi host
+        // room baru dengan kode acak.
+        if (service.Mode == LobbyMode.None && !string.IsNullOrEmpty(service.ClosedWhileAway))
+        {
+            string reason = service.ClosedWhileAway;
+            service.ClearClosedWhileAway();
+            HandleRoomClosed(reason);
+            return;
+        }
+
         // Masuk lobby tanpa Join dulu = host baru. Client sudah punya Mode.Client dari JoinRoom().
         if (service.Mode == LobbyMode.None)
         {
