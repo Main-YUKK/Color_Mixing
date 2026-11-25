@@ -67,6 +67,17 @@ public class LobbyScreen : MonoBehaviour
             return;
         }
 
+        // Room device ini sudah ditutup saat layar lobby belum terbuka (mis. host hilang di tengah game).
+        // Tampilkan alasannya dan keluar. Tanpa ini, Mode None di bawah membuat device ini diam-diam jadi host
+        // room baru dengan kode acak.
+        if (service.Mode == LobbyMode.None && !string.IsNullOrEmpty(service.ClosedWhileAway))
+        {
+            string reason = service.ClosedWhileAway;
+            service.ClearClosedWhileAway();
+            HandleRoomClosed(reason);
+            return;
+        }
+
         // Masuk lobby tanpa Join dulu = host baru. Client sudah punya Mode.Client dari JoinRoom().
         if (service.Mode == LobbyMode.None)
         {
@@ -280,8 +291,9 @@ public class LobbyScreen : MonoBehaviour
                 if (target != null) img.sprite = target;
                 img.preserveAspect = true;   // rasio gambar selalu terkunci (ukuran ReadyButton = ukuran asli sprite)
 
-                // Kedua pesan tunggu memakai ukuran waitingMessage (ukuran sprite x waitingScale) supaya sama persis;
-                // sprite waitingHostMessage aslinya lebih kecil. Ukuran ReadyButton biasa dikembalikan ke nilai awal.
+                // Kedua pesan tunggu memakai ukuran waitingMessage (ukuran sprite x waitingScale) supaya sama persis.
+                // Sprite waitingHostMessage harus seresolusi waitingMessage (909x221); kalau lebih kecil, ia di-upscale
+                // ke ukuran ini dan tampak blur. Ukuran ReadyButton biasa dikembalikan ke nilai awal.
                 if (readyRect != null)
                 {
                     Sprite sizeSource = waitingSprite != null ? waitingSprite : target;

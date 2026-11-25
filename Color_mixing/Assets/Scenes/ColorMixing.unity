@@ -1500,7 +1500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 53aea88123da04b7aa5e5a4b5394296d, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1923,7 +1923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 53aea88123da04b7aa5e5a4b5394296d, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -3462,7 +3462,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1603695500}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
@@ -3475,7 +3475,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1603695500}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -4372,7 +4372,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1970940919}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
@@ -4385,7 +4385,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1970940919}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -4935,16 +4935,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6896267820744462576, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
+      propertyPath: vignette
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6896267820744462576, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
       propertyPath: panicSeconds
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6896267820744462576, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
-      propertyPath: vignetteColor.b
+      propertyPath: createVignette
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6896267820744462576, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
-      propertyPath: vignetteColor.g
+      propertyPath: vignetteColor.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6896267820744462576, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
+      propertyPath: vignetteColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6896267820744462576, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
+      propertyPath: vignetteColor.g
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6896267820744462576, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
       propertyPath: vignetteColor.r
@@ -4952,11 +4964,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6896267820744462576, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
       propertyPath: vignetteAlphaEnd
-      value: 1
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 6896267820744462576, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
       propertyPath: vignetteAlphaStart
-      value: 1
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7647203307542299648, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8466590927506893290, guid: 7af5987b6073f4c2aa8dd584869d06fa, type: 3}
       propertyPath: m_AnchorMax.x
