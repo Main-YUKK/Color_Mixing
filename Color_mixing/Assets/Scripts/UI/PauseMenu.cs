@@ -81,11 +81,6 @@ public class PauseMenu : MonoBehaviour
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = SortingOrder;
 
-        var scaler = go.GetComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920f, 1080f);
-        scaler.matchWidthOrHeight = 0.5f;
-
         // Lapisan gelap menangkap tap supaya layar game di bawahnya tidak bisa ditekan.
         var dim = new GameObject("Dimmer", typeof(RectTransform), typeof(Image));
         dim.transform.SetParent(go.transform, false);
