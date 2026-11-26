@@ -83,11 +83,6 @@ public class AlertService : MonoBehaviour
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = SortingOrder;
 
-        var scaler = root.GetComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920f, 1080f);
-        scaler.matchWidthOrHeight = 0.5f;
-
         var dim = new GameObject("Dimmer", typeof(RectTransform), typeof(Image));
         dim.transform.SetParent(root.transform, false);
         var rt = dim.GetComponent<RectTransform>();
