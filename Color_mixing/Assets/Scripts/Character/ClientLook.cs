@@ -22,4 +22,5 @@ public class ClientLook
     public bool hasHair;
     public HairLook hair;
     public int bodyVariant = -1;   // index di RandomCharacter.bodyVariants, -1 = tidak ada varian
+    public float gap;              // jeda (detik) pintu kosong sebelum klien ini masuk: sama di semua device supaya masuknya bersamaan
 }

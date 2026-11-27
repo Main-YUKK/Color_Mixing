@@ -140,4 +140,20 @@ public class CharacterLookTests
         var look = spawner.ChooseLook();
         Assert.That(look.prefabIndex, Is.InRange(0, 1));
     }
+
+    [Test]
+    public void Gap_ChosenByHost_ClientUsesTheSameGap()
+    {
+        GameNet.BeginOffline();
+        var host = NewSpawner(3);
+        host.spawnDelay = new Vector2(0.5f, 2f);
+        var hostLook = host.ChooseLook();
+        Assert.That(hostLook.gap, Is.InRange(0.5f, 2f));
+
+        GameNet.Begin(new FakeNetwork().Nodes[1]);
+        GameSession.CurrentLook = JsonUtility.FromJson<ClientLook>(JsonUtility.ToJson(hostLook));   // lewat foto hari
+        var client = NewSpawner(3);
+        client.spawnDelay = new Vector2(5f, 9f);   // setelan client tidak dipakai
+        Assert.AreEqual(hostLook.gap, client.ChooseLook().gap, "jeda sama di semua device: klien masuk bersamaan");
+    }
 }
