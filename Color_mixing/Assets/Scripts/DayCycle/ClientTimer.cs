@@ -30,6 +30,14 @@ public class ClientTimer : MonoBehaviour
     private bool delayedHold;          // setelah jeda: PlayIntro (diam penuh) bukan StartTimer
     private bool startRequested;       // StartTimer() dipanggil selama jeda: langsung berjalan setelah jeda
 
+    // Sinkron jaringan: host = satu-satunya jam. Client tidak memulai timer sendiri, tapi mengikuti TIMER_STATE dari host.
+    [Serializable] private class TimerData { public int stamp; public bool running; public float remaining; }
+    private const float SyncInterval = 1f;    // host: kirim sisa waktu tiap detik
+    private const float SyncTolerance = 0.25f; // client: koreksi hanya kalau meleset lebih dari ini (bar tidak bergetar)
+    private GameNet net;
+    private float nextSync;
+    private int startedStamp = -1;   // client: klien (SyncStamp) yang timernya sudah dimulai host; tidak dimulai ulang setelah Stop
+
     // Timer yang sedang aktif di scene, dan kabar "waktu habis" dari timer host (dikirim MixNet ke client).
     public static ClientTimer Current { get; private set; }
     public static event Action HostTimedOut;
@@ -79,6 +87,8 @@ public class ClientTimer : MonoBehaviour
     {
         Current = this;
         if (GetComponent<TimerHaptics>() == null) gameObject.AddComponent<TimerHaptics>();   // getar HP saat hampir habis
+        net = GameNet.Instance;
+        net?.Subscribe(NetMessageType.TimerState, OnHostTimer);
         if (startManually)
         {
             cycle.OnClientRequested += Hide;
@@ -101,6 +111,8 @@ public class ClientTimer : MonoBehaviour
     private void OnDisable()
     {
         if (Current == this) Current = null;
+        net?.Unsubscribe(NetMessageType.TimerState, OnHostTimer);
+        net = null;
         cycle.OnClientRequested -= Hide;
         cycle.OnClientRequested -= StartTimer;
         if (spawner != null)
@@ -114,6 +126,7 @@ public class ClientTimer : MonoBehaviour
     // Klien tiba (kartu request muncul): tunggu Start Delay, lalu timer tampil.
     private void OnArrived()
     {
+        if (!cycle.IsAuthority) return;   // client: timer dimulai oleh TIMER_STATE dari host
         delayedHold = startManually && !countdownOnCard;
         startRequested = false;
         if (startDelay > 0f) { delayLeft = startDelay; return; }
@@ -135,6 +148,7 @@ public class ClientTimer : MonoBehaviour
 
     public void StartTimer()
     {
+        if (!cycle.IsAuthority) return;   // client: timer dimulai oleh TIMER_STATE dari host
         if (delayLeft > 0f)
         {
             startRequested = true;   // masih jeda: mulai berjalan begitu jeda selesai
@@ -145,15 +159,51 @@ public class ClientTimer : MonoBehaviour
             // Intro sudah diputar saat klien datang: tinggal mulai berkurang (setelah intro selesai kalau masih jalan).
             holding = false;
             running = true;
+            SendToClients();
             return;
         }
         if (running) return;   // sudah berjalan sejak kartu muncul: panggilan dari layar mixing tidak mengulang timer
+        Begin();
+        SendToClients();
+    }
+
+    private void Begin()
+    {
         remaining = Seconds;
         running = true;
         IsShown = true;
         introLeft = Mathf.Max(0f, introSeconds);
         if (timerBar != null) timerBar.value = DisplayNormalized;
         Started?.Invoke();
+    }
+
+    // Host: kabari client bahwa timer berjalan + sisa waktunya. Tanpa jaringan / offline: tidak ada yang diajak bicara.
+    private void SendToClients()
+    {
+        if (net == null || !net.IsHost || net.IsOffline || !running) return;
+        nextSync = Time.unscaledTime + SyncInterval;
+        net.SendToAll(NetMessage.Create(NetMessageType.TimerState,
+            new TimerData { stamp = cycle.SyncStamp, running = true, remaining = remaining }));
+    }
+
+    // Client: ikuti timer host. Mulai bersamaan dengan host, lalu sisa waktunya dikoreksi tiap kiriman.
+    private void OnHostTimer(NetMessage message)
+    {
+        if (message.from != 0 || cycle.IsAuthority) return;
+        var data = message.Read<TimerData>();
+        if (data == null || !data.running || data.stamp != cycle.SyncStamp) return;   // milik klien lain (lama / belum sampai)
+
+        if (startedStamp != data.stamp)
+        {
+            // ponytail: mode "diam penuh menunggu" (countdownOnCard mati) tidak disinkronkan; scene memakai countdownOnCard nyala.
+            startedStamp = data.stamp;
+            delayLeft = -1f;
+            holding = false;
+            Begin();
+            if (data.remaining < Seconds - SyncTolerance) introLeft = 0f;   // masuk di tengah jalan: tanpa intro
+        }
+        if (!running) return;   // sudah Stop (mis. Apply) / timeout: kiriman yang terlambat tidak menjalankannya lagi
+        if (Mathf.Abs(remaining - data.remaining) > SyncTolerance) remaining = data.remaining;
     }
 
     public void Stop()
@@ -199,6 +249,7 @@ public class ClientTimer : MonoBehaviour
             startRequested = false;
         }
         if (!running && !holding) return;
+        if (running && Time.unscaledTime >= nextSync) SendToClients();
 
         // Intro: bar terisi dulu, waktu belum berkurang.
         if (introLeft > 0f)

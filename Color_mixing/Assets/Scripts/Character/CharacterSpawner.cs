@@ -107,7 +107,12 @@ public class CharacterSpawner : MonoBehaviour
         if (characterPrefabs.Length > 1 && i == lastIndex) i = (i + 1 + Random.Range(0, characterPrefabs.Length - 1)) % characterPrefabs.Length;
         lastIndex = i;
 
-        var look = new ClientLook { valid = true, prefabIndex = i };
+        var look = new ClientLook
+        {
+            valid = true,
+            prefabIndex = i,
+            gap = Random.Range(Mathf.Min(spawnDelay.x, spawnDelay.y), Mathf.Max(spawnDelay.x, spawnDelay.y)),
+        };
         var prefab = characterPrefabs[i];
         if (prefab != null && prefab.TryGetComponent(out RandomCharacter hair))
         {
@@ -131,9 +136,8 @@ public class CharacterSpawner : MonoBehaviour
             if (walk) yield return SendOff();
             else { Destroy(current); current = null; }
 
-            // Short pause with the door empty before the next client appears.
-            float gap = Random.Range(Mathf.Min(spawnDelay.x, spawnDelay.y), Mathf.Max(spawnDelay.x, spawnDelay.y));
-            if (gap > 0f) yield return new WaitForSeconds(gap);
+            // Short pause with the door empty before the next client appears. Dipilih host (ClientLook.gap), sama di semua device.
+            if (look.gap > 0f) yield return new WaitForSeconds(look.gap);
         }
 
         // new client arrives
