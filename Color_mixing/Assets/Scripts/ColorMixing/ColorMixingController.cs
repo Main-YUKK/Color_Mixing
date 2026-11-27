@@ -7,11 +7,9 @@ public class ColorMixingController : MonoBehaviour
     // MARK: - Inspector
     // referensi ke PigmentPalette
     [SerializeField] private PigmentPalette palette;
-    // interval acak ulang pigmen pemain (detik)
-    [SerializeField] private float rotationInterval = 10f;
 
     // MARK: - State
-    private MixingState state; // aturan mixing (pigmen tiap pemain, isi mangkuk, siapa yang sudah Mix)
+    private MixingState state; // aturan mixing (pigmen tiap pemain, isi mangkuk, siapa yang sudah Mix, timer rotasi). Host: milik MixNet
 
     private bool synced;          // client: sudah menerima foto pertama dari host
     private int lastRotationCount;
@@ -27,10 +25,10 @@ public class ColorMixingController : MonoBehaviour
     public bool IsAuthority => GameNet.IsAuthority;
     // Client: false sampai foto pertama host tiba (sebelum itu pigmen belum dibagi, tombol dimatikan).
     public bool IsSynced => IsAuthority || synced;
-    public int RotationCount { get; private set; }   // naik tiap pigmen dirotasi
+    public int RotationCount => state.RotationCount;   // naik tiap pigmen dirotasi
     public PigmentPalette Palette => palette;
     public MixingBowl MixingBowl => state.Bowl; // referensi ke MixingBowl
-    public float RotationTimerLeft { get; private set; } // waktu tersisa untuk rotasi pigmen pemain diacak ulang
+    public float RotationTimerLeft => state.RotationLeft; // waktu tersisa untuk rotasi pigmen pemain diacak ulang
     public bool IsMixConfirmed => state.IsConfirmed;   // true setelah semua pemain Mix
     public int ReadyCount => state.ReadyCount;   // jumlah pemain yang sudah Mix
     public bool IsReady(int player) => state.IsReady(player); // cek apakah pemain siap mencampur
@@ -45,19 +43,24 @@ public class ColorMixingController : MonoBehaviour
     private void Awake()
     {
         Current = this;
-        state = new MixingState(palette.Count);
 
         if (IsAuthority)
         {
-            AssignPigments();
+            // Keadaan sudah dibuat MixNet saat klien datang (bisa sudah diisi client yang lanjut duluan).
+            state = MixNet.Instance.HostState();
+            LogSlots();
         }
         else
         {
             // Sementara, sampai host mengirim pembagian yang asli.
+            state = new MixingState(palette.Count);
             state.SetSlots(Enumerable.Range(0, PigmentAssignment.PlayerCount * 2).Select(i => i % palette.Count).ToArray());
-            RotationTimerLeft = PlaytestSettings.Rotation(rotationInterval);
+            state.RotationLeft = PigmentAssignment.RotationSeconds;
         }
     }
+
+    // MixNet: keadaan ini milik scene ini (bukan scene klien lama yang sedang ditutup).
+    public bool Uses(MixingState s) => state == s;
 
     private void OnDestroy()
     {
@@ -73,29 +76,22 @@ public class ColorMixingController : MonoBehaviour
 
     private void Update()
     {
-        RotationTimerLeft -= Time.deltaTime;
-        if (!IsAuthority)
-        {
-            // Client hanya menghitung mundur untuk tampilan; rotasi sebenarnya datang dari host.
-            if (RotationTimerLeft < 0f) RotationTimerLeft = 0f;
-            return;
-        }
-        if (RotationTimerLeft > 0f) return;
-
-        RotationCount++;
-        AssignPigments();
-        Rotated?.Invoke();
+        // Client hanya menghitung mundur untuk tampilan; rotasi sebenarnya datang dari host.
+        // Host: timer rotasi dijalankan MixNet (tetap jalan walau scene ini belum dimuat).
+        if (!IsAuthority) state.RotationLeft = Mathf.Max(0f, state.RotationLeft - Time.deltaTime);
     }
 
     // MARK: - Pigment Rotation
-    // Bagi ulang pigmen ke pemain + reset timer.
-    private void AssignPigments()
+    // Host: MixNet baru saja membagi ulang pigmen.
+    public void OnHostRotated()
     {
-        state.SetSlots(PigmentAssignment.Shuffle(palette.Count));
-        RotationTimerLeft = PlaytestSettings.Rotation(rotationInterval);
-        Debug.Log($"[MIX] Pembagian pigmen: P1 {Name(0, 0)}+{Name(0, 1)}, P2 {Name(1, 0)}+{Name(1, 1)}, P3 {Name(2, 0)}+{Name(2, 1)}");
+        LogSlots();
         StateChanged?.Invoke();
+        Rotated?.Invoke();
     }
+
+    private void LogSlots() =>
+        Debug.Log($"[MIX] Pembagian pigmen: P1 {Name(0, 0)}+{Name(0, 1)}, P2 {Name(1, 0)}+{Name(1, 1)}, P3 {Name(2, 0)}+{Name(2, 1)}");
 
     // slot 0 atau 1 milik pemain -> index pigmen di palet
     public int GetPigment(int player, int slot) => state.GetPigment(player, slot);
@@ -135,9 +131,7 @@ public class ColorMixingController : MonoBehaviour
             Debug.Log("[MIX] Mix ditolak: mangkuk masih kosong");
             return;
         }
-        if (!state.TrySetReady(player, ready)) return;
-
-        if (IsMixConfirmed) enabled = false;   // Update berhenti -> rotasi berhenti
+        if (!state.TrySetReady(player, ready)) return;   // semua Mix -> MixNet berhenti merotasi
 
         Debug.Log($"[MIX] Pemain {player + 1} {(ready ? "Mix" : "Unmix")} -> siap {ReadyCount}/{PigmentAssignment.PlayerCount}");
         StateChanged?.Invoke();   // UI refresh SETELAH state final
@@ -155,38 +149,27 @@ public class ColorMixingController : MonoBehaviour
     {
         if (!IsAuthority) return;
         state.ResetForRedo();
-        enabled = true;      // Update jalan lagi -> rotasi lanjut
-        AssignPigments();    // bagi ulang pigmen + timer rotasi 10 s + StateChanged
+        state.Deal(PigmentAssignment.RotationSeconds);   // bagi ulang pigmen + timer rotasi penuh, rotasi lanjut
+        LogSlots();
         Debug.Log("[MIX] Redo: mangkuk dikosongkan, kembali mixing");
+        StateChanged?.Invoke();
     }
 
     // MARK: - Sinkronisasi
-    // Host: isi bagian mixing dari foto.
-    public void FillSnapshot(MixSnapshot s)
-    {
-        s.slots = state.Slots;
-        s.units = state.Units;
-        s.ready = state.ReadyFlags;
-        s.confirmed = state.IsConfirmed;
-        s.rotationLeft = RotationTimerLeft;
-        s.rotationCount = RotationCount;
-        s.lastPourers = state.LastPourers;
-    }
-
-    // Client: pasang bagian mixing dari foto host. false = ditolak (ini host, atau datanya rusak).
+    // Host: foto dibuat MixNet langsung dari keadaannya. Client: pasang bagian mixing dari foto host. false = ditolak (ini host, atau datanya rusak).
     public bool ApplyRemote(MixSnapshot s)
     {
         if (IsAuthority || s == null) return false;
         int[] before = state.Units;
         if (!state.Import(s.slots, s.units, s.ready, s.confirmed, s.lastPourers)) return false;
 
-        RotationTimerLeft = s.rotationLeft;
+        state.RotationLeft = s.rotationLeft;
         enabled = !s.confirmed;   // sama seperti host: selesai Mix = timer rotasi berhenti
 
         bool wasSynced = synced;
         bool rotated = wasSynced && s.rotationCount > lastRotationCount;
         lastRotationCount = s.rotationCount;
-        RotationCount = s.rotationCount;
+        state.RotationCount = s.rotationCount;
         synced = true;
 
         StateChanged?.Invoke();
