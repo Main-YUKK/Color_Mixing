@@ -7,6 +7,10 @@ using UnityEngine;
 public static class PigmentAssignment
 {
     public const int PlayerCount = 3;
+    public const int PigmentCount = PlayerCount * 2 - 1;   // 6 slot = semua pigmen + 1 duplikat, jadi palet wajib 5 pigmen
+    public const float RotationInterval = 10f;              // detik sampai pigmen dibagi ulang (bisa diganti lewat setelan playtest)
+
+    public static float RotationSeconds => PlaytestSettings.Rotation(RotationInterval);
 
     public static int[] Shuffle(int pigmentCount)
     {

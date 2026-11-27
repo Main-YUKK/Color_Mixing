@@ -170,4 +170,25 @@ public class MixingStateTests
         Assert.AreEqual(0, s.ReadyCount);
         Assert.IsTrue(s.TryAdd(0, 0), "bisa mixing lagi");
     }
+
+    // ---------- Rotasi (host) ----------
+
+    [Test]
+    public void Tick_DealsNewPigmentsWhenTimerRunsOut_AndStopsAfterConfirm()
+    {
+        var s = new MixingState(PigmentAssignment.PigmentCount);
+        s.Deal(10f);
+        Assert.AreEqual(10f, s.RotationLeft);
+
+        Assert.IsFalse(s.Tick(4f, 10f));
+        Assert.AreEqual(6f, s.RotationLeft, 0.001f);
+        Assert.IsTrue(s.Tick(6f, 10f), "timer habis = rotasi");
+        Assert.AreEqual(1, s.RotationCount);
+        Assert.AreEqual(10f, s.RotationLeft, "timer penuh lagi");
+
+        s.TryAdd(0, 0);
+        for (int p = 0; p < 3; p++) s.TrySetReady(p, true);
+        Assert.IsFalse(s.Tick(99f, 10f), "semua Mix: rotasi berhenti");
+        Assert.AreEqual(1, s.RotationCount);
+    }
 }

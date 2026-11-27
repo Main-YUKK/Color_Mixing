@@ -9,6 +9,8 @@ using UnityEngine;
 //
 // Siapa pengirimnya selalu diambil dari transport (message.from), bukan dari isi pesan.
 // Scene mixing dimuat sendiri-sendiri di tiap device: foto terakhir disimpan di sini dan dipasang begitu scene client siap.
+// Host: keadaan mixing (pigmen, mangkuk, rotasi) disimpan DI SINI sejak klien datang, bukan di scene mixing host.
+// Jadi client yang lanjut duluan sudah bisa menuang walau host masih membaca kartu request.
 public class MixNet : MonoBehaviour
 {
     private const int MaxAmount = 5;   // batas unit per permintaan tambah pigmen
@@ -26,6 +28,8 @@ public class MixNet : MonoBehaviour
     private bool dirty;                        // host: ada perubahan, kirim foto di akhir frame
     private int sendSeq;
     private bool pulled;
+    private MixingState hostState;             // host: keadaan mixing klien sekarang
+    private DayCycleManager hostDay;           // host: DayCycleManager yang didengarkan (klien baru = hostState dibuang)
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ClearOnPlay() => Instance = null;
@@ -82,8 +86,55 @@ public class MixNet : MonoBehaviour
         }
 
         TrackControllers();
-        if (subscribed != null && !GameNet.IsAuthority) ApplyLatest();
+        if (GameNet.IsAuthority) UpdateHost();
+        else if (subscribed != null) ApplyLatest();
     }
+
+    // Host: siapkan keadaan mixing begitu klien datang, lalu jalankan timer rotasi (walau scene mixing host belum dimuat).
+    private void UpdateHost()
+    {
+        var day = DayCycleManager.Instance;
+        WatchDay(day);
+        if (day != null && day.State == DayState.Mixing) EnsureHostState();
+        if (hostState == null || !hostState.Tick(Time.deltaTime, PigmentAssignment.RotationSeconds)) return;
+
+        MarkDirty();
+        LiveMixing?.OnHostRotated();
+    }
+
+    // Host: keadaan mixing untuk scene mixing yang baru dimuat (dipakai ColorMixingController.Awake).
+    public MixingState HostState()
+    {
+        WatchDay(DayCycleManager.Instance);
+        EnsureHostState();   // tanpa DayCycleManager (scene di-Play sendirian): dibuat di sini
+        return hostState;
+    }
+
+    // Klien baru diminta (hari mulai, Yes, No, timeout) = keadaan klien lama dibuang. Lewat event, bukan nomor foto,
+    // supaya tetap benar walau tidak ada jaringan yang menaikkan SyncStamp.
+    private void WatchDay(DayCycleManager day)
+    {
+        if (ReferenceEquals(day, hostDay)) return;
+        if (!ReferenceEquals(hostDay, null)) hostDay.OnClientRequested -= OnNewClient;
+        hostDay = day;
+        hostState = null;   // run / scene hari baru: mulai bersih
+        if (day != null) day.OnClientRequested += OnNewClient;
+    }
+
+    private void OnNewClient() => hostState = null;   // dibuat ulang di Update berikutnya (hari sedang Mixing)
+
+    // Mangkuk kosong, pigmen dibagi, timer rotasi mulai.
+    private void EnsureHostState()
+    {
+        if (hostState != null) return;
+        hostState = new MixingState(PigmentAssignment.PigmentCount);
+        hostState.Deal(PigmentAssignment.RotationSeconds);
+        Debug.Log($"[MIX] Klien baru: pigmen dibagi [{string.Join(",", hostState.Slots)}]");
+        MarkDirty();
+    }
+
+    // Controller scene mixing host, hanya kalau memakai keadaan sekarang (bukan scene klien lama yang sedang ditutup).
+    private ColorMixingController LiveMixing => mixing != null && mixing.Uses(hostState) ? mixing : null;
 
     private void LateUpdate()
     {
@@ -92,7 +143,7 @@ public class MixNet : MonoBehaviour
         dirty = false;
 
         var net = GameNet.Instance;
-        if (net == null || !net.IsHost || net.IsOffline || mixing == null) return;   // tidak ada yang diajak bicara
+        if (net == null || !net.IsHost || net.IsOffline || hostState == null) return;   // tidak ada yang diajak bicara
 
         net.SendToAll(NetMessage.Create(NetMessageType.MixState, BuildSnapshot()));
     }
@@ -152,29 +203,42 @@ public class MixNet : MonoBehaviour
             seq = ++sendSeq,
             dayStamp = DayCycleManager.Instance != null ? DayCycleManager.Instance.SyncStamp : 0,
         };
-        mixing.FillSnapshot(s);
-        if (voting != null) voting.FillSnapshot(s);
+        s.slots = hostState.Slots;
+        s.units = hostState.Units;
+        s.ready = hostState.ReadyFlags;
+        s.confirmed = hostState.IsConfirmed;
+        s.rotationLeft = hostState.RotationLeft;
+        s.rotationCount = hostState.RotationCount;
+        s.lastPourers = hostState.LastPourers;
+        // Vote hanya dari scene mixing yang memakai keadaan sekarang: scene klien lama yang sedang ditutup
+        // tidak boleh mengirim hasil vote-nya (mis. Apply) ke klien yang baru.
+        if (voting != null && LiveMixing != null) voting.FillSnapshot(s);
         else { s.votes = new int[PigmentAssignment.PlayerCount]; }
         return s;
     }
 
     private void OnAdd(NetMessage message)
     {
-        if (!GameNet.IsAuthority || mixing == null) return;
+        if (!GameNet.IsAuthority || hostState == null) return;
         var data = message.Read<AddData>();
         if (data == null) return;
 
         // Pengirimnya = message.from. Jumlah dibatasi supaya satu pesan aneh tidak memenuhi mangkuk.
-        mixing.AddPigment(message.from, data.slot, Mathf.Clamp(data.amount, 1, MaxAmount));
+        int amount = Mathf.Clamp(data.amount, 1, MaxAmount);
+        var live = LiveMixing;
+        if (live != null) live.AddPigment(message.from, data.slot, amount);   // lewat controller: animasi tuang di host
+        else if (hostState.TryAdd(message.from, data.slot, amount)) MarkDirty();   // host masih di kartu request
     }
 
     private void OnReady(NetMessage message)
     {
-        if (!GameNet.IsAuthority || mixing == null) return;
+        if (!GameNet.IsAuthority || hostState == null) return;
         var data = message.Read<ReadyData>();
         if (data == null) return;
 
-        mixing.SetReady(message.from, data.ready);
+        var live = LiveMixing;
+        if (live != null) live.SetReady(message.from, data.ready);
+        else if (hostState.TrySetReady(message.from, data.ready)) MarkDirty();   // konfirmasi tetap butuh host (pemain 0) Mix di scene
     }
 
     private void OnVote(NetMessage message)

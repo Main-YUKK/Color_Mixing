@@ -67,6 +67,29 @@ public class MixingState
     public int GetPigment(int player, int slot) =>
         slots != null && IsPlayer(player) && (slot == 0 || slot == 1) ? slots[player * 2 + slot] : -1;
 
+    // Timer rotasi: host menghitung mundur dan membagi ulang pigmen, client hanya menampilkan angka dari host.
+    public float RotationLeft { get; set; }
+    public int RotationCount { get; set; }   // naik tiap pigmen dirotasi
+
+    // Host: bagi pigmen baru + timer rotasi penuh.
+    public void Deal(float rotationSeconds)
+    {
+        SetSlots(PigmentAssignment.Shuffle(pigmentCount));
+        RotationLeft = rotationSeconds;
+    }
+
+    // Host: hitung mundur rotasi. true = pigmen baru saja dibagi ulang. Berhenti setelah semua Mix.
+    public bool Tick(float deltaTime, float rotationSeconds)
+    {
+        if (IsConfirmed || slots == null) return false;
+        RotationLeft -= deltaTime;
+        if (RotationLeft > 0f) return false;
+
+        RotationCount++;
+        Deal(rotationSeconds);
+        return true;
+    }
+
     // Pemain yang sudah Mix tidak bisa menambah pigmen sampai Un-Mix.
     public bool TryAdd(int player, int slot, int amount = 1)
     {
